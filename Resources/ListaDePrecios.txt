@@ -1,0 +1,6 @@
+Precio base alarmas		- $ X.XX
+Precio base cámaras		- $ X.XX
+Adicional por alarma		- $ X.XX
+Adicional por cámara		- $ X.XX
+Tasa monitoreo alarmas	- X%
+Tasa monitoreo cámaras	- X%
