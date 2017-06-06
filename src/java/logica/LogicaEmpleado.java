@@ -16,13 +16,13 @@ import persistencia.*;
  */
 public class LogicaEmpleado {
 
-    PersistenciaAdministrativo perAdmin;
+    IPersistenciaAdministrativo perAdmin;
     PersistenciaCobrador perCobrador;
     PersistenciaTecnico perTecnico;
 
     public void AltaEmpleado(Empleado pEmpleado) throws ClassNotFoundException, SQLException, MiExcepcion {
         if (pEmpleado instanceof Administrativo) {
-            perAdmin = new PersistenciaAdministrativo();
+            perAdmin = FabricaPersistencia.GetPersistenciaAdministrativo();
             perAdmin.AltaAdministrativo((Administrativo) pEmpleado);
         } else if (pEmpleado instanceof Cobrador) {
             perCobrador = new PersistenciaCobrador();
