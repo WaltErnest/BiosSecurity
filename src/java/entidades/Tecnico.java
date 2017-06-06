@@ -5,13 +5,14 @@
  */
 package entidades;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author Ernesto
  */
-public class Tecnico extends Empleado {
+public class Tecnico extends Empleado implements Serializable{
 
     private Boolean _alarmas;
     private Boolean _camaras;
@@ -22,8 +23,8 @@ public class Tecnico extends Empleado {
     public Tecnico(long pCedula, String pClave, String pNombre, Date pFechaIngreso,
             double pSueldo, Boolean pAlarmas, Boolean pCamaras) {
         super(pCedula, pClave, pNombre, pFechaIngreso, pSueldo);
-        _alarmas = pAlarmas;
-        _camaras = pCamaras;
+        setAlarmas(pAlarmas);
+        setCamaras(pCamaras);
     }
 
     public Boolean getAlarmas() {

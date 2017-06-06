@@ -5,6 +5,7 @@
  */
 package entidades;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  *
  * @author Ernesto
  */
-public class ServicioVideo extends Servicio {
+public class ServicioVideo extends Servicio implements Serializable {
 
     private Boolean _terminalGrabacion;
     private List<Camara> _camaras;
@@ -20,8 +21,12 @@ public class ServicioVideo extends Servicio {
     public ServicioVideo(int pNumero, Propiedad pPropiedad, Date pFechaContratacion,
             Boolean pMonitoreo, double pPrecio, Boolean pTerminalGrabacion, List<Camara> pCamaras) {
         super(pNumero, pPropiedad, pFechaContratacion, pMonitoreo, pPrecio);
-        _terminalGrabacion = pTerminalGrabacion;
-        _camaras = pCamaras;
+        setTerminalGrabacion(pTerminalGrabacion);
+        setCamaras(pCamaras);
+    }
+    
+    public ServicioVideo(){
+        
     }
 
     public Boolean getTerminalGrabacion() {

@@ -7,17 +7,21 @@ package persistencia;
 
 import entidades.*;
 import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.SQLException;
 import miexcepcion.MiExcepcion;
+
 /**
  *
  * @author Ernesto
  */
 public class PersistenciaTecnico {
-    public void AltaTecnico(Tecnico pTecnico) throws ClassNotFoundException, SQLException, MiExcepcion{
-       try {
-            Conexion.Conectar();
-            CallableStatement consulta = Conexion.cnn.prepareCall(
+
+    public void AltaTecnico(Tecnico pTecnico) throws ClassNotFoundException, SQLException, MiExcepcion {
+        Connection cnn = null;
+        try {
+            cnn = Conexion.Conectar();
+            CallableStatement consulta = cnn.prepareCall(
                     "{ CALL altaTecnico(?, ?, ?, ?, ?, ?, ?, ?) }");
 
             consulta.setLong(1, pTecnico.getCedula());
@@ -34,11 +38,13 @@ public class PersistenciaTecnico {
             String error = consulta.getString(6);
 
             if (error != null) {
-                throw new MiExcepcion("Error en dar de alta el técnico " 
+                throw new MiExcepcion("Error en dar de alta el técnico "
                         + pTecnico.getCedula() + ": " + error);
             }
         } finally {
-            Conexion.Desconectar();
+            if (cnn != null) {
+                Conexion.Desconectar(cnn);
+            }
         }
     }
 }

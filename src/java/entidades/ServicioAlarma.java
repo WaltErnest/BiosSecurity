@@ -5,6 +5,7 @@
  */
 package entidades;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  *
  * @author Ernesto
  */
-public class ServicioAlarma extends Servicio {
+public class ServicioAlarma extends Servicio implements Serializable{
 
     private int _codigoAnulacion;
     private List<Alarma> _alarmas;
@@ -20,8 +21,12 @@ public class ServicioAlarma extends Servicio {
     public ServicioAlarma(int pNumero, Propiedad pPropiedad, Date pFechaContratacion,
             Boolean pMonitoreo, Double pPrecio, int pCodigoAnulacion, List<Alarma> pAlarmas) {
         super(pNumero, pPropiedad, pFechaContratacion, pMonitoreo, pPrecio);
-        _codigoAnulacion = pCodigoAnulacion;
-        _alarmas = pAlarmas;
+        setCodigoAnulacion(pCodigoAnulacion);
+        setAlarmas(pAlarmas);
+    }
+    
+    public ServicioAlarma(){
+        
     }
 
     public int getCodigoAnulacion() {
@@ -32,11 +37,11 @@ public class ServicioAlarma extends Servicio {
         this._codigoAnulacion = _codigoAnulacion;
     }
 
-    public List<Alarma> getAlarmasContratadas() {
+    public List<Alarma> getAlarmas() {
         return _alarmas;
     }
 
-    public void setAlarmasContratadas(List<Alarma> _alarmasContratadas) {
-        this._alarmas = _alarmasContratadas;
+    public void setAlarmas(List<Alarma> _alarmas) {
+        this._alarmas = _alarmas;
     }
 }

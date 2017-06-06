@@ -7,17 +7,21 @@ package persistencia;
 
 import entidades.*;
 import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.SQLException;
 import miexcepcion.MiExcepcion;
+
 /**
  *
  * @author Ernesto
  */
 public class PersistenciaCobrador {
-    public void AltaCobrador(Cobrador pCobrador) throws ClassNotFoundException, SQLException, MiExcepcion{
-       try {
-            Conexion.Conectar();
-            CallableStatement consulta = Conexion.cnn.prepareCall(
+
+    public void AltaCobrador(Cobrador pCobrador) throws ClassNotFoundException, SQLException, MiExcepcion {
+        Connection cnn = null;
+        try {
+            cnn = Conexion.Conectar();
+            CallableStatement consulta = cnn.prepareCall(
                     "{ CALL altaCobrador(?, ?, ?, ?, ?, ?, ?) }");
 
             consulta.setLong(1, pCobrador.getCedula());
@@ -33,11 +37,13 @@ public class PersistenciaCobrador {
             String error = consulta.getString(6);
 
             if (error != null) {
-                throw new MiExcepcion("Error en dar de alta el cobrador " 
+                throw new MiExcepcion("Error en dar de alta el cobrador "
                         + pCobrador.getCedula() + ": " + error);
             }
         } finally {
-            Conexion.Desconectar();
+            if (cnn != null) {
+                Conexion.Desconectar(cnn);
+            }
         }
     }
 }

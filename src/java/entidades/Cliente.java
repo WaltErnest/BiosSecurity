@@ -5,13 +5,14 @@
  */
 package entidades;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  *
  * @author Ernesto
  */
-public class Cliente {
+public class Cliente implements Serializable{
 
     private long _cedula;
     private String _nombre;
@@ -25,11 +26,11 @@ public class Cliente {
 
     public Cliente(long pCedula, String pNombre, String pDirCobro, String pBarrioDirCobro,
             long pTelefono) {
-        _cedula = pCedula;
-        _nombre = pNombre;
-        _direccionCobro = pDirCobro;
-        _barrioDirCobro = pBarrioDirCobro;
-        _telefono = pTelefono;
+        setCedula(pCedula);
+        setNombre(pNombre);
+        setDireccionCobro(pDirCobro);
+        setBarrioDirCobro(pBarrioDirCobro);
+        setTelefono(pTelefono);
     }
 
     public long getCedula() {

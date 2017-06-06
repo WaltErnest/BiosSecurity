@@ -5,13 +5,14 @@
  */
 package entidades;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author Ernesto
  */
-public class Administrativo extends Empleado {
+public class Administrativo extends Empleado implements Serializable{
 
     public Administrativo() {
     }

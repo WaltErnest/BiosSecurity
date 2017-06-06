@@ -5,13 +5,14 @@
  */
 package entidades;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author Ernesto
  */
-public abstract class Empleado {
+public abstract class Empleado implements Serializable{
 
     private long _cedula;
     private String _clave;
@@ -24,11 +25,11 @@ public abstract class Empleado {
 
     public Empleado(long pCedula, String pClave, String pNombre, Date pFechaIngreso,
             double pSueldo) {
-        _cedula = pCedula;
-        _clave = pClave;
-        _nombre = pNombre;
-        _fechaIngreso = pFechaIngreso;
-        _sueldo = pSueldo;
+        setCedula(pCedula);
+        setClave(pClave);
+        setNombre(pNombre);
+        setFechaIngreso(pFechaIngreso);
+        setSueldo(pSueldo);
     }
 
     public long getCedula() {

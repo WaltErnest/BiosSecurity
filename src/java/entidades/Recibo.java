@@ -5,6 +5,7 @@
  */
 package entidades;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -12,16 +13,21 @@ import java.util.List;
  *
  * @author Ernesto
  */
-public class Recibo {
+public class Recibo implements Serializable{
 
     private Date _fechaCobro;
     private List<Servicio> _servicios;
     private double _totalPagar;
+    private Cobrador _cobrador;
 
     public Recibo(Date pFechaCobro, List<Servicio> pServicios, double pTotal) {
-        _fechaCobro = pFechaCobro;
-        _servicios = pServicios;
-        _totalPagar = pTotal;
+        setFechaCobro(pFechaCobro);
+        setServicios(pServicios);
+        setTotalPagar(pTotal);
+    }
+    
+    public Recibo(){
+        
     }
 
     public Date getFechaCobro() {
@@ -46,5 +52,13 @@ public class Recibo {
 
     public void setTotalPagar(double _totalPagar) {
         this._totalPagar = _totalPagar;
+    }
+
+    public Cobrador getCobrador() {
+        return _cobrador;
+    }
+    
+    public void setCobrador(Cobrador _cobrador) {
+        this._cobrador = _cobrador;
     }
 }

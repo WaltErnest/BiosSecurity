@@ -5,18 +5,24 @@
  */
 package entidades;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Ernesto
  */
-public abstract class Dispositivo {
+public abstract class Dispositivo implements Serializable {
 
     private long _numeroInventario;
     private String _descripcionUbicacion;
 
     public Dispositivo(long pNumeroInventario, String pUbicacion) {
-        _numeroInventario = pNumeroInventario;
-        _descripcionUbicacion = pUbicacion;
+        setNumeroInventario(pNumeroInventario);
+        setDescripcionUbicacion(pUbicacion);
+    }
+
+    public Dispositivo() {
+
     }
 
     public long getNumeroInventario() {

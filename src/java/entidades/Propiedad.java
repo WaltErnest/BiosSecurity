@@ -5,11 +5,13 @@
  */
 package entidades;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Ernesto
  */
-public class Propiedad {
+public class Propiedad implements Serializable{
     private int _numeroPropiedad;
     private TipoPropiedad _tipoPropiedad;
     private String _direccion;
@@ -17,10 +19,14 @@ public class Propiedad {
 
     public Propiedad(int pNumero, TipoPropiedad pTipo, String pDireccion,
             Cliente pDueno) {
-        _numeroPropiedad = pNumero;
-        _tipoPropiedad = pTipo;
-        _direccion = pDireccion;
-        _dueno = pDueno;
+        setNumeroPropriedad(pNumero);
+        setTipoPropiedad(pTipo);
+        setDireccion(pDireccion);
+        setDueno(pDueno);
+    }
+    
+    public Propiedad(){
+        
     }
 
     public enum TipoPropiedad {

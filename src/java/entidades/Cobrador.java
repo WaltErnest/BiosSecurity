@@ -5,13 +5,14 @@
  */
 package entidades;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author Ernesto
  */
-public class Cobrador extends Empleado {
+public class Cobrador extends Empleado implements Serializable{
 
     private String _tipoTransporte;
 
@@ -21,7 +22,7 @@ public class Cobrador extends Empleado {
     public Cobrador(long pCedula, String pClave, String pNombre, Date pFechaIngreso,
             double pSueldo, String pTipoTransporte) {
         super(pCedula, pClave, pNombre, pFechaIngreso, pSueldo);
-        _tipoTransporte = pTipoTransporte;
+        setTipoTransporte(pTipoTransporte);
     }
     
     public String getTipoTransporte() {

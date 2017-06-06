@@ -5,14 +5,19 @@
  */
 package entidades;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Ernesto
  */
-public class Alarma extends Dispositivo{
+public class Alarma extends Dispositivo implements Serializable{
     
     public Alarma(long pNumeroInventario, String pUbicacion) {
         super(pNumeroInventario, pUbicacion);
     }
     
+    public Alarma(){
+        
+    }
 }

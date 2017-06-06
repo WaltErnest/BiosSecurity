@@ -5,13 +5,14 @@
  */
 package entidades;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author Ernesto
  */
-public abstract class Servicio {
+public abstract class Servicio implements Serializable{
 
     private int _numero;
     private Propiedad _propiedadCliente;
@@ -21,11 +22,15 @@ public abstract class Servicio {
 
     public Servicio(int pNumero, Propiedad pPropiedad, Date pFechaContratacion,
             Boolean pMonitoreo, Double pPrecio) {
-        _numero = pNumero;
-        _propiedadCliente = pPropiedad;
-        _fechaContratacion = pFechaContratacion;
-        _monitoreo = pMonitoreo;
-        _precio = pPrecio;
+        setNumero(pNumero);
+        setPropriedadCliente(pPropiedad);
+        setFechaContratacion(pFechaContratacion);
+        setMonitoreo(pMonitoreo);
+        setPrecio(pPrecio);
+    }
+    
+    public Servicio(){
+        
     }
 
     public int getNumero() {

@@ -5,24 +5,30 @@
  */
 package entidades;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Ernesto
  */
-public class Camara extends Dispositivo {
+public class Camara extends Dispositivo implements Serializable{
 
     private Boolean _interior;
-
-    public Camara(long pNumeroInventario, String pUbicacion, Boolean pInterior) {
-        super(pNumeroInventario, pUbicacion);
-        _interior = pInterior;
-    }
-
+    
     public Boolean getInterior() {
         return _interior;
     }
 
     public void setInterior(Boolean _interior) {
         this._interior = _interior;
+    }
+
+    public Camara(long pNumeroInventario, String pUbicacion, Boolean pInterior) {
+        super(pNumeroInventario, pUbicacion);
+        setInterior(pInterior);
+    }
+
+    public Camara(){
+        
     }
 }

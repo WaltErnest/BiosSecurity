@@ -20,14 +20,12 @@ final class Conexion {
     private static String _usuario = "root";
     private static String _clave = "root";
 
-    static Connection cnn;
-
-    static void Conectar() throws ClassNotFoundException, SQLException {
+    static Connection Conectar() throws ClassNotFoundException, SQLException {
         Class.forName(_driver);
-        cnn = DriverManager.getConnection(_url, _usuario, _clave);
+        return DriverManager.getConnection(_url, _usuario, _clave);
     }
     
-    static void Desconectar() throws SQLException{
+    static void Desconectar(Connection cnn) throws SQLException{
         cnn.close();
     }
 

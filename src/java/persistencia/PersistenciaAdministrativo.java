@@ -8,6 +8,7 @@ package persistencia;
 import miexcepcion.MiExcepcion;
 import entidades.*;
 import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,12 +18,15 @@ import java.util.Date;
  *
  * @author Ernesto
  */
-public class PersistenciaAdministrativo {
+class PersistenciaAdministrativo implements IPersistenciaAdministrativo{
+    //Preguntar a Raúl si hay que usar singleton también
 
     public void AltaAdministrativo(Administrativo pAdmin) throws ClassNotFoundException, SQLException, MiExcepcion {
+        Connection cnn = null;
+
         try {
-            Conexion.Conectar();
-            CallableStatement consulta = Conexion.cnn.prepareCall(
+            cnn = Conexion.Conectar();
+            CallableStatement consulta = cnn.prepareCall(
                     "{ CALL altaAdministrativo(?, ?, ?, ?, ?, ?) }");
 
             consulta.setLong(1, pAdmin.getCedula());
@@ -41,16 +45,19 @@ public class PersistenciaAdministrativo {
                         + pAdmin.getCedula() + ": " + error);
             }
         } finally {
-            Conexion.Desconectar();
+            if (cnn != null) {
+                Conexion.Desconectar(cnn);
+            }
         }
     }
 
     public Administrativo BuscarAdministrativo(long pCedula) throws ClassNotFoundException, SQLException {
+        Connection cnn = null;
         try {
             Administrativo admBuscado = null;
 
-            Conexion.Conectar();
-            PreparedStatement consulta = Conexion.cnn.prepareStatement(
+            cnn = Conexion.Conectar();
+            PreparedStatement consulta = cnn.prepareStatement(
                     "SELECT e.* FROM empleados e INNER JOIN administrativos a ON e.cedula = a.cedula WHERE e.cedula = ?;");
 
             consulta.setLong(1, pCedula);
@@ -72,7 +79,9 @@ public class PersistenciaAdministrativo {
 
             return admBuscado;
         } finally {
-            Conexion.Desconectar();
+            if (cnn != null) {
+                Conexion.Desconectar(cnn);
+            }
         }
     }
 }
