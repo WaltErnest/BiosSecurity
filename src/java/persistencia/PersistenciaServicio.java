@@ -5,6 +5,8 @@
  */
 package persistencia;
 
+import entidades.*;
+
 /**
  *
  * @author Mathias
