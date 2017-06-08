@@ -13,4 +13,12 @@ public class FabricaPersistencia {
     public static IPersistenciaAdministrativo GetPersistenciaAdministrativo(){
         return new PersistenciaAdministrativo();
     }
+    
+    public static IPersistenciaTecnico GetPersistenciaTecnico(){
+        return new PersistenciaTecnico();
+    }
+    
+    public static IPersistenciaCobrador GetPersistenciaCobrador(){
+        return new PersistenciaCobrador();
+    }
 }

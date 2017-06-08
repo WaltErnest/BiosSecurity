@@ -16,4 +16,5 @@ import miexcepcion.MiExcepcion;
 public interface IPersistenciaAdministrativo  {
     public void AltaAdministrativo(Administrativo pAdmin) throws ClassNotFoundException, SQLException, MiExcepcion;
     public Administrativo BuscarAdministrativo(long pCedula) throws ClassNotFoundException, SQLException;
+    public void ModificarAdministrativo(Administrativo pAdmin) throws ClassNotFoundException, SQLException, MiExcepcion;
 }

@@ -14,22 +14,57 @@ import persistencia.*;
  *
  * @author Ernesto
  */
-public class LogicaEmpleado {
-
+public class LogicaEmpleado implements ILogicaEmpleado {
     IPersistenciaAdministrativo perAdmin;
-    PersistenciaCobrador perCobrador;
-    PersistenciaTecnico perTecnico;
+    IPersistenciaCobrador perCobrador;
+    IPersistenciaTecnico perTecnico;
 
     public void AltaEmpleado(Empleado pEmpleado) throws ClassNotFoundException, SQLException, MiExcepcion {
         if (pEmpleado instanceof Administrativo) {
             perAdmin = FabricaPersistencia.GetPersistenciaAdministrativo();
             perAdmin.AltaAdministrativo((Administrativo) pEmpleado);
         } else if (pEmpleado instanceof Cobrador) {
-            perCobrador = new PersistenciaCobrador();
+            perCobrador = FabricaPersistencia.GetPersistenciaCobrador();
             perCobrador.AltaCobrador((Cobrador) pEmpleado);
         } else if (pEmpleado instanceof Tecnico) {
-            perTecnico = new PersistenciaTecnico();
+            perTecnico = FabricaPersistencia.GetPersistenciaTecnico();
             perTecnico.AltaTecnico((Tecnico) pEmpleado);
+        } else {
+            throw new MiExcepcion("No existe el tipo de empleado deseado.");
+        }
+    }
+
+    public Empleado BuscarEmpleado(long pCedula, String pTipo) throws ClassNotFoundException, SQLException {
+        Empleado empBuscado = null;
+        switch (pTipo) {
+            case "A":
+                perAdmin = FabricaPersistencia.GetPersistenciaAdministrativo();
+                empBuscado = perAdmin.BuscarAdministrativo(pCedula);
+                break;
+            case "T":
+                perTecnico = FabricaPersistencia.GetPersistenciaTecnico();
+                empBuscado = perTecnico.BuscarTecnico(pCedula);
+                break;
+            case "C":
+                perCobrador = FabricaPersistencia.GetPersistenciaCobrador();
+                empBuscado = perCobrador.BuscarCobrador(pCedula);
+                break;
+        }
+        return empBuscado;
+    }
+
+    public void ModificarEmpleado(Empleado pEmpleado) throws ClassNotFoundException, SQLException, MiExcepcion {
+        if (pEmpleado instanceof Administrativo) {
+            perAdmin = FabricaPersistencia.GetPersistenciaAdministrativo();
+            perAdmin.ModificarAdministrativo((Administrativo) pEmpleado);
+        } else if (pEmpleado instanceof Cobrador) {
+            perCobrador = FabricaPersistencia.GetPersistenciaCobrador();
+            perCobrador.ModificarCobrador((Cobrador) pEmpleado);
+        } else if (pEmpleado instanceof Tecnico) {
+            perTecnico = FabricaPersistencia.GetPersistenciaTecnico();
+            perTecnico.ModificarTecnico((Tecnico) pEmpleado);
+        } else {
+            throw new MiExcepcion("No existe el tipo de empleado deseado.");
         }
     }
 }

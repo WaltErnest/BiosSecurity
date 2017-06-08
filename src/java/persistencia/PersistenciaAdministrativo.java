@@ -19,8 +19,6 @@ import java.util.Date;
  * @author Ernesto
  */
 class PersistenciaAdministrativo implements IPersistenciaAdministrativo{
-    //Preguntar a Raúl si hay que usar singleton también
-
     public void AltaAdministrativo(Administrativo pAdmin) throws ClassNotFoundException, SQLException, MiExcepcion {
         Connection cnn = null;
 
@@ -78,6 +76,36 @@ class PersistenciaAdministrativo implements IPersistenciaAdministrativo{
             }
 
             return admBuscado;
+        } finally {
+            if (cnn != null) {
+                Conexion.Desconectar(cnn);
+            }
+        }
+    }
+    
+    public void ModificarAdministrativo(Administrativo pAdmin) throws ClassNotFoundException, SQLException, MiExcepcion {
+        Connection cnn = null;
+
+        try {
+            cnn = Conexion.Conectar();
+            CallableStatement consulta = cnn.prepareCall(
+                    "{ CALL modificarAdministrativo(?, ?, ?, ?, ?, ?) }");
+
+            consulta.setLong(1, pAdmin.getCedula());
+            consulta.setString(2, pAdmin.getClave());
+            consulta.setString(3, pAdmin.getNombre());
+            consulta.setDate(4, java.sql.Date.valueOf(pAdmin.getFechaIngreso().toString()));
+            consulta.setDouble(5, pAdmin.getSueldo());
+            consulta.registerOutParameter(6, java.sql.Types.VARCHAR);
+
+            consulta.executeUpdate();
+
+            String error = consulta.getString(6);
+
+            if (error != null) {
+                throw new MiExcepcion("Error en modificar el administrativo "
+                        + pAdmin.getCedula() + ": " + error);
+            }
         } finally {
             if (cnn != null) {
                 Conexion.Desconectar(cnn);

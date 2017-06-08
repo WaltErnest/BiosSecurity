@@ -10,5 +10,7 @@ package logica;
  * @author desquitin
  */
 public class FabricaLogica {
-    
+    public static ILogicaEmpleado GetLogicaEmpleado(){
+        return new LogicaEmpleado();
+    }
 }
