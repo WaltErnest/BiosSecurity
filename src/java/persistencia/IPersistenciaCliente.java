@@ -16,4 +16,6 @@ import miexcepcion.MiExcepcion;
 public interface IPersistenciaCliente {
     
     Cliente buscarCliente(long pCedula) throws ClassNotFoundException, SQLException, MiExcepcion;
+    void altaCliente(Cliente pCliente) throws ClassNotFoundException, SQLException, MiExcepcion;
+    void modificarCliente(Cliente pCliente) throws ClassNotFoundException, SQLException, MiExcepcion;
 }
