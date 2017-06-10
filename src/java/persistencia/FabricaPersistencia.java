@@ -21,4 +21,12 @@ public class FabricaPersistencia {
     public static IPersistenciaCobrador GetPersistenciaCobrador(){
         return new PersistenciaCobrador();
     }
+    
+    public static IPersistenciaCliente GetPersistenciaCliente() {
+        return new PersistenciaCliente();
+    }
+    
+    public static IPersistenciaPropiedad GetPersistenciaPropiedad() {
+        return new PersistenciaPropiedad();
+    }
 }
