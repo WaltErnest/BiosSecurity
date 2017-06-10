@@ -27,7 +27,10 @@ public class PersistenciaCliente implements IPersistenciaCliente {
         try{
             cnn = Conexion.Conectar();      
             
-            consulta = cnn.prepareStatement("SELECT * FROM Clientes WHERE cedula = ?");            
+            consulta = cnn.prepareStatement("SELECT * FROM clientes WHERE cedula = ?");   
+            
+            consulta.setLong(1, pCedula);
+            
             resultado = consulta.executeQuery();
             
             Cliente clienteEncontrado = null;
