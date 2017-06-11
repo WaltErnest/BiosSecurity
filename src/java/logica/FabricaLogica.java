@@ -13,4 +13,7 @@ public class FabricaLogica {
     public static ILogicaEmpleado GetLogicaEmpleado(){
         return new LogicaEmpleado();
     }
+    public static ILogicaDispositivo GetLogicaDispositivo(){
+        return (ILogicaDispositivo) new LogicaDispositivo();
+    }
 }

@@ -17,7 +17,7 @@ public class ModificarPrecio {
     
     public static void main(String[] args) throws IOException {
 
-        File TextFile = new File("C:/Users/desquitin/Documents/NetBeansProjects/BiosSecurity/Resources/ListaDePreciosTest.txt");
+        File TextFile = new File("Resources/ListaDePreciosTest.txt");
         FileWriter TextOut = new FileWriter(TextFile, true);
         
         TextOut.write("Prueba de Grabación \r\n");

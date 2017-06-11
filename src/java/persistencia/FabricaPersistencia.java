@@ -25,8 +25,16 @@ public class FabricaPersistencia {
     public static IPersistenciaCliente GetPersistenciaCliente() {
         return new PersistenciaCliente();
     }
-    
+
     public static IPersistenciaPropiedad GetPersistenciaPropiedad() {
         return new PersistenciaPropiedad();
+    }
+
+    public static IPersistenciaAlarma GetPersistenciaAlarma() {
+        return new PersistenciaAlarma();
+    }
+
+    public static IPersistenciaCamara GetPersistenciaCamara() {
+        return new PersistenciaCamara();
     }
 }
