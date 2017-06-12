@@ -55,7 +55,7 @@ public class PersistenciaPropiedad implements IPersistenciaPropiedad {
                 }
             }
             
-            return propiedadEncontrada;            
+            return propiedadEncontrada;
             
         } finally {
             if (consulta != null) {
@@ -76,26 +76,23 @@ public class PersistenciaPropiedad implements IPersistenciaPropiedad {
         CallableStatement consulta = null;
         
         try {
-            Cliente clienteEncontrado = FabricaPersistencia.GetPersistenciaCliente().buscarCliente(pPropiedad.getDueno().getCedula());
-            
-            if (clienteEncontrado != null) {
-                cnn = Conexion.Conectar();
-                consulta = cnn.prepareCall("{ CALL altaPropiedad(?, ?, ?, ?) }");
+            cnn = Conexion.Conectar();
+            consulta = cnn.prepareCall("{ CALL altaPropiedad(?, ?, ?, ?) }");
 
-                consulta.setString(1, pPropiedad.getTipoPropriedad().toString());
-                consulta.setString(2, pPropiedad.getDireccion());
-                consulta.setLong(3, clienteEncontrado.getCedula());
-                consulta.registerOutParameter(4, java.sql.Types.VARCHAR);
-                
-                consulta.executeUpdate();
-                
-                String error = consulta.getNString(4);
-                
-                if (error != null) {
-                    throw new MiExcepcion("Error en dar de alta la propiedad " + pPropiedad.getNumeroPropiedad()
-                            + " del cliente " + pPropiedad.getDueno().getCedula() + ": " + error);
-                }
-            }          
+            consulta.setString(1, pPropiedad.getTipoPropriedad().toString());
+            consulta.setString(2, pPropiedad.getDireccion());
+            consulta.setLong(3, pPropiedad.getDueno().getCedula());
+            consulta.registerOutParameter(4, java.sql.Types.VARCHAR);
+
+            consulta.executeUpdate();
+
+            String error = consulta.getNString(4);
+
+            if (error != null) {
+                throw new MiExcepcion("Error en dar de alta la propiedad " + pPropiedad.getNumeroPropiedad()
+                        + " del cliente " + pPropiedad.getDueno().getCedula() + ": " + error);
+            }
+                     
         } finally {
             if (consulta != null) {
                 consulta.close();
@@ -103,6 +100,37 @@ public class PersistenciaPropiedad implements IPersistenciaPropiedad {
             if (cnn != null) {
                 Conexion.Desconectar(cnn);
             }            
+        }
+    }
+    
+    public void modificarPropiedad(Propiedad pPropiedad)
+            throws ClassNotFoundException, SQLException, MiExcepcion {
+        Connection cnn = null;
+        CallableStatement consulta = null;
+        
+        try {
+            cnn = Conexion.Conectar();
+            consulta = cnn.prepareCall("{ CALL modificarPropiedad(?, ?, ?, ?, ?)}");
+
+            consulta.setInt(1, pPropiedad.getNumeroPropiedad());
+            consulta.setString(2, pPropiedad.getTipoPropriedad().toString());
+            consulta.setString(3, pPropiedad.getDireccion());
+            consulta.setLong(4, pPropiedad.getDueno().getCedula());
+            consulta.registerOutParameter(5, java.sql.Types.VARCHAR);
+
+            String error = consulta.getNString(4);
+
+            if (error != null) {
+                throw new MiExcepcion("Error al modificar la propiedad " + pPropiedad.getNumeroPropiedad()
+                        + " del cliente " + pPropiedad.getDueno().getCedula() + ": " + error);
+            }      
+        } finally {
+            if (consulta != null) {
+                consulta.close();
+            }
+            if (cnn != null) {
+                Conexion.Desconectar(cnn);
+            }                     
         }
     }
 }
