@@ -15,4 +15,6 @@ import miexcepcion.MiExcepcion;
 public interface IPersistenciaPropiedad {
     
     Propiedad buscarPropiedad(int pNumeroPropiedad, long pCedulaDueno) throws ClassNotFoundException, SQLException, MiExcepcion;
+    void altaPropiedad(Propiedad pPropiedad) throws ClassNotFoundException, SQLException, MiExcepcion;
+    void modificarPropiedad(Propiedad pPropiedad) throws ClassNotFoundException, SQLException, MiExcepcion;
 }
