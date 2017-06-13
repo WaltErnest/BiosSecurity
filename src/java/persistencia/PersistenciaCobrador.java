@@ -5,14 +5,14 @@
  */
 package persistencia;
 
-import entidades.*;
+import compartidos.beans.entidades.Cobrador;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
-import miexcepcion.MiExcepcion;
+import compartidos.beans.excepciones.MiExcepcion;
 
 /**
  *
@@ -20,11 +20,13 @@ import miexcepcion.MiExcepcion;
  */
 public class PersistenciaCobrador implements IPersistenciaCobrador {
 
+    @Override
     public void AltaCobrador(Cobrador pCobrador) throws ClassNotFoundException, SQLException, MiExcepcion {
         Connection cnn = null;
+        CallableStatement consulta = null;
         try {
-            cnn = Conexion.Conectar();
-            CallableStatement consulta = cnn.prepareCall(
+            cnn = Conexion.getConexion();
+            consulta = cnn.prepareCall(
                     "{ CALL altaCobrador(?, ?, ?, ?, ?, ?, ?) }");
 
             consulta.setLong(1, pCobrador.getCedula());
@@ -44,24 +46,25 @@ public class PersistenciaCobrador implements IPersistenciaCobrador {
                         + pCobrador.getCedula() + ": " + error);
             }
         } finally {
-            if (cnn != null) {
-                Conexion.Desconectar(cnn);
-            }
+            Conexion.cerrarRecursos(cnn, consulta);
         }
     }
 
+    @Override
     public Cobrador BuscarCobrador(long pCedula) throws ClassNotFoundException, SQLException {
         Connection cnn = null;
+        PreparedStatement consulta = null;
+        ResultSet resultado = null;
         try {
             Cobrador cobBuscado = null;
 
-            cnn = Conexion.Conectar();
-            PreparedStatement consulta = cnn.prepareStatement(
+            cnn = Conexion.getConexion();
+            consulta = cnn.prepareStatement(
                     "SELECT e.*, t.alarmas, t.camaras FROM empleados e INNER JOIN tecnicos t ON e.cedula = t.cedula WHERE e.cedula = ?;");
 
             consulta.setLong(1, pCedula);
 
-            ResultSet resultado = consulta.executeQuery();
+            resultado = consulta.executeQuery();
 
             String clave;
             String nombre;
@@ -69,7 +72,7 @@ public class PersistenciaCobrador implements IPersistenciaCobrador {
             double sueldo;
             String tipoTransporte;
 
-            while (resultado.next()) {
+            if (resultado.next()) {
                 clave = resultado.getString("clave");
                 nombre = resultado.getString("nombre");
                 fechaIngreso = resultado.getDate("fechaIngreso");
@@ -80,17 +83,17 @@ public class PersistenciaCobrador implements IPersistenciaCobrador {
 
             return cobBuscado;
         } finally {
-            if (cnn != null) {
-                Conexion.Desconectar(cnn);
-            }
+            Conexion.cerrarRecursos(cnn, consulta, resultado);
         }
     }
-    
+
+    @Override
     public void ModificarCobrador(Cobrador pCobrador) throws ClassNotFoundException, SQLException, MiExcepcion {
         Connection cnn = null;
+        CallableStatement consulta = null;
         try {
-            cnn = Conexion.Conectar();
-            CallableStatement consulta = cnn.prepareCall(
+            cnn = Conexion.getConexion();
+            consulta = cnn.prepareCall(
                     "{ CALL modificarCobrador(?, ?, ?, ?, ?, ?, ?) }");
 
             consulta.setLong(1, pCobrador.getCedula());
@@ -110,9 +113,7 @@ public class PersistenciaCobrador implements IPersistenciaCobrador {
                         + pCobrador.getCedula() + ": " + error);
             }
         } finally {
-            if (cnn != null) {
-                Conexion.Desconectar(cnn);
-            }
+            Conexion.cerrarRecursos(cnn, consulta);
         }
     }
 }

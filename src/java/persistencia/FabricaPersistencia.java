@@ -7,7 +7,7 @@ package persistencia;
 
 /**
  *
- * @author sg0212441
+ * @author Ernesto
  */
 public class FabricaPersistencia {
     public static IPersistenciaAdministrativo GetPersistenciaAdministrativo(){

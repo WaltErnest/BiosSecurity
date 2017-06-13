@@ -5,9 +5,9 @@
  */
 package logica;
 
-import entidades.Dispositivo;
+import compartidos.beans.entidades.Dispositivo;
 import java.sql.SQLException;
-import miexcepcion.MiExcepcion;
+import compartidos.beans.excepciones.MiExcepcion;
 
 /**
  *

@@ -19,7 +19,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" type="text/css" href="log.css">
+        <link rel="stylesheet" type="text/css" href="css/log.css">
     </head>
     <body>
         <!--h1>Hello World!</h1-->

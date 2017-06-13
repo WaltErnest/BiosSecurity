@@ -5,9 +5,9 @@
  */
 package persistencia;
 
-import entidades.*;
+import compartidos.beans.entidades.Propiedad;
 import java.sql.SQLException;
-import miexcepcion.MiExcepcion;
+import compartidos.beans.excepciones.MiExcepcion;
 /**
  *
  * @author Mathias

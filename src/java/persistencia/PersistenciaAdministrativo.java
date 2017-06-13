@@ -5,8 +5,8 @@
  */
 package persistencia;
 
-import miexcepcion.MiExcepcion;
-import entidades.*;
+import compartidos.beans.entidades.Administrativo;
+import compartidos.beans.excepciones.MiExcepcion;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,13 +18,16 @@ import java.util.Date;
  *
  * @author Ernesto
  */
-class PersistenciaAdministrativo implements IPersistenciaAdministrativo{
+class PersistenciaAdministrativo implements IPersistenciaAdministrativo {
+
+    @Override
     public void AltaAdministrativo(Administrativo pAdmin) throws ClassNotFoundException, SQLException, MiExcepcion {
         Connection cnn = null;
+        CallableStatement consulta = null;
 
         try {
-            cnn = Conexion.Conectar();
-            CallableStatement consulta = cnn.prepareCall(
+            cnn = Conexion.getConexion();
+            consulta = cnn.prepareCall(
                     "{ CALL altaAdministrativo(?, ?, ?, ?, ?, ?) }");
 
             consulta.setLong(1, pAdmin.getCedula());
@@ -43,31 +46,32 @@ class PersistenciaAdministrativo implements IPersistenciaAdministrativo{
                         + pAdmin.getCedula() + ": " + error);
             }
         } finally {
-            if (cnn != null) {
-                Conexion.Desconectar(cnn);
-            }
+            Conexion.cerrarRecursos(cnn, consulta);
         }
     }
 
+    @Override
     public Administrativo BuscarAdministrativo(long pCedula) throws ClassNotFoundException, SQLException {
         Connection cnn = null;
+        PreparedStatement consulta = null;
+        ResultSet resultado = null;
         try {
             Administrativo admBuscado = null;
 
-            cnn = Conexion.Conectar();
-            PreparedStatement consulta = cnn.prepareStatement(
+            cnn = Conexion.getConexion();
+            consulta = cnn.prepareStatement(
                     "SELECT e.* FROM empleados e INNER JOIN administrativos a ON e.cedula = a.cedula WHERE e.cedula = ?;");
 
             consulta.setLong(1, pCedula);
 
-            ResultSet resultado = consulta.executeQuery();
+            resultado = consulta.executeQuery();
 
             String clave;
             String nombre;
             Date fechaIngreso;
             double sueldo;
 
-            while (resultado.next()) {
+            if (resultado.next()) {
                 clave = resultado.getString("clave");
                 nombre = resultado.getString("nombre");
                 fechaIngreso = resultado.getDate("fechaIngreso");
@@ -77,18 +81,18 @@ class PersistenciaAdministrativo implements IPersistenciaAdministrativo{
 
             return admBuscado;
         } finally {
-            if (cnn != null) {
-                Conexion.Desconectar(cnn);
-            }
+            Conexion.cerrarRecursos(cnn, consulta, resultado);
         }
     }
-    
+
+    @Override
     public void ModificarAdministrativo(Administrativo pAdmin) throws ClassNotFoundException, SQLException, MiExcepcion {
         Connection cnn = null;
+        CallableStatement consulta = null;
 
         try {
-            cnn = Conexion.Conectar();
-            CallableStatement consulta = cnn.prepareCall(
+            cnn = Conexion.getConexion();
+            consulta = cnn.prepareCall(
                     "{ CALL modificarAdministrativo(?, ?, ?, ?, ?, ?) }");
 
             consulta.setLong(1, pAdmin.getCedula());
@@ -107,9 +111,7 @@ class PersistenciaAdministrativo implements IPersistenciaAdministrativo{
                         + pAdmin.getCedula() + ": " + error);
             }
         } finally {
-            if (cnn != null) {
-                Conexion.Desconectar(cnn);
-            }
+                Conexion.cerrarRecursos(cnn, consulta);
         }
     }
 }

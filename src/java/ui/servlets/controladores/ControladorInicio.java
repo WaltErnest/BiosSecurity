@@ -3,17 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package miexcepcion;
+package ui.servlets.controladores;
 
 /**
  *
  * @author Ernesto
  */
-public class MiExcepcion extends Exception{
-    public MiExcepcion(){
-    }
+public class ControladorInicio extends Controlador {
     
-    public MiExcepcion(String mensaje){
-        super(mensaje);
-    }
 }

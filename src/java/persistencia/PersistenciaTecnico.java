@@ -5,14 +5,14 @@
  */
 package persistencia;
 
-import entidades.*;
+import compartidos.beans.entidades.Tecnico;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
-import miexcepcion.MiExcepcion;
+import compartidos.beans.excepciones.MiExcepcion;
 
 /**
  *
@@ -20,11 +20,13 @@ import miexcepcion.MiExcepcion;
  */
 public class PersistenciaTecnico implements IPersistenciaTecnico {
 
+    @Override
     public void AltaTecnico(Tecnico pTecnico) throws ClassNotFoundException, SQLException, MiExcepcion {
         Connection cnn = null;
+        CallableStatement consulta = null;
         try {
-            cnn = Conexion.Conectar();
-            CallableStatement consulta = cnn.prepareCall(
+            cnn = Conexion.getConexion();
+            consulta = cnn.prepareCall(
                     "{ CALL altaTecnico(?, ?, ?, ?, ?, ?, ?, ?) }");
 
             consulta.setLong(1, pTecnico.getCedula());
@@ -45,24 +47,25 @@ public class PersistenciaTecnico implements IPersistenciaTecnico {
                         + pTecnico.getCedula() + ": " + error);
             }
         } finally {
-            if (cnn != null) {
-                Conexion.Desconectar(cnn);
-            }
+            Conexion.cerrarRecursos(cnn, consulta);
         }
     }
 
+    @Override
     public Tecnico BuscarTecnico(long pCedula) throws ClassNotFoundException, SQLException {
         Connection cnn = null;
+        PreparedStatement consulta = null;
+        ResultSet resultado = null;
         try {
             Tecnico tecBuscado = null;
 
-            cnn = Conexion.Conectar();
-            PreparedStatement consulta = cnn.prepareStatement(
+            cnn = Conexion.getConexion();
+            consulta = cnn.prepareStatement(
                     "SELECT e.*, t.alarmas, t.camaras FROM empleados e INNER JOIN tecnicos t ON e.cedula = t.cedula WHERE e.cedula = ?;");
 
             consulta.setLong(1, pCedula);
 
-            ResultSet resultado = consulta.executeQuery();
+            resultado = consulta.executeQuery();
 
             String clave;
             String nombre;
@@ -71,7 +74,7 @@ public class PersistenciaTecnico implements IPersistenciaTecnico {
             boolean alarmas;
             boolean camaras;
 
-            while (resultado.next()) {
+            if (resultado.next()) {
                 clave = resultado.getString("clave");
                 nombre = resultado.getString("nombre");
                 fechaIngreso = resultado.getDate("fechaIngreso");
@@ -83,17 +86,17 @@ public class PersistenciaTecnico implements IPersistenciaTecnico {
 
             return tecBuscado;
         } finally {
-            if (cnn != null) {
-                Conexion.Desconectar(cnn);
-            }
+            Conexion.cerrarRecursos(cnn, consulta);
         }
     }
     
+    @Override
     public void ModificarTecnico(Tecnico pTecnico) throws ClassNotFoundException, SQLException, MiExcepcion {
         Connection cnn = null;
+        CallableStatement consulta = null;
         try {
-            cnn = Conexion.Conectar();
-            CallableStatement consulta = cnn.prepareCall(
+            cnn = Conexion.getConexion();
+            consulta = cnn.prepareCall(
                     "{ CALL modificarTecnico(?, ?, ?, ?, ?, ?, ?, ?) }");
 
             consulta.setLong(1, pTecnico.getCedula());
@@ -114,9 +117,7 @@ public class PersistenciaTecnico implements IPersistenciaTecnico {
                         + pTecnico.getCedula() + ": " + error);
             }
         } finally {
-            if (cnn != null) {
-                Conexion.Desconectar(cnn);
-            }
+            Conexion.cerrarRecursos(cnn, consulta);
         }
     }
 }

@@ -5,13 +5,13 @@
  */
 package persistencia;
 
-import entidades.Cobrador;
+import compartidos.beans.entidades.Cobrador;
 import java.sql.SQLException;
-import miexcepcion.MiExcepcion;
+import compartidos.beans.excepciones.MiExcepcion;
 
 /**
  *
- * @author sg0212441
+ * @author Ernesto
  */
 public interface IPersistenciaCobrador {
     public void AltaCobrador(Cobrador pCobrador) throws ClassNotFoundException, SQLException, MiExcepcion;

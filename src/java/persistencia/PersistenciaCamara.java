@@ -5,22 +5,23 @@
  */
 package persistencia;
 
-import entidades.Camara;
+import compartidos.beans.entidades.Camara;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
-import miexcepcion.MiExcepcion;
+import compartidos.beans.excepciones.MiExcepcion;
 
 /**
  *
  * @author Diego
  */
 public class PersistenciaCamara implements IPersistenciaCamara{
+    @Override
     public void AltaCamara(Camara pCamara)throws ClassNotFoundException, SQLException, MiExcepcion {
         Connection cnn = null;
         CallableStatement consulta = null;
         try {
-            cnn = Conexion.Conectar();
+            cnn = Conexion.getConexion();
             consulta = cnn.prepareCall("{CALL altaCamara(?,?)}");
 
             consulta.setLong(1, pCamara.getNumeroInventario());
@@ -33,9 +34,7 @@ public class PersistenciaCamara implements IPersistenciaCamara{
                         + pCamara.getNumeroInventario() + ": " + error);
             }
         } finally {
-            if (cnn != null) {
-                Conexion.Desconectar(cnn);
-            }
+                Conexion.cerrarRecursos(cnn, consulta);
         }
     }
     

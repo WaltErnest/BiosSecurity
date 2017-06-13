@@ -5,13 +5,13 @@
  */
 package persistencia;
 
-import entidades.*;
+import compartidos.beans.entidades.Cliente;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import miexcepcion.MiExcepcion;
+import compartidos.beans.excepciones.MiExcepcion;
 
 /**
  *
@@ -19,13 +19,14 @@ import miexcepcion.MiExcepcion;
  */
 public class PersistenciaCliente implements IPersistenciaCliente {
     
+    @Override
     public Cliente buscarCliente(long pCedula) throws ClassNotFoundException, SQLException, MiExcepcion {
         Connection cnn = null;
         PreparedStatement consulta = null;
         ResultSet resultado = null;
         
         try{
-            cnn = Conexion.Conectar();      
+            cnn = Conexion.getConexion();      
             
             consulta = cnn.prepareStatement("SELECT * FROM clientes WHERE cedula = ?");   
             
@@ -54,15 +55,7 @@ public class PersistenciaCliente implements IPersistenciaCliente {
             return clienteEncontrado;
             
         } finally {
-            if (consulta != null) {
-                consulta.close();
-            }
-            if (resultado != null) {
-                resultado.close();
-            }
-            if (cnn != null) {
-                Conexion.Desconectar(cnn);
-            }
+            Conexion.cerrarRecursos(cnn, consulta, resultado);
         }
     }
     
@@ -71,7 +64,7 @@ public class PersistenciaCliente implements IPersistenciaCliente {
         CallableStatement consulta = null;
         
         try {
-            cnn = Conexion.Conectar();
+            cnn = Conexion.getConexion();
             consulta = cnn.prepareCall("{ CALL altaCliente(?, ?, ?, ?, ?, ?) }");
             
             consulta.setLong(1, pCliente.getCedula());
@@ -89,12 +82,7 @@ public class PersistenciaCliente implements IPersistenciaCliente {
                 throw new MiExcepcion("Error en dar de alta al cliente" + pCliente.getCedula() + ": " + error);
             }           
         } finally {
-            if (consulta != null) {
-                consulta.close();
-            }
-            if (cnn != null) {
-                Conexion.Desconectar(cnn);
-            }
+            Conexion.cerrarRecursos(cnn, consulta);
         }        
     }
     
@@ -103,7 +91,7 @@ public class PersistenciaCliente implements IPersistenciaCliente {
         CallableStatement consulta = null;
         
         try {
-            cnn = Conexion.Conectar();
+            cnn = Conexion.getConexion();
             consulta = cnn.prepareCall("{ CALL modificarCliente(?, ?, ?, ?, ?, ?)}");
             
             consulta.setLong(1, pCliente.getCedula());
@@ -121,12 +109,7 @@ public class PersistenciaCliente implements IPersistenciaCliente {
                 throw new MiExcepcion("Error al modificar el cliente" + pCliente.getCedula() + ": " + error);
             }     
         } finally {
-            if (consulta != null) {
-                consulta.close();
-            }
-            if (cnn != null) {
-                Conexion.Desconectar(cnn);
-            }
+            Conexion.cerrarRecursos(cnn, consulta);
         }
     }
 }

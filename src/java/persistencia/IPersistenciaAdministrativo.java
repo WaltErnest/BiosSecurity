@@ -5,13 +5,13 @@
  */
 package persistencia;
 
-import entidades.Administrativo;
+import compartidos.beans.entidades.Administrativo;
 import java.sql.SQLException;
-import miexcepcion.MiExcepcion;
+import compartidos.beans.excepciones.MiExcepcion;
 
 /**
  *
- * @author sg0212441
+ * @author Ernesto
  */
 public interface IPersistenciaAdministrativo  {
     public void AltaAdministrativo(Administrativo pAdmin) throws ClassNotFoundException, SQLException, MiExcepcion;

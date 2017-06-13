@@ -5,13 +5,13 @@
  */
 package logica;
 
-import entidades.Empleado;
+import compartidos.beans.entidades.Empleado;
 import java.sql.SQLException;
-import miexcepcion.MiExcepcion;
+import compartidos.beans.excepciones.MiExcepcion;
 
 /**
  *
- * @author sg0212441
+ * @author Ernesto
  */
 public interface ILogicaEmpleado {
     public void AltaEmpleado(Empleado pEmpleado) throws ClassNotFoundException, SQLException, MiExcepcion;

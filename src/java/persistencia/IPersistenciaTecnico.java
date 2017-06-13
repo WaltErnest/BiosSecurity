@@ -5,13 +5,13 @@
  */
 package persistencia;
 
-import entidades.Tecnico;
+import compartidos.beans.entidades.Tecnico;
 import java.sql.SQLException;
-import miexcepcion.MiExcepcion;
+import compartidos.beans.excepciones.MiExcepcion;
 
 /**
  *
- * @author sg0212441
+ * @author Ernesto
  */
 public interface IPersistenciaTecnico {
     public void AltaTecnico(Tecnico pTecnico) throws ClassNotFoundException, SQLException, MiExcepcion;

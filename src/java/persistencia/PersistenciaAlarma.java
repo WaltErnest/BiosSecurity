@@ -5,24 +5,24 @@
  */
 package persistencia;
 
-import entidades.Alarma;
+import compartidos.beans.entidades.Alarma;
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
-import miexcepcion.MiExcepcion;
+import compartidos.beans.excepciones.MiExcepcion;
+
 /**
  *
  * @author Diego
  */
-class PersistenciaAlarma implements IPersistenciaAlarma{
-    public void AltaAlarma(Alarma pAlarma)throws ClassNotFoundException, SQLException, MiExcepcion {
+class PersistenciaAlarma implements IPersistenciaAlarma {
+
+    @Override
+    public void AltaAlarma(Alarma pAlarma) throws ClassNotFoundException, SQLException, MiExcepcion {
         Connection cnn = null;
         CallableStatement consulta = null;
         try {
-            cnn = Conexion.Conectar();
+            cnn = Conexion.getConexion();
             consulta = cnn.prepareCall("{CALL altaAlarma(?,?)}");
 
             consulta.setLong(1, pAlarma.getNumeroInventario());
@@ -35,10 +35,8 @@ class PersistenciaAlarma implements IPersistenciaAlarma{
                         + pAlarma.getNumeroInventario() + ": " + error);
             }
         } finally {
-            if (cnn != null) {
-                Conexion.Desconectar(cnn);
-            }
+            Conexion.cerrarRecursos(cnn, consulta);
         }
     }
-    
+
 }

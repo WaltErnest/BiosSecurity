@@ -14,8 +14,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" type="text/css" href="log.css">
-        <link rel="stylesheet" type="text/css" href="menu.css">
+        <link rel="stylesheet" type="text/css" href="css/log.css">
+        <link rel="stylesheet" type="text/css" href="css/menu.css">
         <title>Main</title>
     </head>
     <body>

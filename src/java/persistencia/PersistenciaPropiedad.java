@@ -5,78 +5,72 @@
  */
 package persistencia;
 
-import entidades.*;
-import static java.lang.String.valueOf;
+import compartidos.beans.entidades.Cliente;
+import compartidos.beans.entidades.Propiedad;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import miexcepcion.MiExcepcion;
+import compartidos.beans.excepciones.MiExcepcion;
 
 /**
  *
  * @author Mathias
  */
 public class PersistenciaPropiedad implements IPersistenciaPropiedad {
-    
-    public Propiedad buscarPropiedad(int pNumeroPropiedad, long pCedulaDueno) 
+
+    @Override
+    public Propiedad buscarPropiedad(int pNumeroPropiedad, long pCedulaDueno)
             throws ClassNotFoundException, SQLException, MiExcepcion {
         Connection cnn = null;
         PreparedStatement consulta = null;
         ResultSet resultado = null;
-        
+
         try {
-            cnn = Conexion.Conectar();      
-            
-            consulta = cnn.prepareStatement("SELECT * FROM propiedades WHERE numero = ? AND cedula = ?");           
-            
+            cnn = Conexion.getConexion();
+
+            consulta = cnn.prepareStatement("SELECT * FROM propiedades WHERE numero = ? AND cedula = ?");
+
             consulta.setInt(1, pNumeroPropiedad);
             consulta.setLong(2, pCedulaDueno);
-            
+
             Cliente clienteEncontrado = FabricaPersistencia.GetPersistenciaCliente().buscarCliente(pCedulaDueno);
-            
+
             Propiedad propiedadEncontrada = null;
-            
+
             if (clienteEncontrado != null) {
                 resultado = consulta.executeQuery();
-                
+
                 int numeroPropiedad;
                 Propiedad.TipoPropiedad tipo;
                 String direccion;
                 Cliente dueno;
-                
+
                 if (resultado.next()) {
                     numeroPropiedad = resultado.getInt("numero");
                     tipo = Propiedad.TipoPropiedad.valueOf(resultado.getString("tipoPropiedad"));
                     direccion = resultado.getString("direccion");
-                    
+
                     propiedadEncontrada = new Propiedad(numeroPropiedad, tipo, direccion, clienteEncontrado);
                 }
             }
-            
+
             return propiedadEncontrada;
-            
+
         } finally {
-            if (consulta != null) {
-                consulta.close();
-            }
-            if (resultado != null) {
-                resultado.close();
-            }
-            if (cnn != null) {
-                Conexion.Desconectar(cnn);
-            }            
-        }        
+            Conexion.cerrarRecursos(cnn, consulta, resultado);
+        }
     }
-    
+
+    @Override
     public void altaPropiedad(Propiedad pPropiedad)
             throws ClassNotFoundException, SQLException, MiExcepcion {
         Connection cnn = null;
         CallableStatement consulta = null;
-        
+
         try {
-            cnn = Conexion.Conectar();
+            cnn = Conexion.getConexion();
             consulta = cnn.prepareCall("{ CALL altaPropiedad(?, ?, ?, ?) }");
 
             consulta.setString(1, pPropiedad.getTipoPropriedad().toString());
@@ -92,24 +86,20 @@ public class PersistenciaPropiedad implements IPersistenciaPropiedad {
                 throw new MiExcepcion("Error en dar de alta la propiedad " + pPropiedad.getNumeroPropiedad()
                         + " del cliente " + pPropiedad.getDueno().getCedula() + ": " + error);
             }
-                     
+
         } finally {
-            if (consulta != null) {
-                consulta.close();
-            }
-            if (cnn != null) {
-                Conexion.Desconectar(cnn);
-            }            
+            Conexion.cerrarRecursos(cnn, consulta);
         }
     }
-    
+
+    @Override
     public void modificarPropiedad(Propiedad pPropiedad)
             throws ClassNotFoundException, SQLException, MiExcepcion {
         Connection cnn = null;
         CallableStatement consulta = null;
-        
+
         try {
-            cnn = Conexion.Conectar();
+            cnn = Conexion.getConexion();
             consulta = cnn.prepareCall("{ CALL modificarPropiedad(?, ?, ?, ?, ?)}");
 
             consulta.setInt(1, pPropiedad.getNumeroPropiedad());
@@ -123,14 +113,9 @@ public class PersistenciaPropiedad implements IPersistenciaPropiedad {
             if (error != null) {
                 throw new MiExcepcion("Error al modificar la propiedad " + pPropiedad.getNumeroPropiedad()
                         + " del cliente " + pPropiedad.getDueno().getCedula() + ": " + error);
-            }      
-        } finally {
-            if (consulta != null) {
-                consulta.close();
             }
-            if (cnn != null) {
-                Conexion.Desconectar(cnn);
-            }                     
+        } finally {
+            Conexion.cerrarRecursos(cnn, consulta);
         }
     }
 }

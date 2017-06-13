@@ -5,11 +5,11 @@
  */
 package logica;
 
-import entidades.Alarma;
-import entidades.Camara;
-import entidades.Dispositivo;
+import compartidos.beans.entidades.Alarma;
+import compartidos.beans.entidades.Camara;
+import compartidos.beans.entidades.Dispositivo;
 import java.sql.SQLException;
-import miexcepcion.MiExcepcion;
+import compartidos.beans.excepciones.MiExcepcion;
 import persistencia.*;
 
 

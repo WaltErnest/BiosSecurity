@@ -5,9 +5,12 @@
  */
 package logica;
 
-import entidades.*;
+import compartidos.beans.entidades.Tecnico;
+import compartidos.beans.entidades.Cobrador;
+import compartidos.beans.entidades.Administrativo;
+import compartidos.beans.entidades.Empleado;
 import java.sql.SQLException;
-import miexcepcion.MiExcepcion;
+import compartidos.beans.excepciones.MiExcepcion;
 import persistencia.*;
 
 /**
