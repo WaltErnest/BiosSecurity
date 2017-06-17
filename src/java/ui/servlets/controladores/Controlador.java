@@ -25,7 +25,6 @@ abstract class Controlador extends HttpServlet {
 
     protected ServletConfig config;
     protected ServletContext application;
-
     protected HttpServletRequest request;
     protected HttpServletResponse response;
     protected HttpSession session;
