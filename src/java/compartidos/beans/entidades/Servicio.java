@@ -23,7 +23,7 @@ public abstract class Servicio implements Serializable{
     public Servicio(int pNumero, Propiedad pPropiedad, Date pFechaContratacion,
             Boolean pMonitoreo, Double pPrecio) {
         setNumero(pNumero);
-        setPropriedadCliente(pPropiedad);
+        setPropiedadCliente(pPropiedad);
         setFechaContratacion(pFechaContratacion);
         setMonitoreo(pMonitoreo);
         setPrecio(pPrecio);
@@ -45,7 +45,7 @@ public abstract class Servicio implements Serializable{
         return _propiedadCliente;
     }
 
-    public void setPropriedadCliente(Propiedad _propriedadCliente) {
+    public void setPropiedadCliente(Propiedad _propriedadCliente) {
         this._propiedadCliente = _propriedadCliente;
     }
 
