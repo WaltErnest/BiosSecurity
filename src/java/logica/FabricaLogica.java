@@ -16,4 +16,13 @@ public class FabricaLogica {
     public static ILogicaDispositivo GetLogicaDispositivo(){
         return (ILogicaDispositivo) new LogicaDispositivo();
     }
+    public static ILogicaPropiedad GetLogicaPropiedad(){
+        return new LogicaPropiedad();
+    }
+    public static ILogicaCliente GetLogicaCliente(){
+        return new LogicaCliente();
+    }
+    public static ILogicaServicio GetLogicaServicio(){
+        return new LogicaServicio();
+    }
 }
