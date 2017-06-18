@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import compartidos.beans.excepciones.MiExcepcion;
+import compartidos.beans.excepciones.MiExcepcionPersistencia;
 
 /**
  *
@@ -20,7 +21,7 @@ import compartidos.beans.excepciones.MiExcepcion;
 public class PersistenciaCliente implements IPersistenciaCliente {
     
     @Override
-    public Cliente buscarCliente(long pCedula) throws ClassNotFoundException, SQLException, MiExcepcion {
+    public Cliente buscarCliente(long pCedula) throws ClassNotFoundException, SQLException, MiExcepcionPersistencia, MiExcepcion {
         Connection cnn = null;
         PreparedStatement consulta = null;
         ResultSet resultado = null;
@@ -59,7 +60,8 @@ public class PersistenciaCliente implements IPersistenciaCliente {
         }
     }
     
-    public void altaCliente(Cliente pCliente) throws ClassNotFoundException, SQLException, MiExcepcion{
+    @Override
+    public void altaCliente(Cliente pCliente) throws ClassNotFoundException, SQLException, MiExcepcionPersistencia, MiExcepcion{
         Connection cnn = null;
         CallableStatement consulta = null;
         
@@ -86,7 +88,8 @@ public class PersistenciaCliente implements IPersistenciaCliente {
         }        
     }
     
-    public void modificarCliente(Cliente pCliente) throws ClassNotFoundException, SQLException, MiExcepcion {
+    @Override
+    public void modificarCliente(Cliente pCliente) throws ClassNotFoundException, SQLException, MiExcepcionPersistencia, MiExcepcion {
         Connection cnn = null;
         CallableStatement consulta = null;
         
