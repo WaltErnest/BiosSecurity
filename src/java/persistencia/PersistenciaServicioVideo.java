@@ -45,8 +45,6 @@ public class PersistenciaServicioVideo implements IPersistenciaServicioVideo {
             
         } finally {
             Conexion.cerrarRecursos(cnn, consulta);
-        }
-        
-        
+        }      
     }
 }
