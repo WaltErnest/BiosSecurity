@@ -37,4 +37,12 @@ public class FabricaPersistencia {
     public static IPersistenciaCamara GetPersistenciaCamara() {
         return new PersistenciaCamara();
     }
+    
+    public static IPersistenciaServicioAlarma GetPersistenciaServicioAlarma() {
+        return new PersistenciaServicioAlarma();
+    }
+    
+    public static IPersistenciaServicioVideo GetPersistenciaServicioVideo() {
+    return new PersistenciaServicioVideo();
+    }
 }
