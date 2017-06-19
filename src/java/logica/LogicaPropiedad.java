@@ -19,7 +19,7 @@ public class LogicaPropiedad implements ILogicaPropiedad {
     
     @Override
     public Propiedad buscarPropiedad(int pNumeroPropiedad, long pCedula) 
-            throws ClassNotFoundException, SQLException, MiExcepcion{
+            throws ClassNotFoundException, SQLException, MiExcepcion {
         if(pCedula < 1){
             throw new MiExcepcionLogica("La cédula del dueño de la propiedad debe ser mayor o igual a 1");
         }
@@ -29,20 +29,20 @@ public class LogicaPropiedad implements ILogicaPropiedad {
     }
     
     public void altaPropiedad(Propiedad pPropiedad)
-            throws ClassNotFoundException, SQLException, MiExcepcion{
+            throws ClassNotFoundException, SQLException, MiExcepcion {
         validarPropiedad(pPropiedad);
         
         perPropiedad.altaPropiedad(pPropiedad);
     }
     
     public void modificarPropiedad(Propiedad pPropiedad)
-            throws ClassNotFoundException, SQLException, MiExcepcion{
+            throws ClassNotFoundException, SQLException, MiExcepcion {
         validarPropiedad(pPropiedad);
         
         perPropiedad.modificarPropiedad(pPropiedad);
     }
     
-    public void validarPropiedad(Propiedad pPropiedad) throws MiExcepcion{
+    public void validarPropiedad(Propiedad pPropiedad) throws MiExcepcion {
         if (pPropiedad.getTipoPropriedad().equals("")) {
             throw new MiExcepcionLogica("El tipo de propiedad no puede estar vacío");
         }
