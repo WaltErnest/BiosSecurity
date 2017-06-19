@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import compartidos.beans.excepciones.MiExcepcion;
+import compartidos.beans.excepciones.MiExcepcionPersistencia;
 
 /**
  *
@@ -20,7 +21,6 @@ import compartidos.beans.excepciones.MiExcepcion;
  */
 public class PersistenciaPropiedad implements IPersistenciaPropiedad {
 
-    @Override
     public Propiedad buscarPropiedad(int pNumeroPropiedad, long pCedulaDueno)
             throws ClassNotFoundException, SQLException, MiExcepcion {
         Connection cnn = null;
@@ -57,7 +57,7 @@ public class PersistenciaPropiedad implements IPersistenciaPropiedad {
             }
 
             return propiedadEncontrada;
-
+            
         } finally {
             Conexion.cerrarRecursos(cnn, consulta, resultado);
         }
@@ -83,10 +83,9 @@ public class PersistenciaPropiedad implements IPersistenciaPropiedad {
             String error = consulta.getNString(4);
 
             if (error != null) {
-                throw new MiExcepcion("Error en dar de alta la propiedad " + pPropiedad.getNumeroPropiedad()
+                throw new MiExcepcionPersistencia("Error en dar de alta la propiedad " + pPropiedad.getNumeroPropiedad()
                         + " del cliente " + pPropiedad.getDueno().getCedula() + ": " + error);
             }
-
         } finally {
             Conexion.cerrarRecursos(cnn, consulta);
         }
@@ -111,7 +110,7 @@ public class PersistenciaPropiedad implements IPersistenciaPropiedad {
             String error = consulta.getNString(4);
 
             if (error != null) {
-                throw new MiExcepcion("Error al modificar la propiedad " + pPropiedad.getNumeroPropiedad()
+                throw new MiExcepcionPersistencia("Error al modificar la propiedad " + pPropiedad.getNumeroPropiedad()
                         + " del cliente " + pPropiedad.getDueno().getCedula() + ": " + error);
             }
         } finally {
