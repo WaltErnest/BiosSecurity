@@ -6,11 +6,11 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<%! String msj, name, pass;%>
+<%! String msj, name;%>
 <%
     msj = session.getAttribute("msj").toString();
     name = session.getAttribute("name").toString();
-    pass = session.getAttribute("pass").toString();
+   
 %>
 <html>
     <head>
@@ -18,6 +18,6 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World! Nº devuelto por persistencia <%=msj%> nombre <%=name%> pass <%=pass%></h1>
+        <h1>Hello World! Nº devuelto por persistencia <%=msj%> nombre <%=name%></h1>
     </body>
 </html>

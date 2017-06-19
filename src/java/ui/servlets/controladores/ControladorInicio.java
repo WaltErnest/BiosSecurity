@@ -48,7 +48,8 @@ public class ControladorInicio extends Controlador {
             }else{
                 session.setAttribute("msj", login);
                 session.setAttribute("name", pName);
-                session.setAttribute("pass", pPass);
+               
+                
                 mostrarVista("otra");
             }
         } catch (Exception e) {

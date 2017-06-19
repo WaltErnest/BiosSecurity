@@ -137,7 +137,7 @@ class PersistenciaAdministrativo implements IPersistenciaAdministrativo {
           
         
             if (resultado.next()) {
-                i = 5;// para ver si entra
+                i = 5;
                 clave = resultado.getString("clave");
                 nombre = resultado.getString("nombre");
                if((clave.equals(pPass)) && (nombre.equals(pName))){
