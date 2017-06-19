@@ -18,48 +18,55 @@ import compartidos.beans.excepciones.MiExcepcion;
 public class LogicaCliente implements ILogicaCliente {
     IPersistenciaCliente perCliente = FabricaPersistencia.GetPersistenciaCliente();
     
-    public Cliente buscarCliente(long pCedula) throws ClassNotFoundException, SQLException, MiExcepcionLogica, MiExcepcion{
-        if(!verificarCedula(pCedula)){
-            throw new MiExcepcionLogica("La cédula del cliente tiene más de 8 digitos");
+    public Cliente buscarCliente(long pCedula) throws ClassNotFoundException, SQLException, MiExcepcion {
+        if(pCedula < 1){
+            throw new MiExcepcionLogica("La cédula del cliente debe ser mayor o igual a 1");
         } else {
             return perCliente.buscarCliente(pCedula);
-        }        
-    }
-    
-    public void altaCliente(Cliente pCliente) throws ClassNotFoundException, SQLException, MiExcepcionLogica, MiExcepcion{
-        verificarCliente(pCliente);        
-        perCliente.altaCliente(pCliente);
-    }
-    
-    public void modificarCliente(Cliente pCliente) throws ClassNotFoundException, SQLException, MiExcepcionLogica, MiExcepcion{
-        verificarCliente(pCliente);
-        perCliente.modificarCliente(pCliente);
-    }
-    
-    public void verificarCliente(Cliente pCliente) throws MiExcepcionLogica{
-        long tel = String.valueOf(pCliente.getTelefono()).length();
-        
-        if (!verificarCedula(pCliente.getCedula())) {
-            throw new MiExcepcionLogica("La cédula del cliente tiene más de 8 digitos");
-        } else if (pCliente.getNombre().length() > 50){
-            throw new MiExcepcionLogica("El nombre del cliente no puede exceder los 50 caractéres");
-        } else if (pCliente.getDireccionCobro().length() > 255){
-            throw new MiExcepcionLogica("La dirección de cobro no puede exceder los 255 caractéres");
-        } else if (pCliente.getBarrioDirCobro().length() > 30){
-            throw new MiExcepcionLogica("El barrio de cobro no puede exceder los 30 caractéres");
-        } else if (tel > 19 || tel < 4){
-            throw new MiExcepcionLogica("El teléfono debe tener entre 4 y 19 números");
         }
     }
     
-    //verifica el largo de la cédula, si tiene mas de 8 números devuelve falso, si no verdadero.
-    public boolean verificarCedula(long pNumero){
-        int largo = String.valueOf(pNumero).length();
+    public void altaCliente(Cliente pCliente) throws ClassNotFoundException, SQLException, MiExcepcion {
+        validarCliente(pCliente);        
+        perCliente.altaCliente(pCliente);
+    }
+    
+    public void modificarCliente(Cliente pCliente) throws ClassNotFoundException, SQLException, MiExcepcion {
+        validarCliente(pCliente);
+        perCliente.modificarCliente(pCliente);
+    }
+    
+    //verifica que los datos del cliente esten correctos
+    public void validarCliente(Cliente pCliente) throws MiExcepcion {        
+        if (pCliente.getCedula() < 1) {
+            throw new MiExcepcionLogica("La cédula del cliente debe ser mayor o igual a 1");
+        }
         
-        if (largo > 8) {
-            return false;
-        } else {
-            return true;
+        if (pCliente.getNombre().equals("")) {
+            throw new MiExcepcionLogica("El nombre del cliente no puede estar vacío");
+        }
+        if (pCliente.getNombre().trim().length() > 50) {
+            throw new MiExcepcionLogica("El nombre del cliente no puede exceder los 50 caractéres");
+        }      
+
+        if (pCliente.getDireccionCobro().equals("")) {
+            throw new MiExcepcionLogica("La dirección de cobro no puede estar vacía");
+        }
+        
+        if (pCliente.getDireccionCobro().trim().length() > 255) {
+            throw new MiExcepcionLogica("La dirección de cobro no puede exceder los 255 caractéres");
+        }
+        
+        if (pCliente.getBarrioDirCobro().equals("")) {
+            throw new MiExcepcionLogica("El barrio de cobro no puede estar vacío");
+        }
+        
+        if (pCliente.getBarrioDirCobro().trim().length() > 30) {
+            throw new MiExcepcionLogica("El barrio de cobro no puede exceder los 30 caractéres");
+        }
+        
+        if (pCliente.getTelefono() < 1) {
+            throw new MiExcepcionLogica("El teléfono debe ser mayor o igual a 1");
         }
     }
 }
