@@ -81,7 +81,7 @@ public class PersistenciaCliente implements IPersistenciaCliente {
             String error = consulta.getString(6);
             
             if (error != null) {
-                throw new MiExcepcion("Error en dar de alta al cliente" + pCliente.getCedula() + ": " + error);
+                throw new MiExcepcionPersistencia("Error en dar de alta al cliente" + pCliente.getCedula() + ": " + error);
             }           
         } finally {
             Conexion.cerrarRecursos(cnn, consulta);
@@ -109,7 +109,7 @@ public class PersistenciaCliente implements IPersistenciaCliente {
             String error = consulta.getString(6);
             
             if (error != null) {
-                throw new MiExcepcion("Error al modificar el cliente" + pCliente.getCedula() + ": " + error);
+                throw new MiExcepcionPersistencia("Error al modificar el cliente" + pCliente.getCedula() + ": " + error);
             }     
         } finally {
             Conexion.cerrarRecursos(cnn, consulta);
