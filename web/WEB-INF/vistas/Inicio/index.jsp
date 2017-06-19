@@ -11,7 +11,7 @@
 <t:paginaMaestra titulo="Menú Principal">
     <jsp:body>
         <ul>
-            <li><a href="empleados">volcer</a></li>
+            <li><a href="empleados">volver</a></li>
         </ul>
     </jsp:body>
 </t:paginaMaestra>
