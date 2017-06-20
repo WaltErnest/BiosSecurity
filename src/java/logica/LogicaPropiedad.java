@@ -28,6 +28,7 @@ public class LogicaPropiedad implements ILogicaPropiedad {
         }
     }
     
+    @Override
     public void altaPropiedad(Propiedad pPropiedad)
             throws ClassNotFoundException, SQLException, MiExcepcion {
         validarPropiedad(pPropiedad);
@@ -35,6 +36,7 @@ public class LogicaPropiedad implements ILogicaPropiedad {
         perPropiedad.altaPropiedad(pPropiedad);
     }
     
+    @Override
     public void modificarPropiedad(Propiedad pPropiedad)
             throws ClassNotFoundException, SQLException, MiExcepcion {
         validarPropiedad(pPropiedad);
