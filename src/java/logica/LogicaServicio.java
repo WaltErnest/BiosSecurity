@@ -19,14 +19,21 @@ import java.time.LocalDate;
  * @author Mathias
  */
 public class LogicaServicio implements ILogicaServicio {
+    
     IPersistenciaServicioAlarma perServicioAlarma = FabricaPersistencia.GetPersistenciaServicioAlarma();
     IPersistenciaServicioVideo perServicioVideo = FabricaPersistencia.GetPersistenciaServicioVideo();
-    /*
-    public Servicio buscarServicio(int pNumero)
-            throws SQLException, MiExcepcion {
+
+    public ServicioAlarma buscarServicioAlarma(int pNumero)
+            throws ClassNotFoundException, SQLException, MiExcepcion {
         
+        return perServicioAlarma.buscarServicioAlarma(pNumero);
     }
-    */
+    
+    public ServicioVideo buscarServicioVideo(int pNumero)
+            throws ClassNotFoundException, SQLException, MiExcepcion {
+        
+        return perServicioVideo.buscarServicioVideo(pNumero);
+    }
     public void altaServicio(Servicio pServicio)
             throws ClassNotFoundException, SQLException, MiExcepcion {
         if (pServicio instanceof ServicioAlarma) {
@@ -46,6 +53,6 @@ public class LogicaServicio implements ILogicaServicio {
         
         if (pServicio.getFechaContratacion().before(Date.from(Instant.now())) ) {
             throw new MiExcepcionLogica("La fecha de contratación debe ser a partir de hoy");
-        }        
+        }
     }
 }

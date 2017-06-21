@@ -29,10 +29,11 @@ abstract class Controlador extends HttpServlet {
     protected HttpServletResponse response;
     protected HttpSession session;
 
+    
     public void index_get() {
         mostrarVista("index");
     }
-
+    
     protected void mostrarVista(String vista) {
         agregarMensajeSesionAMensajeRequest();
 

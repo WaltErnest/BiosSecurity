@@ -6,6 +6,7 @@
 package persistencia;
 
 import compartidos.beans.entidades.ServicioVideo;
+import compartidos.beans.excepciones.MiExcepcion;
 import compartidos.beans.excepciones.MiExcepcionPersistencia;
 import java.sql.SQLException;
 
@@ -14,6 +15,7 @@ import java.sql.SQLException;
  * @author Mathias
  */
 public interface IPersistenciaServicioVideo {
-    public void altaServicioVideo(ServicioVideo pServicioVideo) throws ClassNotFoundException, SQLException, MiExcepcionPersistencia;
     
+    ServicioVideo buscarServicioVideo(int pNumero) throws SQLException, MiExcepcion, ClassNotFoundException;
+    public void altaServicioVideo(ServicioVideo pServicioVideo) throws ClassNotFoundException, SQLException, MiExcepcionPersistencia;
 }

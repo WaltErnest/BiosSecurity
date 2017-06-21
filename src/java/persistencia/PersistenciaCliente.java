@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import compartidos.beans.excepciones.MiExcepcion;
 import compartidos.beans.excepciones.MiExcepcionPersistencia;
+import java.util.ArrayList;
 
 /**
  *
@@ -20,8 +21,10 @@ import compartidos.beans.excepciones.MiExcepcionPersistencia;
  */
 public class PersistenciaCliente implements IPersistenciaCliente {
     
+    //buscar un cliente exclusivamente por su cédula
     @Override
-    public Cliente buscarCliente(long pCedula) throws ClassNotFoundException, SQLException, MiExcepcionPersistencia, MiExcepcion {
+    public Cliente buscarCliente(long pCedula)
+            throws ClassNotFoundException, SQLException, MiExcepcion {
         Connection cnn = null;
         PreparedStatement consulta = null;
         ResultSet resultado = null;
@@ -35,6 +38,54 @@ public class PersistenciaCliente implements IPersistenciaCliente {
             
             resultado = consulta.executeQuery();
             
+            Cliente cliente = null;
+            
+            long cedula;
+            String nombre;
+            String direccionCobro;
+            String barrioDirCobro;
+            long telefono;
+            
+            while (resultado.next()) {
+                cedula = resultado.getLong("cedula");
+                nombre = resultado.getString("nombre");
+                direccionCobro = resultado.getString("direccionCobro");
+                barrioDirCobro = resultado.getString("barrioCobro");
+                telefono = resultado.getLong("telefono");
+                
+                cliente = new Cliente(cedula, nombre, direccionCobro, barrioDirCobro, telefono);
+            }
+            
+            return cliente;
+            
+        } catch (Exception ex) {
+            throw new MiExcepcionPersistencia("No se pudo buscar el cliente", ex);
+        }
+        finally {
+            Conexion.cerrarRecursos(cnn, consulta, resultado);
+        }
+    }
+    
+    //buscar cliente tanto por su cédula como por parte de su nombre
+    @Override
+    public ArrayList<Cliente> buscarClientes(long pCedula, String pNombre )
+            throws ClassNotFoundException, SQLException, MiExcepcion {
+        Connection cnn = null;
+        PreparedStatement consulta = null;
+        ResultSet resultado = null;
+        
+        try{
+            cnn = Conexion.getConexion();      
+            
+            consulta = cnn.prepareStatement("SELECT * FROM clientes WHERE cedula = ? OR nombre LIKE ?");   
+            
+            consulta.setLong(1, pCedula);
+            consulta.setString(2, "%" + pNombre + "%");
+            
+            resultado = consulta.executeQuery();
+            
+            ArrayList<Cliente> clientes = null;
+            
             Cliente clienteEncontrado = null;
             
             long cedula;
@@ -43,7 +94,7 @@ public class PersistenciaCliente implements IPersistenciaCliente {
             String barrioDirCobro;
             long telefono;
             
-            if (resultado.next()) {
+            while (resultado.next()) {
                 cedula = resultado.getLong("cedula");
                 nombre = resultado.getString("nombre");
                 direccionCobro = resultado.getString("direccionCobro");
@@ -51,11 +102,16 @@ public class PersistenciaCliente implements IPersistenciaCliente {
                 telefono = resultado.getLong("telefono");
                 
                 clienteEncontrado = new Cliente(cedula, nombre, direccionCobro, barrioDirCobro, telefono);
+                
+                clientes.add(clienteEncontrado);
             }
             
-            return clienteEncontrado;
+            return clientes;
             
-        } finally {
+        } catch (Exception ex) {
+            throw new MiExcepcionPersistencia("No se pudo buscar los cliente.", ex);
+        }
+        finally {
             Conexion.cerrarRecursos(cnn, consulta, resultado);
         }
     }

@@ -20,7 +20,9 @@ import compartidos.beans.excepciones.MiExcepcionPersistencia;
  * @author Mathias
  */
 public class PersistenciaPropiedad implements IPersistenciaPropiedad {
+    IPersistenciaCliente perCliente = FabricaPersistencia.GetPersistenciaCliente();
 
+    
     public Propiedad buscarPropiedad(int pNumeroPropiedad, long pCedulaDueno)
             throws ClassNotFoundException, SQLException, MiExcepcion {
         Connection cnn = null;
@@ -35,7 +37,7 @@ public class PersistenciaPropiedad implements IPersistenciaPropiedad {
             consulta.setInt(1, pNumeroPropiedad);
             consulta.setLong(2, pCedulaDueno);
 
-            Cliente clienteEncontrado = FabricaPersistencia.GetPersistenciaCliente().buscarCliente(pCedulaDueno);
+            Cliente clienteEncontrado = perCliente.buscarCliente(pCedulaDueno);
 
             Propiedad propiedadEncontrada = null;
 

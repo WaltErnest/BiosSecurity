@@ -6,7 +6,7 @@
 package persistencia;
 
 import compartidos.beans.entidades.ServicioAlarma;
-import compartidos.beans.excepciones.MiExcepcionPersistencia;
+import compartidos.beans.excepciones.MiExcepcion;
 import java.sql.SQLException;
 
 /**
@@ -14,6 +14,6 @@ import java.sql.SQLException;
  * @author Mathias
  */
 public interface IPersistenciaServicioAlarma {
-    public void altaServicioAlarma(ServicioAlarma pServicioAlarma) throws ClassNotFoundException, SQLException, MiExcepcionPersistencia;
-    
+    void altaServicioAlarma(ServicioAlarma pServicioAlarma) throws ClassNotFoundException, SQLException, MiExcepcion;
+    ServicioAlarma buscarServicioAlarma(int pNumero) throws SQLException, MiExcepcion, ClassNotFoundException;
 }

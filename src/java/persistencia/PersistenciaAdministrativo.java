@@ -114,4 +114,42 @@ class PersistenciaAdministrativo implements IPersistenciaAdministrativo {
                 Conexion.cerrarRecursos(cnn, consulta);
         }
     }
+    
+    @Override
+    public int LoginAdministrativo(String pName, String pPass) throws ClassNotFoundException, SQLException, MiExcepcion {
+        Connection cnn = null;
+        PreparedStatement consulta = null;
+        ResultSet resultado = null;
+        int i ;
+        try {
+            
+           
+            cnn = Conexion.getConexion();
+            consulta = cnn.prepareStatement(
+                    "SELECT * FROM empleados WHERE nombre = ? and clave = ?");
+
+            consulta.setString(1, pName);
+            consulta.setString(2, pPass);
+            resultado = consulta.executeQuery();
+
+            String clave;
+            String nombre;
+          
+        
+            if (resultado.next()) {
+                i = 5;
+                clave = resultado.getString("clave");
+                nombre = resultado.getString("nombre");
+               if((clave.equals(pPass)) && (nombre.equals(pName))){
+                   i = 1;
+               }
+            }else{ 
+                i = 8;
+                }
+            
+            return i;
+        } finally {
+            Conexion.cerrarRecursos(cnn, consulta, resultado);
+        }
+    }
 }
