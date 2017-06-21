@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -17,9 +18,10 @@
             <!--div class="login-triangle"></div-->
             <h2 class="login-header">Bios Security</h2>            
             <form accion="ControladorInicio" method="post" class="login-container">
-                <p><input type="text" name="name" placeholder="usuario"></p>
+                <p><input type="text" name="cedula" placeholder="usuario"></p>
                 <p><input type="password" name="pass" placeholder="contraseña"></p>
                 <p><input type="submit" name="login" value="login"></p> 
+                <t:mensaje />
             </form>
         </div>
     </body>

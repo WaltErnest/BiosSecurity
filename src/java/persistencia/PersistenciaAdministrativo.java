@@ -116,7 +116,7 @@ class PersistenciaAdministrativo implements IPersistenciaAdministrativo {
     }
     
     @Override
-    public int LoginAdministrativo(String pName, String pPass) throws ClassNotFoundException, SQLException, MiExcepcion {
+    public int LoginAdministrativo(long pCedula, String pPass) throws ClassNotFoundException, SQLException, MiExcepcion {
         Connection cnn = null;
         PreparedStatement consulta = null;
         ResultSet resultado = null;
@@ -126,21 +126,21 @@ class PersistenciaAdministrativo implements IPersistenciaAdministrativo {
            
             cnn = Conexion.getConexion();
             consulta = cnn.prepareStatement(
-                    "SELECT * FROM empleados WHERE nombre = ? and clave = ?");
+                    "SELECT * FROM empleados WHERE cedula = ? and clave = ?");
 
-            consulta.setString(1, pName);
+            consulta.setLong(1, pCedula);
             consulta.setString(2, pPass);
             resultado = consulta.executeQuery();
 
             String clave;
-            String nombre;
+            long cedula;
           
         
             if (resultado.next()) {
                 i = 5;
                 clave = resultado.getString("clave");
-                nombre = resultado.getString("nombre");
-               if((clave.equals(pPass)) && (nombre.equals(pName))){
+                cedula = resultado.getLong("cedula");
+               if((clave.equals(pPass)) && (cedula == pCedula)){
                    i = 1;
                }
             }else{ 
