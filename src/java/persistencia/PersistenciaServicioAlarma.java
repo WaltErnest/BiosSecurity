@@ -49,7 +49,6 @@ public class PersistenciaServicioAlarma implements IPersistenciaServicioAlarma {
             Propiedad propiedadCliente;
             Date fechaContratacion;
             Boolean monitoreo;
-            Double precio = 0.00;
             int codigoAnulacion;
             List<Alarma> alarmas = null;
             
@@ -63,7 +62,7 @@ public class PersistenciaServicioAlarma implements IPersistenciaServicioAlarma {
                 
                 propiedadCliente = perPropiedad.buscarPropiedad(numeroPropiedad, cedula);
                 
-                servAlarma = new ServicioAlarma(numero, propiedadCliente, fechaContratacion, monitoreo, precio, codigoAnulacion, alarmas);
+                servAlarma = new ServicioAlarma(numero, propiedadCliente, fechaContratacion, monitoreo, codigoAnulacion, alarmas);
             }
             
             return servAlarma;
