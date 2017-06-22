@@ -19,7 +19,7 @@ public class ServicioVideo extends Servicio implements Serializable {
     private List<Camara> _camaras;
 
     public ServicioVideo(int pNumero, Propiedad pPropiedad, Date pFechaContratacion,
-            Boolean pMonitoreo, double pPrecio, Boolean pTerminalGrabacion, List<Camara> pCamaras) {
+            Boolean pMonitoreo, Boolean pTerminalGrabacion, List<Camara> pCamaras) {
         super(pNumero, pPropiedad, pFechaContratacion, pMonitoreo);
         setTerminalGrabacion(pTerminalGrabacion);
         setCamaras(pCamaras);

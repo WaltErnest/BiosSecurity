@@ -19,7 +19,7 @@ public class ServicioAlarma extends Servicio implements Serializable{
     private List<Alarma> _alarmas;
 
     public ServicioAlarma(int pNumero, Propiedad pPropiedad, Date pFechaContratacion,
-            Boolean pMonitoreo, Double pPrecio, int pCodigoAnulacion, List<Alarma> pAlarmas) {
+            Boolean pMonitoreo, int pCodigoAnulacion, List<Alarma> pAlarmas) {
         super(pNumero, pPropiedad, pFechaContratacion, pMonitoreo);
         setCodigoAnulacion(pCodigoAnulacion);
         setAlarmas(pAlarmas);
