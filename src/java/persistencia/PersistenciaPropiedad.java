@@ -32,33 +32,43 @@ public class PersistenciaPropiedad implements IPersistenciaPropiedad {
         try {
             cnn = Conexion.getConexion();
 
-            consulta = cnn.prepareStatement("SELECT * FROM propiedades WHERE numero = ? AND cedula = ?");
+            consulta = cnn.prepareStatement("SELECT p.*, c.* FROM propiedades p INNER JOIN clientes c ON p.cedula = c.cedula WHERE p.cedula = ? AND c.cedula = ? AND p.numero = ?;");
 
-            consulta.setInt(1, pNumeroPropiedad);
+            consulta.setLong(1, pCedulaDueno);
             consulta.setLong(2, pCedulaDueno);
+            consulta.setInt(3, pNumeroPropiedad);
 
-            Cliente clienteEncontrado = perCliente.buscarCliente(pCedulaDueno);
+            resultado = consulta.executeQuery();
 
+            Cliente clienteEncontrado = null;
+            long cedula;
+            String nombre;
+            String direccionCobro;
+            String barrioDirCobro;
+            long telefono;
+            
             Propiedad propiedadEncontrada = null;
+            int numeroPropiedad;
+            Propiedad.TipoPropiedad tipo;
+            String direccion;
 
-            if (clienteEncontrado != null) {
-                resultado = consulta.executeQuery();
+            if (resultado.next()) {
+                cedula = resultado.getLong("cedula");
+                nombre = resultado.getString("nombre");
+                direccionCobro = resultado.getString("direccionCobro");
+                barrioDirCobro = resultado.getString("barrioCobro");
+                telefono = resultado.getLong("telefono");
+                
+                clienteEncontrado = new Cliente(cedula, nombre, direccionCobro, barrioDirCobro, telefono);
+                
+                numeroPropiedad = resultado.getInt("numero");
+                tipo = Propiedad.TipoPropiedad.valueOf(resultado.getString("tipoPropiedad"));
+                direccion = resultado.getString("direccion");
 
-                int numeroPropiedad;
-                Propiedad.TipoPropiedad tipo;
-                String direccion;
-                Cliente dueno;
-
-                if (resultado.next()) {
-                    numeroPropiedad = resultado.getInt("numero");
-                    tipo = Propiedad.TipoPropiedad.valueOf(resultado.getString("tipoPropiedad"));
-                    direccion = resultado.getString("direccion");
-
-                    propiedadEncontrada = new Propiedad(numeroPropiedad, tipo, direccion, clienteEncontrado);
-                }
+                propiedadEncontrada = new Propiedad(numeroPropiedad, tipo, direccion, clienteEncontrado);
             }
 
-            return propiedadEncontrada;
+        return propiedadEncontrada;
             
         } finally {
             Conexion.cerrarRecursos(cnn, consulta, resultado);

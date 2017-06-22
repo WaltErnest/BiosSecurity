@@ -22,7 +22,25 @@ public class LogicaServicio implements ILogicaServicio {
     
     IPersistenciaServicioAlarma perServicioAlarma = FabricaPersistencia.GetPersistenciaServicioAlarma();
     IPersistenciaServicioVideo perServicioVideo = FabricaPersistencia.GetPersistenciaServicioVideo();
-
+    
+    public Servicio buscarServicio(int pNumero)
+            throws ClassNotFoundException, SQLException, MiExcepcion {
+        
+        ServicioAlarma servAlarma = perServicioAlarma.buscarServicioAlarma(pNumero);
+        
+        if (servAlarma != null) {
+            return servAlarma;
+        }
+        
+        ServicioVideo servVideo = perServicioVideo.buscarServicioVideo(pNumero);
+        
+        
+        if (servVideo != null) {
+            return servVideo;
+        } else {
+            throw new MiExcepcionLogica("El servicio no existe.");
+        }
+    }
     public ServicioAlarma buscarServicioAlarma(int pNumero)
             throws ClassNotFoundException, SQLException, MiExcepcion {
         

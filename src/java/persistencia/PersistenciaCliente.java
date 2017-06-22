@@ -21,52 +21,6 @@ import java.util.ArrayList;
  */
 public class PersistenciaCliente implements IPersistenciaCliente {
     
-    //buscar un cliente exclusivamente por su cédula
-    @Override
-    public Cliente buscarCliente(long pCedula)
-            throws ClassNotFoundException, SQLException, MiExcepcion {
-        Connection cnn = null;
-        PreparedStatement consulta = null;
-        ResultSet resultado = null;
-        
-        try{
-            cnn = Conexion.getConexion();      
-            
-            consulta = cnn.prepareStatement("SELECT * FROM clientes WHERE cedula = ?");   
-            
-            consulta.setLong(1, pCedula);
-            
-            resultado = consulta.executeQuery();
-            
-            Cliente cliente = null;
-            
-            long cedula;
-            String nombre;
-            String direccionCobro;
-            String barrioDirCobro;
-            long telefono;
-            
-            while (resultado.next()) {
-                cedula = resultado.getLong("cedula");
-                nombre = resultado.getString("nombre");
-                direccionCobro = resultado.getString("direccionCobro");
-                barrioDirCobro = resultado.getString("barrioCobro");
-                telefono = resultado.getLong("telefono");
-                
-                cliente = new Cliente(cedula, nombre, direccionCobro, barrioDirCobro, telefono);
-            }
-            
-            return cliente;
-            
-        } catch (Exception ex) {
-            throw new MiExcepcionPersistencia("No se pudo buscar el cliente", ex);
-        }
-        finally {
-            Conexion.cerrarRecursos(cnn, consulta, resultado);
-        }
-    }
-    
-    //buscar cliente tanto por su cédula como por parte de su nombre
     @Override
     public ArrayList<Cliente> buscarClientes(long pCedula, String pNombre )
             throws ClassNotFoundException, SQLException, MiExcepcion {

@@ -5,10 +5,16 @@
  */
 package logica;
 
+import compartidos.beans.entidades.Servicio;
+import compartidos.beans.excepciones.MiExcepcion;
+import java.sql.SQLException;
+
 /**
  *
  * @author Mathias
  */
 public interface ILogicaServicio {
     
+    Servicio buscarServicio(int pNumero) throws ClassNotFoundException, SQLException, MiExcepcion;
+    void altaServicio(Servicio pServicio) throws ClassNotFoundException, SQLException, MiExcepcion;
 }

@@ -16,7 +16,6 @@ import java.util.ArrayList;
  */
 public interface IPersistenciaCliente {
     
-    Cliente buscarCliente(long pCedula) throws ClassNotFoundException, SQLException, MiExcepcion;
     ArrayList<Cliente> buscarClientes(long pCedula, String pNombre ) throws ClassNotFoundException, SQLException, MiExcepcion;
     void altaCliente(Cliente pCliente) throws ClassNotFoundException, SQLException, MiExcepcion;
     void modificarCliente(Cliente pCliente) throws ClassNotFoundException, SQLException, MiExcepcion;
