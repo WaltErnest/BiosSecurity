@@ -17,6 +17,7 @@ import compartidos.beans.excepciones.MiExcepcion;
 /**
  *
  * @author Ernesto
+ * @version Diego, agrego login
  */
 public class PersistenciaCobrador implements IPersistenciaCobrador {
 
@@ -114,6 +115,41 @@ public class PersistenciaCobrador implements IPersistenciaCobrador {
             }
         } finally {
             Conexion.cerrarRecursos(cnn, consulta);
+        }
+    }
+     @Override
+    public int LoginCobrador(long pCedula, String pPass) throws ClassNotFoundException, SQLException, MiExcepcion {
+        Connection cnn = null;
+        PreparedStatement consulta = null;
+        ResultSet resultado = null;
+        int i = 0 ;
+        try {
+            
+           
+            cnn = Conexion.getConexion();
+            consulta = cnn.prepareStatement(
+                    "SELECT * FROM empleados WHERE cedula = ? and clave = ?");
+
+            consulta.setLong(1, pCedula);
+            consulta.setString(2, pPass);
+            resultado = consulta.executeQuery();
+            
+            String clave;
+            long cedula;
+          
+        
+            if (resultado.next()) {                
+                clave = resultado.getString("clave");
+                cedula = resultado.getLong("cedula");
+               if((clave.equals(pPass)) && (cedula == pCedula)){
+                   i = 1;
+               }
+            }else{ 
+                i = 8;
+                }            
+            return i;
+        } finally {
+            Conexion.cerrarRecursos(cnn, consulta, resultado);
         }
     }
 }

@@ -70,14 +70,18 @@ public class LogicaEmpleado implements ILogicaEmpleado {
             throw new MiExcepcion("No existe el tipo de empleado deseado.");
         }
     }
-     public int LoginAdministrativo(long pCedula, String pPass) throws ClassNotFoundException, SQLException, MiExcepcion{
-        
-         perAdmin = FabricaPersistencia.GetPersistenciaAdministrativo();
-         int i = perAdmin.LoginAdministrativo(pCedula, pPass);
-         //if (i==0){
-             //perTecnico = FabricaPersistencia.GetPersistenciaTecnico();
-             
-         //}
-         return i;
-     }
+    public int Login(long pCedula, String pPass) throws ClassNotFoundException, SQLException, MiExcepcion {
+        int i = 0;
+        perAdmin = FabricaPersistencia.GetPersistenciaAdministrativo();
+        i = perAdmin.LoginAdministrativo(pCedula, pPass);
+        if (i == 0) {
+            perTecnico = FabricaPersistencia.GetPersistenciaTecnico();
+            i = perTecnico.LoginTecnico(pCedula, pPass);
+            if (i == 0) {
+                perCobrador = FabricaPersistencia.GetPersistenciaCobrador();
+                i = perCobrador.LoginCobrador(pCedula, pPass);
+            }
+        }
+        return i;
+    }
 }

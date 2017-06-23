@@ -49,7 +49,7 @@ public class ControladorInicio extends Controlador {
         } else {
             try {
                 ILogicaEmpleado Emp = FabricaLogica.GetLogicaEmpleado();
-                login = Emp.LoginAdministrativo(pCedula, pPass);
+                login = Emp.Login(pCedula, pPass);
                 if (login == 1) {
                     String ok = "OK";
                     session.setAttribute("LogIn", ok);
@@ -59,7 +59,6 @@ public class ControladorInicio extends Controlador {
                     mostrarVista("login");
                 }
             } catch (Exception e) {
-
                 session.setAttribute("msj", e);
                 mostrarVista("otra");
             }
