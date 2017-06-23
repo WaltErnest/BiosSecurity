@@ -18,15 +18,13 @@ public abstract class Servicio implements Serializable{
     private Propiedad _propiedadCliente;
     private Date _fechaContratacion;
     private Boolean _monitoreo;
-    private Double _precio;
 
     public Servicio(int pNumero, Propiedad pPropiedad, Date pFechaContratacion,
-            Boolean pMonitoreo, Double pPrecio) {
+            Boolean pMonitoreo) {
         setNumero(pNumero);
         setPropiedadCliente(pPropiedad);
         setFechaContratacion(pFechaContratacion);
         setMonitoreo(pMonitoreo);
-        setPrecio(pPrecio);
     }
     
     public Servicio(){
@@ -63,13 +61,5 @@ public abstract class Servicio implements Serializable{
 
     public void setMonitoreo(Boolean _monitoreo) {
         this._monitoreo = _monitoreo;
-    }
-
-    public Double getPrecio() {
-        return _precio;
-    }
-
-    public void setPrecio(Double _precio) {
-        this._precio = _precio;
     }
 }

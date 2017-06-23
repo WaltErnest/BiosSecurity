@@ -48,7 +48,6 @@ public class PersistenciaServicioVideo implements IPersistenciaServicioVideo {
             Propiedad propiedadCliente;
             Date fechaContratacion;
             Boolean monitoreo;
-            Double precio = 0.00;
             Boolean terminalGrabacion;
             List<Camara> camaras = null;
             
@@ -62,7 +61,7 @@ public class PersistenciaServicioVideo implements IPersistenciaServicioVideo {
                 
                 propiedadCliente = perPropiedad.buscarPropiedad(numeroPropiedad, cedula);
                 
-                servVideo = new ServicioVideo(numero, propiedadCliente, fechaContratacion, monitoreo, precio, terminalGrabacion, camaras);
+                servVideo = new ServicioVideo(numero, propiedadCliente, fechaContratacion, monitoreo, terminalGrabacion, camaras);
             }
             
             return servVideo;
