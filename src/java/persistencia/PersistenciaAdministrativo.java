@@ -17,6 +17,7 @@ import java.util.Date;
 /**
  *
  * @author Ernesto
+ * @version Diego, agrego login
  */
 class PersistenciaAdministrativo implements IPersistenciaAdministrativo {
 

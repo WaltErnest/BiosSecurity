@@ -28,6 +28,7 @@
             <li><a href="#servicio">Servicios</a></li>
             <li><a href="#empleado">Empleados</a></li>
             <li><a href="#dispositivo">Dispositivos</a></li>
+            <li><a href="#dispositivo">Cobros</a></li>            
             <li style="float:right"><a href="#cerrar">Cerrar</a></li>
         </ul>
      
