@@ -15,5 +15,6 @@ import java.sql.SQLException;
  */
 public interface IPersistenciaServicioAlarma {
     void altaServicioAlarma(ServicioAlarma pServicioAlarma) throws ClassNotFoundException, SQLException, MiExcepcion;
-    ServicioAlarma buscarServicioAlarma(int pNumero) throws SQLException, MiExcepcion, ClassNotFoundException;
+    ServicioAlarma buscarServicioAlarma(int pNumero) throws ClassNotFoundException, SQLException, MiExcepcion;
+    void bajaServicioAlarma(ServicioAlarma pServicio) throws ClassNotFoundException, SQLException, MiExcepcion;
 }

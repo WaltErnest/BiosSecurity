@@ -91,7 +91,7 @@ public class PersistenciaServicioVideo implements IPersistenciaServicioVideo {
             consulta.setBoolean(5, pServicioVideo.getTerminalGrabacion());
             consulta.registerOutParameter(6, java.sql.Types.VARCHAR);
             
-            String error = consulta.getNString(4);
+            String error = consulta.getNString(6);
 
             if (error != null) {
                 throw new MiExcepcionPersistencia("Error en dar de alta el servicio de video del cliente " 
@@ -101,6 +101,31 @@ public class PersistenciaServicioVideo implements IPersistenciaServicioVideo {
             
         } finally {
             Conexion.cerrarRecursos(cnn, consulta);
-        }      
+        }
+    }
+    
+    public void bajaServicioVideo(ServicioVideo pServicio)
+            throws ClassNotFoundException, SQLException, MiExcepcion {
+        Connection cnn = null;
+        CallableStatement consulta = null;
+        
+        try {
+            cnn = Conexion.getConexion();
+            consulta = cnn.prepareCall("{ CALL bajaServicioVideo (?, ?) }");
+            
+            consulta.setInt(1, pServicio.getNumero());
+            consulta.registerOutParameter(2, java.sql.Types.VARCHAR);
+            
+            consulta.executeUpdate();
+            
+            String error = consulta.getNString(2);
+            
+            if (error != null) {
+                throw new MiExcepcionPersistencia("Error en dar de baja servicio al servicio " +
+                        pServicio.getNumero());
+            }
+        } finally {
+            Conexion.cerrarRecursos(cnn, consulta);
+        }
     }
 }

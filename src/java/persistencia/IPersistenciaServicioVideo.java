@@ -16,6 +16,7 @@ import java.sql.SQLException;
  */
 public interface IPersistenciaServicioVideo {
     
-    ServicioVideo buscarServicioVideo(int pNumero) throws SQLException, MiExcepcion, ClassNotFoundException;
-    public void altaServicioVideo(ServicioVideo pServicioVideo) throws ClassNotFoundException, SQLException, MiExcepcionPersistencia;
+    ServicioVideo buscarServicioVideo(int pNumero) throws ClassNotFoundException, SQLException, MiExcepcion;
+    void altaServicioVideo(ServicioVideo pServicioVideo) throws ClassNotFoundException, SQLException, MiExcepcion;
+    void bajaServicioVideo(ServicioVideo pServicio) throws ClassNotFoundException, SQLException, MiExcepcion;
 }

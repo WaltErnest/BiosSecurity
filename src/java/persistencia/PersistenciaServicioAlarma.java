@@ -93,7 +93,7 @@ public class PersistenciaServicioAlarma implements IPersistenciaServicioAlarma {
             
             consulta.executeUpdate();
             
-            String error = consulta.getNString(4);
+            String error = consulta.getNString(6);
 
             if (error != null) {
                 throw new MiExcepcionPersistencia("Error en dar de alta el servicio de alarma del cliente " 
@@ -101,6 +101,31 @@ public class PersistenciaServicioAlarma implements IPersistenciaServicioAlarma {
                         + " , propiedad " + pServicioAlarma.getPropriedadCliente().getNumeroPropiedad() + ": " + error);
             }
             
+        } finally {
+            Conexion.cerrarRecursos(cnn, consulta);
+        }
+    }
+    
+    public void bajaServicioAlarma(ServicioAlarma pServicio)
+            throws ClassNotFoundException, SQLException, MiExcepcion {
+        Connection cnn = null;
+        CallableStatement consulta = null;
+        
+        try {
+            cnn = Conexion.getConexion();
+            consulta = cnn.prepareCall("{ CALL bajaServicioAlarma (?, ?) }");
+            
+            consulta.setInt(1, pServicio.getNumero());
+            consulta.registerOutParameter(2, java.sql.Types.VARCHAR);
+            
+            consulta.executeUpdate();
+            
+            String error = consulta.getNString(2);
+            
+            if (error != null) {
+                throw new MiExcepcionPersistencia("Error al dar de baja al servicio " +
+                        pServicio.getNumero());
+            }
         } finally {
             Conexion.cerrarRecursos(cnn, consulta);
         }

@@ -24,16 +24,14 @@ public class LogicaServicio implements ILogicaServicio {
     IPersistenciaServicioVideo perServicioVideo = FabricaPersistencia.GetPersistenciaServicioVideo();
     
     public Servicio buscarServicio(int pNumero)
-            throws ClassNotFoundException, SQLException, MiExcepcion {
-        
+            throws ClassNotFoundException, SQLException, MiExcepcion {        
         ServicioAlarma servAlarma = perServicioAlarma.buscarServicioAlarma(pNumero);
         
         if (servAlarma != null) {
             return servAlarma;
         }
         
-        ServicioVideo servVideo = perServicioVideo.buscarServicioVideo(pNumero);
-        
+        ServicioVideo servVideo = perServicioVideo.buscarServicioVideo(pNumero);        
         
         if (servVideo != null) {
             return servVideo;
@@ -58,6 +56,17 @@ public class LogicaServicio implements ILogicaServicio {
             perServicioAlarma.altaServicioAlarma((ServicioAlarma)pServicio);
         } else if (pServicio instanceof ServicioVideo) {
             perServicioVideo.altaServicioVideo((ServicioVideo)pServicio);
+        } else {
+            throw new MiExcepcionLogica("No existe el tipo de servicio");
+        }
+    }
+    
+    public void bajaServicio(Servicio pServicio)
+            throws ClassNotFoundException, SQLException, MiExcepcion {
+        if (pServicio instanceof ServicioAlarma) {
+            perServicioAlarma.bajaServicioAlarma((ServicioAlarma)pServicio);
+        } else if (pServicio instanceof ServicioVideo) {
+            perServicioVideo.bajaServicioVideo((ServicioVideo)pServicio);
         } else {
             throw new MiExcepcionLogica("No existe el tipo de servicio");
         }
