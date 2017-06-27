@@ -24,12 +24,14 @@
     </head>
     <body>
             <ul>
-            <li><a class="active" href="#home">Inicio</a></li>
+            <li><a class="active" href="inicio">Inicio</a></li>
             <li><a href="#servicio">Servicios</a></li>
             <li><a href="#empleado">Empleados</a></li>
             <li><a href="#dispositivo">Dispositivos</a></li>
-            <li><a href="#dispositivo">Cobros</a></li>            
-            <li style="float:right"><a href="#cerrar">Cerrar</a></li>
+            <li><a href="#dispositivo">Cobros</a></li>          
+            <li><a href="precios">Precios</a></li>                
+            <!--input name="button" type="button" onclick="window.close();" value="Cerrar esta ventana" /--> 
+            <li style="float:right"><a href="login">Cerrar</a></li>
         </ul>
      
         <!--jsp:doBody /-->
