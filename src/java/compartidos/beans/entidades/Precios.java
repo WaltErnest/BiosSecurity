@@ -11,6 +11,15 @@ import java.io.Serializable;
  */
 public class Precios implements Serializable{
     private double pbA; //precio base Alarma
+    private double pbC;
+
+    public double getPbC() {
+        return pbC;
+    }
+
+    public void setPbC(double pbC) {
+        this.pbC = pbC;
+    }
 
     public double getPbA() {
         return pbA;
@@ -21,10 +30,11 @@ public class Precios implements Serializable{
     }
     
 
-    public Precios(double pbA) {
+    public Precios(double pbA, double pbC) {
         setPbA(pbA);
+        setPbC(pbC);
     }
     public Precios(){
-        this(0);
+        this(0, 0);
     }
 }

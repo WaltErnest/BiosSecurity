@@ -9,9 +9,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <t:paginaMaestra titulo="Menú Principal">
-    <jsp:body>
-        <ul>
-            <li><a href="empleados">volver</a></li>
-        </ul>
+   <jsp:body>
+  
     </jsp:body>
 </t:paginaMaestra>

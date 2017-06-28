@@ -17,6 +17,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
          <!--link rel="stylesheet" type="text/css" href="css/log.css"-->
          <link rel="stylesheet" type="text/css" href="css/menu.css">
+         <link rel="stylesheet" type="text/css" href="css/formularios.css">
 
         <title>${titulo}</title>
         
@@ -34,7 +35,7 @@
             <li style="float:right"><a href="login">Cerrar</a></li>
         </ul>
      
-        <!--jsp:doBody /-->
+        <jsp:doBody />
         
         <!--script src="js/general.js"></script-->
     </body>
