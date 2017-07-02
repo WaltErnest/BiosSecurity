@@ -14,6 +14,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,7 +87,7 @@ public class PersistenciaServicioAlarma implements IPersistenciaServicioAlarma {
             
             consulta.setInt(1, pServicioAlarma.getPropriedadCliente().getNumeroPropiedad());
             consulta.setLong(2, pServicioAlarma.getPropriedadCliente().getDueno().getCedula());
-            consulta.setDate(3, (Date) pServicioAlarma.getFechaContratacion());
+            consulta.setDate(3, (Date.valueOf(LocalDate.now())));
             consulta.setBoolean(4, pServicioAlarma.getMonitoreo());
             consulta.setInt(5, pServicioAlarma.getCodigoAnulacion());
             consulta.registerOutParameter(6, java.sql.Types.VARCHAR);

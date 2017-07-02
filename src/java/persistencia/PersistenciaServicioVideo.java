@@ -14,6 +14,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -86,7 +87,7 @@ public class PersistenciaServicioVideo implements IPersistenciaServicioVideo {
             
             consulta.setInt(1, pServicioVideo.getPropriedadCliente().getNumeroPropiedad());
             consulta.setLong(2, pServicioVideo.getPropriedadCliente().getDueno().getCedula());
-            consulta.setDate(3, (Date) pServicioVideo.getFechaContratacion());
+            consulta.setDate(3, (Date.valueOf(LocalDate.now())));
             consulta.setBoolean(4, pServicioVideo.getMonitoreo());
             consulta.setBoolean(5, pServicioVideo.getTerminalGrabacion());
             consulta.registerOutParameter(6, java.sql.Types.VARCHAR);

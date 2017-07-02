@@ -15,8 +15,7 @@ import java.util.ArrayList;
  *
  * @author Mathias
  */
-public interface ILogicaCliente {
-    
+public interface ILogicaCliente {    
     ArrayList<Cliente> buscarClientes(long pCedula, String pCriterio) throws ClassNotFoundException, SQLException, MiExcepcionLogica, MiExcepcion;
     void altaCliente(Cliente pCliente) throws ClassNotFoundException, SQLException, MiExcepcionLogica, MiExcepcion;
     void modificarCliente(Cliente pCliente) throws ClassNotFoundException, SQLException, MiExcepcionLogica, MiExcepcion;
