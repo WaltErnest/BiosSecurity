@@ -15,7 +15,7 @@
     <body>
         <!--h1>Hello World!</h1-->
         <div class="login">
-            <!--div class="login-triangle"></div-->
+            <div class="login-triangle"></div>
             <h2 class="login-header">Bios Security</h2>            
             <form accion="ControladorInicio" method="post" class="login-container">
                 <p><input type="text" name="cedula" placeholder="usuario"></p>

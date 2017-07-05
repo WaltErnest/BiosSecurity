@@ -10,8 +10,44 @@ import java.io.Serializable;
  * @author desquitin
  */
 public class Precios implements Serializable{
-    private double pbA; //precio base Alarma
-    private double pbC;
+    private double pbA; //precio base alarma
+    private double pbC; //precio base camara
+    private double apA; //adicional por alarma
+    private double apC; //adicional por camara
+    private double tmA; //taza monitoreo alarma
+    private double tmC; //tasa monitorio camara
+
+    public double getApA() {
+        return apA;
+    }
+
+    public void setApA(double apA) {
+        this.apA = apA;
+    }
+
+    public double getApC() {
+        return apC;
+    }
+
+    public void setApC(double apC) {
+        this.apC = apC;
+    }
+
+    public double getTmA() {
+        return tmA;
+    }
+
+    public void setTmA(double tmA) {
+        this.tmA = tmA;
+    }
+
+    public double getTmC() {
+        return tmC;
+    }
+
+    public void setTmC(double tmC) {
+        this.tmC = tmC;
+    }
 
     public double getPbC() {
         return pbC;
@@ -30,11 +66,15 @@ public class Precios implements Serializable{
     }
     
 
-    public Precios(double pbA, double pbC) {
+    public Precios(double pbA, double pbC, double apA, double apC, double tmA, double tmC) {
         setPbA(pbA);
         setPbC(pbC);
+        setApA(apA);
+        setApC(apC);
+        setTmA(tmA);
+        setTmC(tmC);
     }
     public Precios(){
-        this(0, 0);
+        this(0, 0, 0, 0, 0, 0);
     }
 }

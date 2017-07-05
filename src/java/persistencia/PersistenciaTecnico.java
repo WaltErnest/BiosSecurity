@@ -124,11 +124,11 @@ public class PersistenciaTecnico implements IPersistenciaTecnico {
     }
     
     @Override
-    public int LoginTecnico(long pCedula, String pPass) throws ClassNotFoundException, SQLException, MiExcepcion {
+    public Tecnico LoginTecnico(long pCedula, String pPass) throws ClassNotFoundException, SQLException, MiExcepcion {
         Connection cnn = null;
         PreparedStatement consulta = null;
         ResultSet resultado = null;
-        int i = 0 ;
+        Tecnico pTec = null;
         try {
                        
             cnn = Conexion.getConexion();
@@ -139,19 +139,23 @@ public class PersistenciaTecnico implements IPersistenciaTecnico {
             resultado = consulta.executeQuery();
             
             String clave;
-            long cedula;
-                  
-            if (resultado.next()) {                
+            String nombre;
+            Date fechaIngreso;
+            double sueldo;
+            boolean alarmas;
+            boolean camaras;
+
+            if (resultado.next()) {
                 clave = resultado.getString("clave");
-                cedula = resultado.getLong("cedula");
-               if((clave.equals(pPass)) && (cedula == pCedula)){
-                   i = 1;
-               }
-            }else{ 
-                i = 8;
-                }
-            
-            return i;
+                nombre = resultado.getString("nombre");
+                fechaIngreso = resultado.getDate("fechaIngreso");
+                sueldo = resultado.getDouble("sueldo");
+                alarmas = resultado.getBoolean("alarmas");
+                camaras = resultado.getBoolean("camaras");
+                pTec = new Tecnico(pCedula, clave, nombre, fechaIngreso, sueldo, alarmas, camaras);
+            }
+
+            return pTec;
         } finally {
             Conexion.cerrarRecursos(cnn, consulta, resultado);
         }

@@ -118,11 +118,11 @@ public class PersistenciaCobrador implements IPersistenciaCobrador {
         }
     }
      @Override
-    public int LoginCobrador(long pCedula, String pPass) throws ClassNotFoundException, SQLException, MiExcepcion {
+    public Cobrador LoginCobrador(long pCedula, String pPass) throws ClassNotFoundException, SQLException, MiExcepcion {
         Connection cnn = null;
         PreparedStatement consulta = null;
         ResultSet resultado = null;
-        int i = 0 ;
+        Cobrador pCob = null;
         try {
             
            
@@ -135,19 +135,21 @@ public class PersistenciaCobrador implements IPersistenciaCobrador {
             resultado = consulta.executeQuery();
             
             String clave;
-            long cedula;
-          
+            String nombre;
+            Date fechaIngreso;
+            double sueldo;
+            String tipoTransporte;
         
-            if (resultado.next()) {                
+            if (resultado.next()) {
                 clave = resultado.getString("clave");
-                cedula = resultado.getLong("cedula");
-               if((clave.equals(pPass)) && (cedula == pCedula)){
-                   i = 1;
-               }
-            }else{ 
-                i = 8;
-                }            
-            return i;
+                nombre = resultado.getString("nombre");
+                fechaIngreso = resultado.getDate("fechaIngreso");
+                sueldo = resultado.getDouble("sueldo");
+                tipoTransporte = resultado.getString("tipoTransporte");
+                pCob = new Cobrador(pCedula, clave, nombre, fechaIngreso, sueldo, tipoTransporte);
+            }
+            
+            return pCob;
         } finally {
             Conexion.cerrarRecursos(cnn, consulta, resultado);
         }

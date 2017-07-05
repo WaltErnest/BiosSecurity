@@ -24,11 +24,18 @@ li a {
     padding: 14px 16px;
     text-decoration: none;
 }
-
+/*
 li a:hover:not(.active) {
     background-color: #111;
+}*/
+a:hover {
+  background-color: #ddd;
+  color: black;
 }
-
 .active {
     background-color: #4CAF50;
+    color: white;
+}
+a.active {
+    /*background-color: #ccc;*/
 }

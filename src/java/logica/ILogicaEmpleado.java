@@ -17,5 +17,5 @@ public interface ILogicaEmpleado {
     public void AltaEmpleado(Empleado pEmpleado) throws ClassNotFoundException, SQLException, MiExcepcion;
     public Empleado BuscarEmpleado(long pCedula, String pTipo) throws ClassNotFoundException, SQLException;
     public void ModificarEmpleado(Empleado pEmpleado) throws ClassNotFoundException, SQLException, MiExcepcion;
-    public int Login(long pCedula, String pPass) throws ClassNotFoundException, SQLException, MiExcepcion;
+    public Empleado Login(long pCedula, String pPass) throws ClassNotFoundException, SQLException, MiExcepcion;
 }

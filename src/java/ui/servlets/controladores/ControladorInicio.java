@@ -5,6 +5,7 @@
  */
 package ui.servlets.controladores;
 
+import compartidos.beans.entidades.Empleado;
 import compartidos.beans.excepciones.MiExcepcion;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -34,7 +35,7 @@ public class ControladorInicio extends Controlador {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         super.doPost(request, response); //To change body of generated methods, choose Tools | Templates.
-                int login = 3;
+                
         Long pCedula=null;
         try{
             pCedula = Long.parseLong(request.getParameter("cedula"));
@@ -48,19 +49,22 @@ public class ControladorInicio extends Controlador {
             cargarMensaje("¡ERROR! Debe ingresar un usuario y/o contraseña");
         } else {
             try {
+                
                 ILogicaEmpleado Emp = FabricaLogica.GetLogicaEmpleado();
-                login = Emp.Login(pCedula, pPass);
-                if (login == 1) {
+                Emp.Login(pCedula, pPass);
+                
+                if (Emp != null) {
                     String ok = "OK";
                     session.setAttribute("LogIn", ok);
                     mostrarVista("index");
                 } else {
-                    cargarMensaje("¡ERROR! La cédula no es válida." + String.valueOf(login));
+                    cargarMensaje("¡ERROR! La cédula no es válida.");
                     mostrarVista("login");
                 }
             } catch (Exception e) {
                 session.setAttribute("msj", e);
-                mostrarVista("otra");
+                cargarMensaje("¡ERROR! No fue posible realizar la búsqueda.");
+                mostrarVista("login");
             }
         }
     }

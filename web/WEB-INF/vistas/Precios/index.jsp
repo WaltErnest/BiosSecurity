@@ -11,10 +11,10 @@
 <t:paginaMaestra titulo="Menú Principal">
     <jsp:body>
         <jsp:useBean id="precios" class="compartidos.beans.entidades.Precios" scope="session">
-            <jsp:setProperty name="precios" property="pbA" value="1" />
+            <%--<jsp:setProperty name="precios" property="pbA" value="1" />--%>
         </jsp:useBean>       
 
-<!--p>Código: <jsp:getProperty name="precios" property="pbA" /></p-->
+         <%--<jsp:getProperty name="precios" property="pbA" />--%>
 
         <h2 class="tableHeader">Precios servicios</h2>
         <form accion="ControladorPrecios" method="post" accept-charset="ISO-8859-1">
@@ -26,21 +26,22 @@
                     <td>Precio base camaras: </td><td><input type="text" name="pbC" /></td>
                 </tr>
                 <tr>
-                    <td>Adicional por alarma: </td><td><input type="text" name="pbA" /></td>
+                    <td>Adicional por alarma: </td><td><input type="text" name="apA" /></td>
                 </tr>
                 <tr>
-                    <td>Adicional por camara: </td><td><input type="text" name="pbA" /></td>
+                    <td>Adicional por camara: </td><td><input type="text" name="apC" /></td>
                 <tr>
-                    <td>Tasa monitoreo alarmas: </td><td><input type="text" name="pbA" /></td>
+                    <td>Tasa monitoreo alarmas: </td><td><input type="text" name="tmA" /></td>
                 </tr>
                 <tr>
-                    <td>Tasa monitoreo camaras: </td><td><input type="text" name="pbA" /></td>
+                    <td>Tasa monitoreo camaras: </td><td><input type="text" name="tmC" /></td>
                 </tr>
 
-                <tr>                
-                    <td></td><td><input class="btn" type="submit" name="Actualizar" value="Actualizar" /></td>
+                <tr align="center">                
+                    <td colspan="2"  ><input class="btn" type="submit" name="Actualizar" value="Actualizar" /></td>
                 </tr>
             </table>
+            <t:mensaje />
         </form>
     </jsp:body>
 </t:paginaMaestra>

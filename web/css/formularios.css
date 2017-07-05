@@ -42,7 +42,7 @@ table {
     
 }
 .tableHeader { 
-  background: #28d;
+  background: #868e94; /* #28d;*/
   padding: 20px;
   font-size: 1.4em;
   font-weight: normal;
