@@ -8,8 +8,8 @@
 
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
-<t:paginaMaestra titulo="Menú Principal">
+<t:paginaMaestra titulo="Menú Principal" idactive="inicio">
    <jsp:body>
-  
+       <p>saludo inicial</p>
     </jsp:body>
 </t:paginaMaestra>

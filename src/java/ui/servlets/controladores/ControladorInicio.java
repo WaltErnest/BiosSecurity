@@ -24,7 +24,6 @@ import logica.ILogicaEmpleado;
 public class ControladorInicio extends Controlador {
     @Override
         public void index_get() {
-        
         String LogIn = (String) session.getAttribute("LogIn");
         if (LogIn == "OK"){
             mostrarVista("index");

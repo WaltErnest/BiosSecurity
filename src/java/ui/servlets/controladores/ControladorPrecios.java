@@ -6,6 +6,8 @@
 package ui.servlets.controladores;
 import compartidos.beans.entidades.Precios;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,21 +17,30 @@ import persistencia.TxtPrecio;
  *
  * @author desquitin
  */
-public class ControladorPrecios extends Controlador{          
-        @Override
-        public void index_get() {
-            mostrarVista("index");
+public class ControladorPrecios extends Controlador {
+
+    @Override
+    public void index_get() {
+        TxtPrecio p = new TxtPrecio();
+        Precios precio = new Precios();
+        try {
+            precio = p.cargar();
+        } catch (IOException ex) {
+            Logger.getLogger(ControladorPrecios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        request.setAttribute("precio", precio);
+        mostrarVista("index");
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         super.doPost(request, response); //To change body of generated methods, choose Tools | Templates.
         HttpSession sesion = request.getSession();
-    
-
+   
+        int flag = 0;
         String[] listaPrecio = new String[6];
         if (request.getParameter("pbA").equals("") || !isNumeric(request.getParameter("pbA"))) {
-            listaPrecio[0] = "Precio sin cargar o no es numerico, el txt queda con el dato anterior.";
+            listaPrecio[0] = "Precio sin cargar o no es numerico, el txt queda con el dato anterior."; // para guardar en un log...
         } else {
             listaPrecio[0] = "Precio base alarmas      - $ " + request.getParameter("pbA");
         }
@@ -61,15 +72,15 @@ public class ControladorPrecios extends Controlador{
         TxtPrecio p = new TxtPrecio();
         for(String linea : listaPrecio)
         {
-            p.leer(linea);
+            p.actualizar(linea);
         }
         cargarMensaje("Datos guardados con éxito.");
-           mostrarVista("index");
+        mostrarVista("index");
            
     }
     private static boolean isNumeric(String cadena) {
         try {
-            Integer.parseInt(cadena);
+            Double.parseDouble(cadena);
             return true;
         } catch (NumberFormatException nfe) {
             return false;

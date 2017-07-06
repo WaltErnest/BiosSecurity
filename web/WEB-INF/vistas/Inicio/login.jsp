@@ -13,7 +13,6 @@
         <link rel="stylesheet" type="text/css" href="css/log.css">
     </head>
     <body>
-        <!--h1>Hello World!</h1-->
         <div class="login">
             <div class="login-triangle"></div>
             <h2 class="login-header">Bios Security</h2>            

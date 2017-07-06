@@ -9,7 +9,7 @@
 <%-- The list of normal or fragment attributes can be specified here: --%>
 
 <%@attribute name="titulo" %>
-
+<%@attribute name="idactive" %>
 <%-- any content can be specified here e.g.: --%>
 <!DOCTYPE html>
 <html>
@@ -24,13 +24,13 @@
     </head>
     <body>
         <ul>
-            <li><a class="tablinks" onclick="sel(event, 'inicio')" id="inicio" href="#Inicio">Inicio</a></li>
+            <li><a class="tablinks" onclick="sel(event, 'inicio')" id="inicio" href="inicio">Inicio</a></li>
             <li><a class="tablinks" onclick="sel(event, 'servicio')" id="servicio" href="#servicio">Servicios</a></li>
             <li><a class="tablinks" onclick="sel(event, 'empleado')" id="empleado" href="#empleado">Empleados</a></li>
             <li><a class="tablinks" onclick="sel(event, 'dispositivo')" id="dispositivo" href="#dispositivo">Dispositivos</a></li>
             <li><a class="tablinks" onclick="sel(event, 'cobros')" id="cobros" href="#Cobros">Cobros</a></li>          
-            <li><a class="tablinks" onclick="sel(event, 'index')" id="index" href="precios">Precios</a></li>                
-            <li style="float:right"><a href="login">Cerrar</a></li>
+            <li><a class="tablinks" onclick="sel(event, ${idactive})" id="${idactive}" href="precios">Precios</a></li>                
+            <li style="float:right"><a href="inicio">Cerrar</a></li>
         </ul>
         <jsp:doBody />
         <script>

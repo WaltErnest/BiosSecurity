@@ -5,14 +5,16 @@
  */
 package persistencia;
 
+import compartidos.beans.entidades.Precios;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.Arrays;
+
 
 /**
  *
@@ -20,7 +22,7 @@ import java.io.PrintStream;
  */
 public class TxtPrecio {
 
-    public void leer(String lineaNew) throws FileNotFoundException, IOException {
+    public void actualizar(String lineaNew) throws FileNotFoundException, IOException {
         File archivo = new File("ListaPrecios.txt");
         
         if (!archivo.exists()) {
@@ -58,7 +60,7 @@ public class TxtPrecio {
     }
 
     private static void Escribir(File fl, String st) {
-
+        
         try (FileOutputStream fos = new FileOutputStream(fl, true);
                 PrintStream ps = new PrintStream(fos);) {
             ps.println(st);
@@ -84,7 +86,8 @@ public class TxtPrecio {
             System.out.println(e.toString());
         }
     }
-        private static void ListaPreciosNew(File fl) {
+    
+    private static void ListaPreciosNew(File fl) {
 
         try (FileOutputStream fos = new FileOutputStream(fl, true);
             PrintStream ps = new PrintStream(fos);) {
@@ -104,5 +107,53 @@ public class TxtPrecio {
         } catch (Exception ex) {
             System.out.println("¡ERROR! Ocurrió un error al escribir en el archivo de precios.");
         }
+    }
+    
+    public Precios cargar() throws FileNotFoundException, IOException {
+
+        File archivo = new File("ListaPrecios.txt");
+        if (!archivo.exists()) {
+            archivo.createNewFile();
+            ListaPreciosNew(archivo);
+        }
+        Precios precio = null;
+        if (archivo.exists() && !archivo.isDirectory()) {
+            try (FileReader fr = new FileReader(archivo);
+                    BufferedReader br = new BufferedReader(fr)) {
+
+                String linea;
+                Double[] numb = new Double[6];
+
+                int i = 0;
+                while ((linea = br.readLine()) != null && linea.length() > 5) {
+                    System.out.println(linea);
+
+                    linea = linea.replaceAll("[^?0-9]+", " ");
+                    System.out.println(Arrays.asList(linea.trim().split(" ")));
+
+                    String aux = Arrays.asList(linea.trim().split(" ")).toString();
+                    aux = aux.replace("[", "");
+                    aux = aux.replace("]", "");
+                    aux = aux.replace(", ", ".");
+                    System.out.println(aux);
+                    if (aux.equals("")) {
+                        aux = "0.00";
+                    }
+                    numb[i] = Double.parseDouble(aux);
+                    i++;
+                }
+                double pbA = numb[0];
+                double pbC = numb[1]; //precio base camara
+                double apA = numb[2]; //adicional por alarma
+                double apC = numb[3]; //adicional por camara
+                double tmA = numb[4]; //taza monitoreo alarma
+                double tmC = numb[5]; //tasa monitorio camara
+
+                precio = new Precios(pbA, pbC, apA, apC, tmA, tmC);
+            } catch (Exception ex) {
+                System.out.println("¡ERROR! Ocurrió un error al leer el archivo de log." + ex);
+            }
+        }
+        return precio;
     }
 }
