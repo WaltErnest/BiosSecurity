@@ -8,13 +8,21 @@
         <servlet-name>ControladorPrecios</servlet-name>
         <servlet-class>ui.servlets.controladores.ControladorPrecios</servlet-class>
     </servlet>    
+    <servlet>
+        <servlet-name>ControladorDispositivos</servlet-name>
+        <servlet-class>ui.servlets.controladores.ControladorDispositivos</servlet-class>
+    </servlet>  
     <servlet-mapping>
         <servlet-name>ControladorInicio</servlet-name>
         <url-pattern>/inicio</url-pattern>
     </servlet-mapping>
-        <servlet-mapping>
+    <servlet-mapping>
         <servlet-name>ControladorPrecios</servlet-name>
         <url-pattern>/precios</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ControladorDispositivos</servlet-name>
+        <url-pattern>/dispositivos</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

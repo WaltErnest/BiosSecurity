@@ -127,7 +127,7 @@ class PersistenciaAdministrativo implements IPersistenciaAdministrativo {
            
             cnn = Conexion.getConexion();
             consulta = cnn.prepareStatement(
-                    "SELECT * FROM empleados WHERE cedula = ? and clave = ?");
+                    "SELECT * FROM empleados WHERE cedula in(select administrativos.cedula from administrativos where administrativos.cedula = empleados.cedula) and cedula = ? and clave = ?;");
 
             consulta.setLong(1, pCedula);
             consulta.setString(2, pPass);
@@ -137,7 +137,6 @@ class PersistenciaAdministrativo implements IPersistenciaAdministrativo {
             String nombre;
             Date fechaIngreso;
             double sueldo;
-          
         
             if (resultado.next()) {
                 clave = resultado.getString("clave");
