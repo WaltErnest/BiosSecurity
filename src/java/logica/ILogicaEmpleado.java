@@ -8,6 +8,7 @@ package logica;
 import compartidos.beans.entidades.Empleado;
 import java.sql.SQLException;
 import compartidos.beans.excepciones.MiExcepcion;
+import java.util.ArrayList;
 
 /**
  *
@@ -18,4 +19,5 @@ public interface ILogicaEmpleado {
     public Empleado BuscarEmpleado(long pCedula, String pTipo) throws ClassNotFoundException, SQLException;
     public void ModificarEmpleado(Empleado pEmpleado) throws ClassNotFoundException, SQLException, MiExcepcion;
     public Empleado Login(long pCedula, String pPass) throws ClassNotFoundException, SQLException, MiExcepcion;
+    public ArrayList<Empleado> ListarEmpleados() throws SQLException;
 }

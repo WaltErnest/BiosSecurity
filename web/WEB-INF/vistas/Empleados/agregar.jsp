@@ -5,13 +5,19 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-    </body>
-</html>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+
+<t:paginaMaestra titulo="Agregar Empleado">
+    <jsp:body>
+        <t:editorEmpleados idFoco="cedula" textoBoton="Agregar">
+            <jsp:body>
+                
+            </jsp:body>
+        </t:editorEmpleados>
+        
+        <p><a href="inicio">Volver...</a></p>
+        
+        <t:mensaje />
+    </jsp:body>
+</t:paginaMaestra>
+

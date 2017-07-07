@@ -23,34 +23,8 @@ import javax.servlet.http.HttpSession;
  */
 abstract class Controlador extends HttpServlet {
 
-    protected ServletConfig config;
-    protected ServletContext application;
-    protected HttpServletRequest request;
-    protected HttpServletResponse response;
-    protected HttpSession session;
-
-    public void index_get() {
-        mostrarVista("index");
-    }
-    
     public void index_get(HttpServletRequest request, HttpServletResponse response) {
         mostrarVista("index", request, response);
-    }
-
-    protected void mostrarVista(String vista) {
-        agregarMensajeSesionAMensajeRequest();
-
-        try {
-            String nombreCarpetaVista = this.getClass().getSimpleName().replaceFirst("Controlador", "");
-
-            RequestDispatcher despachador = request.getRequestDispatcher("WEB-INF/vistas/" + nombreCarpetaVista + "/" + vista + ".jsp");
-
-            if (despachador != null) {
-                despachador.forward(request, response);
-            }
-        } catch (Exception ex) {
-            System.out.println("Error al mostrar la vista " + vista + ".");
-        }
     }
 
     protected void mostrarVista(String vista, HttpServletRequest request, HttpServletResponse response) {
@@ -66,22 +40,6 @@ abstract class Controlador extends HttpServlet {
             }
         } catch (Exception ex) {
             System.out.println("¡ERROR! No se pudo mostrar la vista " + vista + ".");
-        }
-    }
-
-    protected void agregarMensajeSesionAMensajeRequest() {
-        String mensajeSesion = (String) session.getAttribute("mensaje");
-
-        if (mensajeSesion != null) {
-            String mensaje = (String) request.getAttribute("mensaje");
-
-            if (mensaje == null) {
-                request.setAttribute("mensaje", mensajeSesion);
-            } else {
-                request.setAttribute("mensaje", mensajeSesion + "<br /><br />" + mensaje);
-            }
-
-            session.removeAttribute("mensaje");
         }
     }
 
@@ -101,15 +59,6 @@ abstract class Controlador extends HttpServlet {
         }
     }
 
-    protected void despacharMetodoAccion()
-            throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        String accion = request.getParameter("accion") != null ? request.getParameter("accion").toLowerCase() : "index";
-        String metodoRequest = request.getMethod().toLowerCase();
-        String nombreMetodoAccion = accion + "_" + metodoRequest;
-
-        Method metodoAccion = this.getClass().getMethod(nombreMetodoAccion);
-        metodoAccion.invoke(this);
-    }
     protected void despacharMetodoAccion(HttpServletRequest request, HttpServletResponse response)
             throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         String accion = request.getParameter("accion") != null ? request.getParameter("accion").toLowerCase() : "index";
@@ -121,32 +70,11 @@ abstract class Controlador extends HttpServlet {
     }
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        this.request = request;
-        this.response = response;
-        session = request.getSession();
-
         try {
-            despacharMetodoAccion();
+            despacharMetodoAccion(request,response);
         } catch (Exception ex) {
             System.out.println("Error al despachar el método de la acción solicitada.");
         }
-    }
-
-    @Override
-    public void init(ServletConfig config)
-            throws ServletException {
-        super.init(config);
-
-        this.config = config;
-        application = getServletContext();
-    }
-
-    protected void cargarMensaje(String mensaje) {
-        request.setAttribute("mensaje", mensaje);
-    }
-
-    protected void cargarMensajeSesion(String mensaje) {
-        session.setAttribute("mensaje", mensaje);
     }
 
     protected void cargarMensaje(String mensaje, HttpServletRequest request) {

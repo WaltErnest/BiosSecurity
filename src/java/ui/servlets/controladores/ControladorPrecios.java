@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package ui.servlets.controladores;
+
 import compartidos.beans.entidades.Precios;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import persistencia.TxtPrecio;
+
 /**
  *
  * @author desquitin
@@ -20,7 +22,7 @@ import persistencia.TxtPrecio;
 public class ControladorPrecios extends Controlador {
 
     @Override
-    public void index_get() {
+    public void index_get(HttpServletRequest request, HttpServletResponse response) {
         TxtPrecio p = new TxtPrecio();
         Precios precio = new Precios();
         try {
@@ -29,14 +31,14 @@ public class ControladorPrecios extends Controlador {
             Logger.getLogger(ControladorPrecios.class.getName()).log(Level.SEVERE, null, ex);
         }
         request.setAttribute("precio", precio);
-        mostrarVista("index");
+        mostrarVista("index", request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         super.doPost(request, response); //To change body of generated methods, choose Tools | Templates.
         HttpSession sesion = request.getSession();
-   
+
         int flag = 0;
         String[] listaPrecio = new String[6];
         if (request.getParameter("pbA").equals("") || !isNumeric(request.getParameter("pbA"))) {
@@ -70,14 +72,14 @@ public class ControladorPrecios extends Controlador {
             listaPrecio[5] = "Tasa monitoreo camaras   - " + request.getParameter("tmC") + " %";
         }
         TxtPrecio p = new TxtPrecio();
-        for(String linea : listaPrecio)
-        {
+        for (String linea : listaPrecio) {
             p.actualizar(linea);
         }
-        cargarMensaje("Datos guardados con éxito.");
-        mostrarVista("index");
-           
+        cargarMensaje("Datos guardados con éxito.", request);
+        mostrarVista("index", request, response);
+
     }
+
     private static boolean isNumeric(String cadena) {
         try {
             Double.parseDouble(cadena);

@@ -160,4 +160,30 @@ public class PersistenciaTecnico implements IPersistenciaTecnico {
             Conexion.cerrarRecursos(cnn, consulta, resultado);
         }
     }
+    
+    @Override
+    public void EliminarTecnico(long pCedula) throws ClassNotFoundException, SQLException, MiExcepcion {
+        Connection cnn = null;
+        CallableStatement consulta = null;
+
+        try {
+            cnn = Conexion.getConexion();
+            consulta = cnn.prepareCall(
+                    "{ CALL bajaTecnico(?, ?) }");
+
+            consulta.setLong(1, pCedula);
+            consulta.registerOutParameter(2, java.sql.Types.VARCHAR);
+
+            consulta.executeUpdate();
+
+            String error = consulta.getString(2);
+
+            if (error != null) {
+                throw new MiExcepcion("Error en eliminar el técnico "
+                        + pCedula + ": " + error);
+            }
+        } finally {
+            Conexion.cerrarRecursos(cnn, consulta);
+        }
+    }
 }

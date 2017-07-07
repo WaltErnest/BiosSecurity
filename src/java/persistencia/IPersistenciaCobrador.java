@@ -17,5 +17,6 @@ public interface IPersistenciaCobrador {
     public void AltaCobrador(Cobrador pCobrador) throws ClassNotFoundException, SQLException, MiExcepcion;
     public Cobrador BuscarCobrador(long pCedula) throws ClassNotFoundException, SQLException;
     public void ModificarCobrador(Cobrador pCobrador) throws ClassNotFoundException, SQLException, MiExcepcion;
+    public void EliminarCobrador(long pCedula) throws ClassNotFoundException, SQLException, MiExcepcion;
     public Cobrador LoginCobrador(long pCedula, String pPass) throws ClassNotFoundException, SQLException, MiExcepcion;
 }

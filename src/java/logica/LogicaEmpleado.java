@@ -11,6 +11,7 @@ import compartidos.beans.entidades.Administrativo;
 import compartidos.beans.entidades.Empleado;
 import java.sql.SQLException;
 import compartidos.beans.excepciones.MiExcepcion;
+import java.util.ArrayList;
 import persistencia.*;
 
 /**
@@ -54,6 +55,11 @@ public class LogicaEmpleado implements ILogicaEmpleado {
                 break;
         }
         return empBuscado;
+    }
+    
+    public ArrayList<Empleado> ListarEmpleados() throws SQLException{
+        perAdmin = FabricaPersistencia.GetPersistenciaAdministrativo();
+        return perAdmin.ListarEmpleados();
     }
 
     public void ModificarEmpleado(Empleado pEmpleado) throws ClassNotFoundException, SQLException, MiExcepcion {

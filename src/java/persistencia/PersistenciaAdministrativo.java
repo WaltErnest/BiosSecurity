@@ -6,12 +6,16 @@
 package persistencia;
 
 import compartidos.beans.entidades.Administrativo;
+import compartidos.beans.entidades.Cobrador;
+import compartidos.beans.entidades.Tecnico;
+import compartidos.beans.entidades.Empleado;
 import compartidos.beans.excepciones.MiExcepcion;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -112,19 +116,19 @@ class PersistenciaAdministrativo implements IPersistenciaAdministrativo {
                         + pAdmin.getCedula() + ": " + error);
             }
         } finally {
-                Conexion.cerrarRecursos(cnn, consulta);
+            Conexion.cerrarRecursos(cnn, consulta);
         }
     }
-    
+
     @Override
     public Administrativo LoginAdministrativo(long pCedula, String pPass) throws ClassNotFoundException, SQLException, MiExcepcion {
         Connection cnn = null;
         PreparedStatement consulta = null;
         ResultSet resultado = null;
-        
+
         try {
             Administrativo pAdm = null;
-           
+
             cnn = Conexion.getConexion();
             consulta = cnn.prepareStatement(
                     "SELECT * FROM empleados WHERE cedula in(select administrativos.cedula from administrativos where administrativos.cedula = empleados.cedula) and cedula = ? and clave = ?;");
@@ -137,7 +141,7 @@ class PersistenciaAdministrativo implements IPersistenciaAdministrativo {
             String nombre;
             Date fechaIngreso;
             double sueldo;
-        
+
             if (resultado.next()) {
                 clave = resultado.getString("clave");
                 nombre = resultado.getString("nombre");
@@ -145,10 +149,81 @@ class PersistenciaAdministrativo implements IPersistenciaAdministrativo {
                 sueldo = resultado.getDouble("sueldo");
                 pAdm = new Administrativo(pCedula, clave, nombre, fechaIngreso, sueldo);
             }
-            
+
             return pAdm;
         } finally {
             Conexion.cerrarRecursos(cnn, consulta, resultado);
         }
+    }
+
+    @Override
+    public void EliminarAdministrativo(long pCedula) throws ClassNotFoundException, SQLException, MiExcepcion {
+        Connection cnn = null;
+        CallableStatement consulta = null;
+
+        try {
+            cnn = Conexion.getConexion();
+            consulta = cnn.prepareCall(
+                    "{ CALL bajaAdministrativo(?, ?) }");
+
+            consulta.setLong(1, pCedula);
+            consulta.registerOutParameter(2, java.sql.Types.VARCHAR);
+
+            consulta.executeUpdate();
+
+            String error = consulta.getString(2);
+
+            if (error != null) {
+                throw new MiExcepcion("Error en eliminar el administrativo "
+                        + pCedula + ": " + error);
+            }
+        } finally {
+            Conexion.cerrarRecursos(cnn, consulta);
+        }
+    }
+
+    public ArrayList<Empleado> ListarEmpleados() throws SQLException {
+        ArrayList<Empleado> listaEmpleados = new ArrayList();
+        Connection cnn = null;
+        PreparedStatement consulta = null;
+        ResultSet resultado = null;
+
+        try {
+            cnn = Conexion.getConexion();
+            consulta = cnn.prepareStatement("SELECT * FROM listaEmpleados;");
+            resultado = consulta.executeQuery();
+
+            while (resultado.next()) {
+                Empleado emp = null;
+                long cedula = resultado.getLong("cedula");
+                String nombre = resultado.getString("nombre");
+                Date fechaIngreso = resultado.getDate("fechaIngreso");
+                double sueldo = resultado.getDouble("sueldo");
+                String tipo = resultado.getString("tipo");
+
+                switch (tipo) {
+                    case "C":
+                        String tipoTransporte = resultado.getString("tipoTransporte");
+                        emp = new Cobrador(cedula, "", nombre, fechaIngreso, sueldo, tipoTransporte);
+                        break;
+                    case "T":
+                        Boolean alarmas = resultado.getBoolean("alarmas");
+                        Boolean camaras = resultado.getBoolean("camaras");
+                        emp = new Tecnico(cedula, "", nombre, fechaIngreso, sueldo, alarmas, camaras);
+                        break;
+                    case "A":
+                    default:
+                        emp = new Administrativo(cedula, "", nombre, fechaIngreso, sueldo);
+                        break;
+                }
+
+                listaEmpleados.add(emp);
+            }
+
+        } finally {
+            Conexion.cerrarRecursos(cnn, consulta, resultado);
+        }
+
+        return listaEmpleados;
     }
 }

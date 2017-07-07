@@ -30,7 +30,7 @@ public class ControladorDispositivos extends Controlador {
             cargarMensaje("¡ERROR! Se produjo un error al mostrar los empleados.", request);
         }
          */
-        mostrarVista("index");
+        mostrarVista("index", request, response);
     }
 
     @Override
@@ -49,10 +49,7 @@ public class ControladorDispositivos extends Controlador {
             System.out.println("¡ERROR! No se pudo mostrar la vista " + vista + ".");
         }
     }
-    public void agregar_get(){
-        mostrarVista("agregar", request, response);
 
-    }
     public void agregar_get(HttpServletRequest request, HttpServletResponse response) {
         mostrarVista("agregar", request, response);
 

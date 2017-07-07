@@ -13,5 +13,5 @@
 
 <%-- any content can be specified here e.g.: --%>
 <c:if test="${!empty mensaje}">
-    <center><p style="color:red" class="<c:if test="${fn:contains(mensaje, '¡ERROR!')}">error</c:if>">${mensaje}</p></center> 
+    <center><p style="color:red" class="<c:if test="${fn:containsIgnoreCase(mensaje, 'ERROR')}">error</c:if>">${mensaje}</p></center> 
 </c:if>

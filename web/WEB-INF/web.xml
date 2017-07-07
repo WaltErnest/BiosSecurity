@@ -11,6 +11,10 @@
     <servlet>
         <servlet-name>ControladorDispositivos</servlet-name>
         <servlet-class>ui.servlets.controladores.ControladorDispositivos</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ControladorEmpleados</servlet-name>
+        <servlet-class>ui.servlets.controladores.ControladorEmpleados</servlet-class>
     </servlet>  
     <servlet-mapping>
         <servlet-name>ControladorInicio</servlet-name>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>ControladorDispositivos</servlet-name>
         <url-pattern>/dispositivos</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ControladorEmpleados</servlet-name>
+        <url-pattern>/empleados</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

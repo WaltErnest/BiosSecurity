@@ -127,11 +127,31 @@ CREATE TABLE lineasRecibo(
     FOREIGN KEY(idRecibo) REFERENCES recibos(idRecibo)
 );
 
+# --------- VISTAS --------- #
+
+CREATE VIEW listaEmpleados AS
+	SELECT e.cedula, e.nombre, e.fechaIngreso, e.sueldo, null AS 'tipoTransporte', null AS 'alarmas', null AS 'camaras', 'A' AS 'tipo' FROM administrativos a INNER JOIN empleados e ON a.cedula = e.cedula
+	UNION ALL
+	SELECT e.cedula, e.nombre, e.fechaIngreso, e.sueldo, c.tipoTransporte, null, null, 'C' AS 'tipo' FROM cobradores c INNER JOIN empleados e ON c.cedula = e.cedula
+	UNION ALL
+	SELECT e.cedula, e.nombre, e.fechaIngreso, e.sueldo, null, t.alarmas, t.camaras, 'T' AS 'tipo' FROM tecnicos t INNER JOIN empleados e ON t.cedula = e.cedula;
+
 # --------- DATOS DE PRUEBA --------- #
+
 USE BiosSecurity;
-INSERT INTO empleados VALUES(4198767, "adm1n", "Ernesto Goycoechea", "2010-02-05", 3000);
+INSERT INTO empleados VALUES(4198767, "adm1n", "Ernesto Goycoechea", "2010-02-05", 30000);
+INSERT INTO empleados VALUES(4567845, "adm2n", "Jorge López", "2012-05-10", 22000);
+INSERT INTO empleados VALUES(3547458, "adm3n", "Eduardo Hernandez", "2002-10-01", 60000);
+INSERT INTO empleados VALUES(2456754, "adm4n", "Maria Gimenez", "2015-01-02", 20000);
+INSERT INTO empleados VALUES(3457913, "adm5n", "Laura Pacheco", "2010-05-04", 27500);
+INSERT INTO empleados VALUES(2645453, "adm6n", "Mauro Fernandez", "2005-02-05", 35000);
 
 INSERT INTO administrativos VALUES(4198767);
+INSERT INTO administrativos VALUES(4567845);
+INSERT INTO cobradores VALUES(3547458, 'Moto');
+INSERT INTO cobradores VALUES(2456754, 'Auto');
+INSERT INTO tecnicos VALUES(3457913, 1, 1);
+INSERT INTO tecnicos VALUES(2645453, 0, 1);
 
 INSERT INTO clientes VALUES(4523684,"Juan Perez","Isabela 3452","Brazo Oriental",099562314);
 INSERT INTO clientes VALUES(4963125,"Maria del Carmen","Av Rio Negro MJ4","Pinar Sur",098564852);
@@ -739,8 +759,18 @@ cuerpo:BEGIN
 		LEAVE cuerpo;
 	END IF;
 
-    IF NOT EXISTS (SELECT * FROM tecnicos WHERE cedula = pCedula) THEN -- Necesario?
+    IF NOT EXISTS (SELECT * FROM tecnicos WHERE cedula = pCedula) THEN
 		SET pError = "El técnico no existe.";
+		LEAVE cuerpo;
+	END IF;
+    
+    IF EXISTS (SELECT * FROM listaAlarmas WHERE cedulaTecnico = pCedula) THEN
+		SET pError = "No se puede eliminar al técnico, existe una alarma instalada vinculada al mismo.";
+		LEAVE cuerpo;
+	END IF;
+    
+    IF EXISTS (SELECT * FROM listaCamaras WHERE cedulaTecnico = pCedula) THEN
+		SET pError = "No se puede eliminar al técnico, existe una cámara instalada vinculada al mismo.";
 		LEAVE cuerpo;
 	END IF;
     
