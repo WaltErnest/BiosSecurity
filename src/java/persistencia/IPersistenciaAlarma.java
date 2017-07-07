@@ -8,6 +8,7 @@ package persistencia;
 import compartidos.beans.entidades.Alarma;
 import java.sql.SQLException;
 import compartidos.beans.excepciones.MiExcepcion;
+import java.util.ArrayList;
 
 /**
  *
@@ -15,5 +16,5 @@ import compartidos.beans.excepciones.MiExcepcion;
  */
 public interface IPersistenciaAlarma {
     void AltaAlarma(Alarma pAlarma)throws ClassNotFoundException, SQLException, MiExcepcion;
-    
+    ArrayList<Alarma> ListarAlarmas() throws ClassNotFoundException, SQLException;
 }

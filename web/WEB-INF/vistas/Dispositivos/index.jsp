@@ -36,23 +36,26 @@
         <p><a class="otra" href="dispositivos?accion=agregar"><img src="images/agregar.png" alt="Agregar" title="Agregar..." ></a></p>
         <table>
             <tr>
-                <th>Código</th><th>Descripción</th><<th></th>
+                <th>Código</th><th>Descripción</th><th></th>
             </tr>
             
-            <c:forEach items="${dispositivos}" var="dispositivos">
-                <tr>
-                    <td class="texto-centro">${empleado.cedula}</td>
-                    <td>${empleado.nombre}</td>
+            <c:forEach var="dispositivo" items="${dispositivos}">
+                
+                <tr>                    
+                    <td>${dispositivo.numeroInventario}</td>
+                          
+                    <td></td>
                     <td class="texto-derecha">
-                        <fmt:formatNumber type="number" pattern="0.00" value="${empleado.sueldo}" />
+                        <fmt:formatNumber type="number" pattern="0.00"  />
                     </td>
                     <td>
-                        <a href="empleados?accion=ver&cedula=${empleado.cedula}"><img src="imagenes/glyphicons-52-eye-open.png" alt="Ver" title="Ver..." ></a>&nbsp;&nbsp;
-                        <a href="empleados?accion=modificar&cedula=${empleado.cedula}"><img src="imagenes/glyphicons-31-pencil.png" alt="Modificar" title="Modificar..." ></a>&nbsp;&nbsp;
-                        <a href="empleados?accion=eliminar&cedula=${empleado.cedula}"><img src="imagenes/glyphicons-192-minus-sign.png" alt="Eliminar" title="Eliminar..." ></a>
+                        <a href="empleados?accion=ver&cedula=${empleado.cedula}"><img src="images/view.png" alt="Ver" title="Ver..." ></a>&nbsp;&nbsp;
+                        <a href="empleados?accion=modificar&cedula=${empleado.cedula}"><img src="images/edit.png" alt="Modificar" title="Modificar..." ></a>&nbsp;&nbsp;
+                        <a href="empleados?accion=eliminar&cedula=${empleado.cedula}"><img src="images/delete.png" alt="Eliminar" title="Eliminar..." ></a>
                     </td>
-                </tr>
+                </tr>                
             </c:forEach>
         </table>
+        <t:mensaje />
     </jsp:body>
 </t:paginaMaestra>

@@ -8,6 +8,7 @@ package persistencia;
 import compartidos.beans.entidades.Camara;
 import java.sql.SQLException;
 import compartidos.beans.excepciones.MiExcepcion;
+import java.util.ArrayList;
 
 /**
  *
@@ -15,5 +16,5 @@ import compartidos.beans.excepciones.MiExcepcion;
  */
 public interface IPersistenciaCamara {
     void AltaCamara(Camara pCamara)throws ClassNotFoundException, SQLException, MiExcepcion;
-    
+    ArrayList<Camara> ListarCamaras() throws ClassNotFoundException, SQLException;
 }
