@@ -8,7 +8,7 @@
 
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
-<t:paginaMaestra titulo="Principal" idactive="inicio">
+<t:paginaMaestra titulo="Principal" active="inicio">
     <jsp:body>
         <p style="color: #f2f2f2; text-align: center"> Bienvenidos a BIOS SECURITY</p>
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,19 +16,19 @@
         <div class="slideshow-container">
 
             <div class="mySlides fade">
-                <div class="numbertext">1 / 3</div>
+                <div class="numbertext"></div>
                 <img src="images\1.jpg" style="width:100%">
-                <div class="text" style="color: blue">Monitoreos</div>
+                <div class="text" style="color: black">Monitoreos</div>
             </div>
 
             <div class="mySlides fade">
-                <div class="numbertext">2 / 3</div>
+                <div class="numbertext"></div>
                 <img src="images\2.jpg" style="width:100%">
                 <div class="text">Videovigilancia</div>
             </div>
 
             <div class="mySlides fade">
-                <div class="numbertext">3 / 3</div>
+                <div class="numbertext"></div>
                 <img src="images\3.jpg" style="width:100%">
                 <div class="text" style="color:red ">Seguridad 24-7</div>
             </div>

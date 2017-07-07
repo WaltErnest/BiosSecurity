@@ -55,10 +55,9 @@ table {
   margin-bottom: 0;
 }
 
-input[type="text"],  input[type="password"]{
+input[type="text"]{
     background: #fff;
     border-color: #bbb;
-    
     box-sizing: border-box;
     display: block;
     width: 100%;
@@ -68,4 +67,7 @@ input[type="text"],  input[type="password"]{
     outline: 0;
     font-family: inherit;
     font-size: 0.95em;
+}
+input[type="text"]:focus{
+  border-color: #888;
 }

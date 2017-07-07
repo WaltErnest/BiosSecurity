@@ -24,7 +24,7 @@ public class TxtPrecio {
 
     public void actualizar(String lineaNew) throws FileNotFoundException, IOException {
         File archivo = new File("ListaPrecios.txt");
-        
+        //C:\Users\Diego\AppData\Roaming\NetBeans\8.2\config\GF_4.1.1\domain1\config
         if (!archivo.exists()) {
             archivo.createNewFile();
             ListaPreciosNew(archivo);
@@ -91,7 +91,7 @@ public class TxtPrecio {
 
         try (FileOutputStream fos = new FileOutputStream(fl, true);
             PrintStream ps = new PrintStream(fos);) {
-            System.out.println("Creadndo nuevo ");
+            System.out.println("Creando nuevo ");
             String[] lista = new String[6];
             lista[0] = "Precio base alarmas      - $ X.XX";
             lista[1] = "Precio base camaras      - $ X.XX";
