@@ -883,6 +883,92 @@ cuerpo:BEGIN
     SET transaccionActiva = 0;
 END//
 
+CREATE PROCEDURE bajaServicioAlarma(pNumero INT, OUT pError VARCHAR(50))
+cuerpo:BEGIN
+
+	DECLARE mensajeError VARCHAR(50);
+    DECLARE transaccionActiva BIT;
+    
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    
+	BEGIN
+		IF transaccionActiva THEN
+			ROLLBACK;
+		END IF;
+        
+        SET pError = mensajeError;
+    END;
+
+
+	IF NOT EXISTS(SELECT * FROM servicios WHERE numero = pNumero AND eliminado = 0) THEN
+		SET pError = "El servicio no existe.";
+        LEAVE cuerpo;
+	END IF;
+    
+	SET transaccionActiva = 1;
+    
+    START TRANSACTION;
+    
+	SET mensajeError = "Error al liberar las alarmas asociadas al servicio.";
+    
+    DELETE 
+    FROM listaAlarmas
+    WHERE numeroServicio = pNumero;
+
+    SET mensajeError = "Error al dar de baja el servicio.";
+    
+    UPDATE servicios
+    SET eliminado = 1
+    WHERE numero = pNumero;
+    
+    COMMIT;
+    
+    SET transaccionActiva = 0;
+END//
+
+CREATE PROCEDURE bajaServicioVideo(pNumero INT, OUT pError VARCHAR(50))
+cuerpo:BEGIN
+
+	DECLARE mensajeError VARCHAR(50);
+    DECLARE transaccionActiva BIT;
+    
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    
+	BEGIN
+		IF transaccionActiva THEN
+			ROLLBACK;
+		END IF;
+        
+        SET pError = mensajeError;
+    END;
+
+
+	IF NOT EXISTS(SELECT * FROM servicios WHERE numero = pNumero AND eliminado = 0) THEN
+		SET pError = "El servicio no existe.";
+        LEAVE cuerpo;
+	END IF;
+    
+	SET transaccionActiva = 1;
+    
+    START TRANSACTION;
+    
+	SET mensajeError = "Error al liberar las camaras asociadas al servicio.";
+    
+    DELETE 
+    FROM listaCamaras
+    WHERE numeroServicio = pNumero;
+
+    SET mensajeError = "Error al dar de baja el servicio.";
+    
+    UPDATE servicios
+    SET eliminado = 1
+    WHERE numero = pNumero;
+    
+    COMMIT;
+    
+    SET transaccionActiva = 0;
+END//
+
 # ---- MODIFICACIONES ---- #
 
 CREATE PROCEDURE modificarAdministrativo(pCedula BIGINT, pClave VARCHAR(10), pNombre VARCHAR(50), pFechaIngreso DATE, pSueldo DOUBLE, OUT pError VARCHAR(50))
@@ -996,6 +1082,42 @@ cuerpo:BEGIN
     COMMIT;
     
     SET transaccionActiva = 0;
+END//
+
+CREATE PROCEDURE modificarCliente(pCedula BIGINT, pNombre VARCHAR(50), pDireccionCobro VARCHAR(255), 
+																	pBarrioCobro VARCHAR(30), pTelefono BIGINT, OUT pError VARCHAR(50))
+cuerpo:BEGIN
+    
+    IF NOT EXISTS (SELECT * FROM clientes WHERE cedula = pCedula) THEN
+		SET pError = "El cliente no existe.";
+        LEAVE cuerpo;
+	END IF;
+    
+    SET pError = "Error al modificar el cliente.";
+    
+    UPDATE clientes 
+    SET nombre = pNombre, direccionCobro = pDireccionCobro, barrioCobro = pBarrioCobro, telefono = pTelefono
+    WHERE cedula = pCedula;
+    
+    SET pError = "";
+END//
+
+CREATE PROCEDURE modificarPropiedad(pNumero INT, pTipoPropiedad VARCHAR(30), pDireccion VARCHAR(255),
+																		pCedula BIGINT, OUT pError VARCHAR(50))
+cuerpo:BEGIN
+    
+    IF NOT EXISTS(SELECT * FROM propiedades WHERE cedula = pCedula AND numero = pNumero) THEN
+		SET pError = "El cliente y/o su número de propiedad no existen";
+        LEAVE cuerpo;
+        END IF;
+        
+        SET pError = "Error al modificar la propiedad";
+        
+        UPDATE propiedades
+        SET tipoPropiedad = pTipoPropiedad, direccion = pDireccion
+        WHERE cedula = pCedula AND numero = pNumero;
+        
+        SET pError = "";
 END//
 
 DELIMITER ;
