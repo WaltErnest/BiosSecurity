@@ -153,7 +153,7 @@ public class PersistenciaTecnico implements IPersistenciaTecnico {
 
             cnn = Conexion.getConexion();
             consulta = cnn.prepareStatement(
-                    "SELECT * FROM empleados WHERE cedula in(select tecnicos.cedula from tecnicos where tecnicos.cedula = empleados.cedula) and cedula = ? and clave = ?;");
+                    "SELECT e.*, t.alarmas, t.camaras FROM empleados e INNER JOIN tecnicos t ON e.cedula = t.cedula WHERE e.cedula = ? AND e.clave = ?;");
             consulta.setLong(1, pCedula);
             consulta.setString(2, pPass);
             resultado = consulta.executeQuery();
