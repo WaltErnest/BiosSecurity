@@ -17,7 +17,7 @@
             
             <form method="post" accept-charset="ISO-8859-1">
                 <input type="hidden" name="cedula" value="${empleado.cedula}" />
-                <input type="submit" name="accion" value="Eliminar" />
+                <input class="btn" type="submit" name="accion" value="Eliminar" />
             </form>
         </c:if>
         

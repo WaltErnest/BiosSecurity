@@ -46,9 +46,9 @@
                 <label>Agregar: </label>
 
                 <select name="tipo">
-                    <option value="A" selected="selected">Administrador</option>
-                    <option value="T">Tecnico</option>
-                    <option value="C">Cobrador</option>
+                    <option value="Administrativo" selected="selected">Administrador</option>
+                    <option value="Tecnico">Tecnico</option>
+                    <option value="Cobrador">Cobrador</option>
                 </select>
 
                 <input type="submit" class="otra" name="accion" value="agregar" />

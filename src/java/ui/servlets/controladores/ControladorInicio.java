@@ -6,7 +6,6 @@
 package ui.servlets.controladores;
 
 import compartidos.beans.entidades.Empleado;
-import compartidos.beans.excepciones.MiExcepcion;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +29,19 @@ public class ControladorInicio extends Controlador {
         } else {
             mostrarVista("login", request, response);
         }
+    }
+
+    public void logout_get(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession sesion = request.getSession();
+        Empleado login = (Empleado) sesion.getAttribute("usuario");
+
+        sesion.setAttribute("LogIn", null);
+
+        if (login != null) {
+            sesion.setAttribute("usuario", null);
+        }
+        cargarMensaje("Se cerró la sesión.", request);
+        mostrarVista("login", request, response);
     }
 
     @Override

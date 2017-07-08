@@ -11,20 +11,19 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 import compartidos.beans.excepciones.MiExcepcion;
 import java.time.LocalDate;
 
 /**
  *
  * @author Ernesto
- * 
+ *
  * @version Diego, agrego login
  */
 public class PersistenciaTecnico implements IPersistenciaTecnico {
 
     @Override
-    public void AltaTecnico(Tecnico pTecnico) throws ClassNotFoundException, SQLException, MiExcepcion {
+    public void AltaTecnico(Tecnico pTecnico) throws MiExcepcion {
         Connection cnn = null;
         CallableStatement consulta = null;
         try {
@@ -49,13 +48,15 @@ public class PersistenciaTecnico implements IPersistenciaTecnico {
                 throw new MiExcepcion("Error en dar de alta el técnico "
                         + pTecnico.getCedula() + ": " + error);
             }
+        } catch (Exception ex) {
+            throw new MiExcepcion("Error en dar de alta el técnico. Contactese con un administrador del sitio");
         } finally {
             Conexion.cerrarRecursos(cnn, consulta);
         }
     }
 
     @Override
-    public Tecnico BuscarTecnico(long pCedula) throws ClassNotFoundException, SQLException {
+    public Tecnico BuscarTecnico(long pCedula) throws MiExcepcion {
         Connection cnn = null;
         PreparedStatement consulta = null;
         ResultSet resultado = null;
@@ -88,13 +89,22 @@ public class PersistenciaTecnico implements IPersistenciaTecnico {
             }
 
             return tecBuscado;
+        } catch (Exception ex) {
+            String error;
+            if (ex instanceof MiExcepcion) {
+                error = ex.getMessage();
+            } else {
+                error = "Error en buscar el técnico. Contactese con un administrador del sitio";
+            }
+
+            throw new MiExcepcion(error);
         } finally {
             Conexion.cerrarRecursos(cnn, consulta);
         }
     }
-    
+
     @Override
-    public void ModificarTecnico(Tecnico pTecnico) throws ClassNotFoundException, SQLException, MiExcepcion {
+    public void ModificarTecnico(Tecnico pTecnico) throws MiExcepcion {
         Connection cnn = null;
         CallableStatement consulta = null;
         try {
@@ -119,11 +129,20 @@ public class PersistenciaTecnico implements IPersistenciaTecnico {
                 throw new MiExcepcion("Error en modificar el técnico "
                         + pTecnico.getCedula() + ": " + error);
             }
+        } catch (Exception ex) {
+            String error;
+            if (ex instanceof MiExcepcion) {
+                error = ex.getMessage();
+            } else {
+                error = "Error en modificar el técnico. Contactese con un administrador del sitio";
+            }
+
+            throw new MiExcepcion(error);
         } finally {
             Conexion.cerrarRecursos(cnn, consulta);
         }
     }
-    
+
     @Override
     public Tecnico LoginTecnico(long pCedula, String pPass) throws ClassNotFoundException, SQLException, MiExcepcion {
         Connection cnn = null;
@@ -131,14 +150,14 @@ public class PersistenciaTecnico implements IPersistenciaTecnico {
         ResultSet resultado = null;
         Tecnico pTec = null;
         try {
-                       
+
             cnn = Conexion.getConexion();
             consulta = cnn.prepareStatement(
-                     "SELECT * FROM empleados WHERE cedula in(select tecnicos.cedula from tecnicos where tecnicos.cedula = empleados.cedula) and cedula = ? and clave = ?;");
+                    "SELECT * FROM empleados WHERE cedula in(select tecnicos.cedula from tecnicos where tecnicos.cedula = empleados.cedula) and cedula = ? and clave = ?;");
             consulta.setLong(1, pCedula);
             consulta.setString(2, pPass);
             resultado = consulta.executeQuery();
-            
+
             String clave;
             String nombre;
             LocalDate fechaIngreso;
@@ -161,9 +180,9 @@ public class PersistenciaTecnico implements IPersistenciaTecnico {
             Conexion.cerrarRecursos(cnn, consulta, resultado);
         }
     }
-    
+
     @Override
-    public void EliminarTecnico(long pCedula) throws ClassNotFoundException, SQLException, MiExcepcion {
+    public void EliminarTecnico(long pCedula) throws MiExcepcion {
         Connection cnn = null;
         CallableStatement consulta = null;
 
@@ -183,6 +202,15 @@ public class PersistenciaTecnico implements IPersistenciaTecnico {
                 throw new MiExcepcion("Error en eliminar el técnico "
                         + pCedula + ": " + error);
             }
+        } catch (Exception ex) {
+            String error;
+            if (ex instanceof MiExcepcion) {
+                error = ex.getMessage();
+            } else {
+                error = "Error en elminar el técnico. Contactese con un administrador del sitio";
+            }
+
+            throw new MiExcepcion(error);
         } finally {
             Conexion.cerrarRecursos(cnn, consulta);
         }

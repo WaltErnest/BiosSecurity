@@ -9,6 +9,7 @@ import compartidos.beans.entidades.Administrativo;
 import compartidos.beans.entidades.Cobrador;
 import compartidos.beans.entidades.Empleado;
 import compartidos.beans.entidades.Tecnico;
+import compartidos.beans.excepciones.MiExcepcion;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
@@ -30,9 +31,9 @@ public class ControladorEmpleados extends Controlador {
 
             request.setAttribute("empleados", empleados);
             cargarMensaje("Cantidad de empleados: " + empleados.size(), request);
-        } /*catch (MiExcepcion ex) {
-            cargarMensaje("¡ERROR! " + ex.getMessage(), request);
-        }*/ catch (Exception ex) {
+        } catch (MiExcepcion ex) {
+            cargarMensaje(ex.getMessage(), request);
+        } catch (Exception ex) {
             cargarMensaje("Se produjo un error al listar los empleados.", request);
         }
 
@@ -62,6 +63,8 @@ public class ControladorEmpleados extends Controlador {
             } else {
                 cargarMensaje("Error: No se encontró ningún empleado con la cédula " + cedula + ".", request);
             }
+        } catch (MiExcepcion ex) {
+            cargarMensaje(ex.getMessage(), request);
         } catch (Exception ex) {
             cargarMensaje("Error al buscar el empleado.", request);
         }
@@ -108,6 +111,8 @@ public class ControladorEmpleados extends Controlador {
                 } else {
                     cargarMensaje("¡ERROR! No se encontró ningún empleado con la cédula " + cedula + ".", request);
                 }
+            } catch (MiExcepcion ex) {
+                cargarMensaje(ex.getMessage(), request);
             } catch (Exception ex) {
                 cargarMensaje("Error al buscar el empleado.", request);
             }
@@ -143,6 +148,8 @@ public class ControladorEmpleados extends Controlador {
                 cargarMensaje("¡Empleado eliminado con éxito!", request.getSession());
 
                 response.sendRedirect("empleados");
+            } catch (MiExcepcion ex) {
+                cargarMensaje(ex.getMessage(), request);
             } catch (Exception ex) {
                 cargarMensaje("Se produjo un error al eliminar el empleado.", request);
 
@@ -182,6 +189,8 @@ public class ControladorEmpleados extends Controlador {
                     request.setAttribute("ocultarFormulario", true);
                     cargarMensaje("¡ERROR! No se encontró ningún empleado con la cédula " + cedula + ".", request);
                 }
+            } catch (MiExcepcion ex) {
+                cargarMensaje(ex.getMessage(), request);
             } catch (Exception ex) {
                 cargarMensaje("Error al buscar el empleado.", request);
             }
@@ -191,64 +200,161 @@ public class ControladorEmpleados extends Controlador {
     }
 
     public void modificar_post(HttpServletRequest request, HttpServletResponse response) {
-        long cedula;
+        HttpSession sesion = request.getSession();
+        Empleado login = (Empleado) sesion.getAttribute("usuario");
 
-        try {
-            cedula = Long.parseLong(request.getParameter("cedula"));
-        } catch (NumberFormatException ex) {
-            cargarMensaje("Error: La cédula no es válida.", request);
+        if (login == null || !(login instanceof Administrativo)) {
+            cargarMensaje("Solamente administradores pueden ingresar a la página.", request);
+            mostrarVista("index", request, response);
+        } else {
+            long cedula;
 
-            mostrarVista("modificar", request, response);
+            try {
+                cedula = Long.parseLong(request.getParameter("cedula"));
+            } catch (NumberFormatException ex) {
+                cargarMensaje("Error: La cédula no es válida.", request);
 
-            return;
+                mostrarVista("modificar", request, response);
+
+                return;
+            }
+            String tipo = getTipoEmpleado(request.getParameter("tipo"));
+            String nombre = request.getParameter("nombre");
+
+            double sueldo;
+
+            try {
+                sueldo = Double.parseDouble(request.getParameter("sueldo"));
+            } catch (NumberFormatException ex) {
+                cargarMensaje("Error: El sueldo no es válido.", request);
+
+                mostrarVista("modificar", request, response);
+
+                return;
+            }
+
+            String clave = request.getParameter("clave");
+
+            LocalDate fechaIngreso = LocalDate.parse(request.getParameter("fechaIngreso"));
+
+            Empleado modificar;
+
+            switch (tipo) {
+                case "C":
+                    String tipoTransporte = request.getParameter("tipoTransporte");
+                    modificar = new Cobrador(cedula, clave, nombre, fechaIngreso, sueldo, tipoTransporte);
+                    break;
+                case "T":
+                    boolean alarmas = Boolean.parseBoolean(request.getParameter("alarmas"));
+                    boolean camaras = Boolean.parseBoolean(request.getParameter("camaras"));
+                    modificar = new Tecnico(cedula, clave, nombre, fechaIngreso, sueldo, alarmas, camaras);
+                    break;
+                case "A":
+                default:
+                    modificar = new Administrativo(cedula, clave, nombre, fechaIngreso, sueldo);
+                    break;
+            }
+
+            try {
+                FabricaLogica.GetLogicaEmpleado().ModificarEmpleado(modificar);
+
+                cargarMensaje("¡Empleado modificado con éxito!", request.getSession());
+
+                response.sendRedirect("empleados");
+            } catch (MiExcepcion ex) {
+                cargarMensaje(ex.getMessage(), request);
+            } catch (Exception ex) {
+                cargarMensaje("¡ERROR! Se produjo un error al modificar el empleado.", request);
+
+                mostrarVista("modificar", request, response);
+            }
         }
-        String tipo = getTipoEmpleado(request.getParameter("tipo"));
-        String nombre = request.getParameter("nombre");
+    }
 
-        double sueldo;
+    public void agregar_get(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession sesion = request.getSession();
+        Empleado login = (Empleado) sesion.getAttribute("usuario");
 
-        try {
-            sueldo = Double.parseDouble(request.getParameter("sueldo"));
-        } catch (NumberFormatException ex) {
-            cargarMensaje("Error: El sueldo no es válido.", request);
-
-            mostrarVista("modificar", request, response);
-
-            return;
+        if (login == null || !(login instanceof Administrativo)) {
+            cargarMensaje("Solamente administradores pueden ingresar a la página.", request);
+            mostrarVista("index", request, response);
+        } else {
+            mostrarVista("agregar", request, response);
         }
+    }
 
-        String clave = request.getParameter("clave");
+    public void agregar_post(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession sesion = request.getSession();
+        Empleado login = (Empleado) sesion.getAttribute("usuario");
 
-        LocalDate fechaIngreso = LocalDate.parse(request.getParameter("fechaIngreso"));
+        if (login == null || !(login instanceof Administrativo)) {
+            cargarMensaje("Solamente administradores pueden ingresar a la página.", request);
+            mostrarVista("index", request, response);
+        } else {
+            int cedula = 0;
 
-        Empleado modificar;
+            try {
+                cedula = Integer.parseInt(request.getParameter("cedula"));
+            } catch (NumberFormatException ex) {
+                cargarMensaje("¡ERROR! La cédula no es válida.", request);
 
-        switch (tipo) {
-            case "C":
-                String tipoTransporte = request.getParameter("tipoTransporte");
-                modificar = new Cobrador(cedula, clave, nombre, fechaIngreso, sueldo, tipoTransporte);
-                break;
-            case "T":
-                boolean alarmas = Boolean.parseBoolean(request.getParameter("alarmas"));
-                boolean camaras = Boolean.parseBoolean(request.getParameter("camaras"));
-                modificar = new Tecnico(cedula, clave, nombre, fechaIngreso, sueldo, alarmas, camaras);
-                break;
-            case "A":
-            default:
-                modificar = new Administrativo(cedula, clave, nombre, fechaIngreso, sueldo);
-                break;
-        }
+                mostrarVista("agregar", request, response);
 
-        try {
-            FabricaLogica.GetLogicaEmpleado().ModificarEmpleado(modificar);
+                return;
+            }
 
-            cargarMensaje("¡Empleado modificado con éxito!", request.getSession());
+            String tipo = getTipoEmpleado(request.getParameter("tipo"));
+            String nombre = request.getParameter("nombre");
 
-            response.sendRedirect("empleados");
-        } catch (Exception ex) {
-            cargarMensaje("¡ERROR! Se produjo un error al modificar el empleado.", request);
+            double sueldo = 0;
 
-            mostrarVista("modificar", request, response);
+            try {
+                sueldo = Double.parseDouble(request.getParameter("sueldo"));
+            } catch (NumberFormatException ex) {
+                cargarMensaje("¡ERROR! El sueldo no es válido.", request);
+
+                mostrarVista("agregar", request, response);
+
+                return;
+            }
+
+            String clave = request.getParameter("clave");
+
+            LocalDate fechaIngreso = LocalDate.parse(request.getParameter("fechaIngreso"));
+
+            Empleado agregar;
+
+            switch (tipo) {
+                case "C":
+                    String tipoTransporte = request.getParameter("tipoTransporte");
+                    agregar = new Cobrador(cedula, clave, nombre, fechaIngreso, sueldo, tipoTransporte);
+                    break;
+                case "T":
+                    boolean alarmas = request.getParameter("alarmas") == null ? false : true;
+                    boolean camaras = request.getParameter("camaras") == null ? false : true;
+                    agregar = new Tecnico(cedula, clave, nombre, fechaIngreso, sueldo, alarmas, camaras);
+                    break;
+                case "A":
+                default:
+                    agregar = new Administrativo(cedula, clave, nombre, fechaIngreso, sueldo);
+                    break;
+            }
+
+            try {
+                FabricaLogica.GetLogicaEmpleado().AltaEmpleado(agregar);
+
+                cargarMensaje("¡Empleado agregado con éxito!", request.getSession());
+
+                response.sendRedirect("empleados");
+            } catch (MiExcepcion ex) {
+                cargarMensaje(ex.getMessage(), request);
+
+                mostrarVista("agregar", request, response);
+            } catch (Exception ex) {
+                cargarMensaje("¡ERROR! Se produjo un error al agregar el empleado.", request);
+
+                mostrarVista("agregar", request, response);
+            }
         }
     }
 

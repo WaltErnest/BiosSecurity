@@ -14,9 +14,9 @@ import compartidos.beans.excepciones.MiExcepcion;
  * @author Ernesto
  */
 public interface IPersistenciaTecnico {
-    public void AltaTecnico(Tecnico pTecnico) throws ClassNotFoundException, SQLException, MiExcepcion;
-    public Tecnico BuscarTecnico(long pCedula) throws ClassNotFoundException, SQLException;
-    public void ModificarTecnico(Tecnico pTecnico) throws ClassNotFoundException, SQLException, MiExcepcion;
-    public void EliminarTecnico(long pCedula) throws ClassNotFoundException, SQLException, MiExcepcion;
+    public void AltaTecnico(Tecnico pTecnico) throws MiExcepcion;
+    public Tecnico BuscarTecnico(long pCedula) throws MiExcepcion;
+    public void ModificarTecnico(Tecnico pTecnico) throws MiExcepcion;
+    public void EliminarTecnico(long pCedula) throws MiExcepcion;
     public Tecnico LoginTecnico(long pCedula, String pPass) throws ClassNotFoundException, SQLException, MiExcepcion;
 }

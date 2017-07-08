@@ -30,7 +30,7 @@
             <li><a class="tablinks" onclick="sel(event, 'dispositivo')" id="dispositivo" href="dispositivos">Dispositivos</a></li>
             <li><a class="tablinks" onclick="sel(event, 'cobros')" id="cobros" href="#Cobros">Cobros</a></li>          
             <li><a class="tablinks" onclick="sel(event, ${active})" id="${active}" href="precios">Precios</a></li>                
-            <li style="float:right"><a href="inicio">Cerrar</a></li>
+            <li style="float:right"><a class="tablinks" href="inicio?accion=logout">Cerrar session</a></li>
         </ul>
         <jsp:doBody />
         <script>

@@ -16,10 +16,10 @@ import java.util.ArrayList;
  * @author Ernesto
  */
 public interface IPersistenciaAdministrativo  {
-    public void AltaAdministrativo(Administrativo pAdmin) throws ClassNotFoundException, SQLException, MiExcepcion;
-    public Administrativo BuscarAdministrativo(long pCedula) throws ClassNotFoundException, SQLException;
-    public void ModificarAdministrativo(Administrativo pAdmin) throws ClassNotFoundException, SQLException, MiExcepcion;
-    public void EliminarAdministrativo(long pCedula) throws ClassNotFoundException, SQLException, MiExcepcion;
+    public void AltaAdministrativo(Administrativo pAdmin) throws MiExcepcion;
+    public Administrativo BuscarAdministrativo(long pCedula) throws MiExcepcion;
+    public void ModificarAdministrativo(Administrativo pAdmin) throws MiExcepcion;
+    public void EliminarAdministrativo(long pCedula) throws MiExcepcion;
     public Administrativo LoginAdministrativo(long pCedula, String pPass) throws ClassNotFoundException, SQLException, MiExcepcion;
-    public ArrayList<Empleado> ListarEmpleados(String pCriterio) throws SQLException;
+    public ArrayList<Empleado> ListarEmpleados(String pCriterio) throws MiExcepcion;
 }

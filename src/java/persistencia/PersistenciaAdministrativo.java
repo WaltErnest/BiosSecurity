@@ -17,7 +17,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  *
@@ -27,7 +26,7 @@ import java.util.Date;
 class PersistenciaAdministrativo implements IPersistenciaAdministrativo {
 
     @Override
-    public void AltaAdministrativo(Administrativo pAdmin) throws ClassNotFoundException, SQLException, MiExcepcion {
+    public void AltaAdministrativo(Administrativo pAdmin) throws MiExcepcion {
         Connection cnn = null;
         CallableStatement consulta = null;
 
@@ -51,13 +50,22 @@ class PersistenciaAdministrativo implements IPersistenciaAdministrativo {
                 throw new MiExcepcion("Error en dar de alta el administrativo "
                         + pAdmin.getCedula() + ": " + error);
             }
+        } catch (Exception ex) {
+            String error;
+            if (ex instanceof MiExcepcion) {
+                error = ex.getMessage();
+            } else {
+                error = "Error en dar de alta el administrativo. Contactese con un administrador del sitio";
+            }
+
+            throw new MiExcepcion(error);
         } finally {
             Conexion.cerrarRecursos(cnn, consulta);
         }
     }
 
     @Override
-    public Administrativo BuscarAdministrativo(long pCedula) throws ClassNotFoundException, SQLException {
+    public Administrativo BuscarAdministrativo(long pCedula) throws MiExcepcion {
         Connection cnn = null;
         PreparedStatement consulta = null;
         ResultSet resultado = null;
@@ -86,13 +94,22 @@ class PersistenciaAdministrativo implements IPersistenciaAdministrativo {
             }
 
             return admBuscado;
+        } catch (Exception ex) {
+            String error;
+            if (ex instanceof MiExcepcion) {
+                error = ex.getMessage();
+            } else {
+                error = "Error en buscar el administrativo. Contactese con un administrador del sitio";
+            }
+
+            throw new MiExcepcion(error);
         } finally {
             Conexion.cerrarRecursos(cnn, consulta, resultado);
         }
     }
 
     @Override
-    public void ModificarAdministrativo(Administrativo pAdmin) throws ClassNotFoundException, SQLException, MiExcepcion {
+    public void ModificarAdministrativo(Administrativo pAdmin) throws MiExcepcion {
         Connection cnn = null;
         CallableStatement consulta = null;
 
@@ -116,6 +133,15 @@ class PersistenciaAdministrativo implements IPersistenciaAdministrativo {
                 throw new MiExcepcion("Error en modificar el administrativo "
                         + pAdmin.getCedula() + ": " + error);
             }
+        } catch (Exception ex) {
+            String error;
+            if (ex instanceof MiExcepcion) {
+                error = ex.getMessage();
+            } else {
+                error = "Error en modificar el administrativo. Contactese con un administrador del sitio";
+            }
+
+            throw new MiExcepcion(error);
         } finally {
             Conexion.cerrarRecursos(cnn, consulta);
         }
@@ -158,7 +184,7 @@ class PersistenciaAdministrativo implements IPersistenciaAdministrativo {
     }
 
     @Override
-    public void EliminarAdministrativo(long pCedula) throws ClassNotFoundException, SQLException, MiExcepcion {
+    public void EliminarAdministrativo(long pCedula) throws MiExcepcion {
         Connection cnn = null;
         CallableStatement consulta = null;
 
@@ -178,12 +204,21 @@ class PersistenciaAdministrativo implements IPersistenciaAdministrativo {
                 throw new MiExcepcion("Error en eliminar el administrativo "
                         + pCedula + ": " + error);
             }
+        } catch (Exception ex) {
+            String error;
+            if (ex instanceof MiExcepcion) {
+                error = ex.getMessage();
+            } else {
+                error = "Error en eliminar el administrativo. Contactese con un administrador del sitio";
+            }
+
+            throw new MiExcepcion(error);
         } finally {
             Conexion.cerrarRecursos(cnn, consulta);
         }
     }
 
-    public ArrayList<Empleado> ListarEmpleados(String pCriterio) throws SQLException {
+    public ArrayList<Empleado> ListarEmpleados(String pCriterio) throws MiExcepcion {
         ArrayList<Empleado> listaEmpleados = new ArrayList();
         Connection cnn = null;
         PreparedStatement consulta = null;
@@ -192,10 +227,10 @@ class PersistenciaAdministrativo implements IPersistenciaAdministrativo {
         try {
             cnn = Conexion.getConexion();
             consulta = cnn.prepareStatement("SELECT * FROM listaEmpleados WHERE Cedula = ? OR Nombre LIKE ?;");
-            
+
             consulta.setString(1, pCriterio);
             consulta.setString(2, "%" + pCriterio + "%");
-            
+
             resultado = consulta.executeQuery();
 
             while (resultado.next()) {
@@ -225,6 +260,8 @@ class PersistenciaAdministrativo implements IPersistenciaAdministrativo {
                 listaEmpleados.add(emp);
             }
 
+        } catch (Exception ex) {
+            throw new MiExcepcion("Error en listar los empleados.");
         } finally {
             Conexion.cerrarRecursos(cnn, consulta, resultado);
         }
