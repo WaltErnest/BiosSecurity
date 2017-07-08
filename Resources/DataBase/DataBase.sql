@@ -385,8 +385,6 @@ cuerpo:BEGIN
 		LEAVE cuerpo;
 	END IF;
     
-    START TRANSACTION;
-    
     SET pError = "Error al agregar el cliente.";
     
     INSERT INTO clientes VALUES(pCedula, pNombre, pDireccionCobro, pBarrioCobro, pTelefono);
