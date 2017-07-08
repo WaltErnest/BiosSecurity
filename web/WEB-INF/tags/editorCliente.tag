@@ -21,22 +21,19 @@
 <form method="post" accept-charset="ISO-8859-1">
     <table>
         <tr>
-            <td><h3 class="tableHeader">Datos Cliente:</h3></td>
+            <th colspan="2"><h3 class="tableHeader">Datos Cliente:</h3></th>
         </tr>
         <tr>
             <td>Cédula:</td>
             <td>
                 <c:choose>
-                    <c:when test="$deshabilitarCedula">
+                    <c:when test="${deshabilitarCedula}">
                         <input type="text" name="cedula" value="${!empty cliente ? cliente.cedula : param.cedula}" readonly="readonly" id="cedula" />
                     </c:when>
                     <c:otherwise>
                         <input type="text" name="cedula" value="${!empty cliente ? cliente.cedula : param.cedula}" id="cedula" />
                     </c:otherwise>
                 </c:choose>
-            </td>
-            <td>
-                <input class="btn" type="submit" name="buscarCliente" value="Buscar" />
             </td>
         </tr>
         <tr>
@@ -55,7 +52,7 @@
             <td><input type="text" name="telefono" value="${!empty cliente ? cliente.telefono : param.telefono}" id="telefono"</td>
         </tr>
         <tr>
-            <td><input type="submit" name="accion" value="${textoBoton}"</td>
+            <td><input class="btn" type="submit" name="accion" value="${textoBoton}"</td>
         </tr>
     </table>
 </form>

@@ -38,8 +38,8 @@
                     </tr>
                     <tr>
                         <td>
-                            <a href="servicios?accion=altaCliente">Agregar</a>
-                            <a href="servicios?accion=modificarCliente&cedula=${cliente.cedula}">Modificar</a>
+                            <a class="btn" href="servicios?accion=altaCliente">Agregar</a>
+                            <a class="btn" href="servicios?accion=modificarCliente&cedula=${cliente.cedula}">Modificar</a>
                         </td>
                     </tr>
             </table>
