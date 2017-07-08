@@ -34,7 +34,7 @@ CREATE TABLE tecnicos(
 
 CREATE TABLE dispositivos(
 	numeroInventario BIGINT PRIMARY KEY,
-    descripcion VARCHAR(300) NOT NULL
+    descripcion VARCHAR(300) NULL
 );
 
 CREATE TABLE alarmas(
@@ -170,6 +170,23 @@ INSERT INTO serviciosAlarma VALUES(1,5023);
 INSERT INTO serviciosVideo VALUES(2,1);
 INSERT INTO serviciosAlarma VALUES(3,1203);
 INSERT INTO serviciosVideo VALUES(4,0);
+
+INSERT INTO dispositivos VALUES(500, NULL);
+INSERT INTO dispositivos VALUES(501, NULL);
+INSERT INTO dispositivos VALUES(502, NULL);
+INSERT INTO dispositivos VALUES(503, NULL);
+INSERT INTO dispositivos VALUES(504, NULL);
+INSERT INTO dispositivos VALUES(505, NULL);
+INSERT INTO dispositivos VALUES(506, NULL);
+
+INSERT INTO alarmas VALUES(500);
+INSERT INTO alarmas VALUES(501);
+INSERT INTO alarmas VALUES(502);
+INSERT INTO alarmas VALUES(503);
+
+INSERT INTO camaras VALUES(504, NULL);
+INSERT INTO camaras VALUES(505, NULL);
+INSERT INTO camaras VALUES(506, NULL);
 
 # --------- CREACION DE PROCEDIMIENTOS Y FUNCIONES --------- #
 
