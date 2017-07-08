@@ -10,8 +10,6 @@ import java.sql.SQLException;
 import persistencia.*;
 import compartidos.beans.entidades.Cliente;
 import compartidos.beans.excepciones.MiExcepcion;
-import java.util.ArrayList;
-
 /**
  *
  * @author Mathias
@@ -19,11 +17,11 @@ import java.util.ArrayList;
 public class LogicaCliente implements ILogicaCliente {
     IPersistenciaCliente perCliente = FabricaPersistencia.GetPersistenciaCliente();
     
-    public ArrayList<Cliente> buscarClientes(long pCedula, String pCriterio) throws ClassNotFoundException, SQLException, MiExcepcion {
+    public Cliente buscarCliente(long pCedula) throws ClassNotFoundException, SQLException, MiExcepcion {
         if(pCedula < 1){
             throw new MiExcepcionLogica("La cédula del cliente debe ser mayor o igual a 1");
         } else {
-            return perCliente.buscarClientes(pCedula, pCriterio);
+            return perCliente.buscarCliente(pCedula);
         }
     }
     
