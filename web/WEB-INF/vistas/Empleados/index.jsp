@@ -35,18 +35,30 @@
             }
         </style>
         <fmt:setLocale value="en-US" />
-        
+
         <form>
-            <input class="buscar" name="search" placeholder="Buscar..."/>
+            <input class="buscar" id="buscar" value="${param.search}" name="search" placeholder="Buscar..."/>
         </form>
-        
-        <p><a class="otra" href="empleados?accion=agregar"><img src="images/agregar.png" alt="Agregar" title="Agregar..." ></a></p>
-        
+
+        <p></p>
+        <form action="empleados">
+            <label>Agregar: </label>
+
+            <select name="tipo">
+                <option value="A" selected="selected">Administrador</option>
+                <option value="T">Tecnico</option>
+                <option value="C">Cobrador</option>
+            </select>
+
+            <input type="submit" class="otra" name="accion" value="agregar" />
+        </form>
+        <p></p>
+
         <table>
             <tr>
                 <th>Cédula</th><th>Nombre</th><th>Sueldo</th><th></th>
             </tr>
-            
+
             <c:forEach items="${empleados}" var="empleado">
                 <tr>
                     <td>${empleado.cedula}</td>
@@ -55,14 +67,19 @@
                         <fmt:formatNumber type="number" pattern="0.00" value="${empleado.sueldo}" />
                     </td>
                     <td>
-                        <a href="empleados?accion=ver&cedula=${empleado.cedula}"><img src="images/view.png" alt="Ver" title="Ver..." ></a>&nbsp;&nbsp;
-                        <a href="empleados?accion=modificar&cedula=${empleado.cedula}"><img src="images/edit.png" alt="Modificar" title="Modificar..." ></a>&nbsp;&nbsp;
-                        <a href="empleados?accion=eliminar&cedula=${empleado.cedula}"><img src="images/delete.png" alt="Eliminar" title="Eliminar..." ></a>
+                        <a href="empleados?accion=detalles&cedula=${empleado.cedula}&tipo=${empleado.class.simpleName}"><img src="images/view.png" alt="Ver" title="Ver..." ></a>&nbsp;&nbsp;
+                        <a href="empleados?accion=modificar&cedula=${empleado.cedula}&tipo=${empleado.class.simpleName}"><img src="images/edit.png" alt="Modificar" title="Modificar..." ></a>&nbsp;&nbsp;
+                        <a href="empleados?accion=eliminar&cedula=${empleado.cedula}&tipo=${empleado.class.simpleName}"><img src="images/delete.png" alt="Eliminar" title="Eliminar..." ></a>
                     </td>
                 </tr>
             </c:forEach>
         </table>
-        
+
         <t:mensaje />
+
+        <script>
+            document.getElementById('buscar').focus();
+            document.getElementById('buscar').select();
+        </script>
     </jsp:body>
 </t:paginaMaestra>

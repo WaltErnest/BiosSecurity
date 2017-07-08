@@ -5,13 +5,19 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-    </body>
-</html>
+
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+
+<t:paginaMaestra titulo="Modificar Empleado">
+    <jsp:body>
+        <c:if test="${!ocultarFormulario}">
+            <t:editorEmpleados deshabilitarClave="true" idFoco="nombre" textoBoton="Modificar" />
+        </c:if>
+        
+        <p><a href="empleados">Volver...</a></p>
+        
+        <t:mensaje />
+    </jsp:body>
+</t:paginaMaestra>

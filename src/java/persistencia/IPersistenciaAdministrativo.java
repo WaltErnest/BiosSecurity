@@ -21,5 +21,5 @@ public interface IPersistenciaAdministrativo  {
     public void ModificarAdministrativo(Administrativo pAdmin) throws ClassNotFoundException, SQLException, MiExcepcion;
     public void EliminarAdministrativo(long pCedula) throws ClassNotFoundException, SQLException, MiExcepcion;
     public Administrativo LoginAdministrativo(long pCedula, String pPass) throws ClassNotFoundException, SQLException, MiExcepcion;
-    public ArrayList<Empleado> ListarEmpleados() throws SQLException;
+    public ArrayList<Empleado> ListarEmpleados(String pCriterio) throws SQLException;
 }

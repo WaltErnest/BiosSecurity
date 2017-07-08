@@ -182,7 +182,7 @@ class PersistenciaAdministrativo implements IPersistenciaAdministrativo {
         }
     }
 
-    public ArrayList<Empleado> ListarEmpleados() throws SQLException {
+    public ArrayList<Empleado> ListarEmpleados(String pCriterio) throws SQLException {
         ArrayList<Empleado> listaEmpleados = new ArrayList();
         Connection cnn = null;
         PreparedStatement consulta = null;
@@ -190,7 +190,11 @@ class PersistenciaAdministrativo implements IPersistenciaAdministrativo {
 
         try {
             cnn = Conexion.getConexion();
-            consulta = cnn.prepareStatement("SELECT * FROM listaEmpleados;");
+            consulta = cnn.prepareStatement("SELECT * FROM listaEmpleados WHERE Cedula = ? OR Nombre LIKE ?;");
+            
+            consulta.setString(1, pCriterio);
+            consulta.setString(2, "%" + pCriterio + "%");
+            
             resultado = consulta.executeQuery();
 
             while (resultado.next()) {

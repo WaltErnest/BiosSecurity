@@ -61,7 +61,7 @@ public class PersistenciaCobrador implements IPersistenciaCobrador {
 
             cnn = Conexion.getConexion();
             consulta = cnn.prepareStatement(
-                    "SELECT e.*, t.alarmas, t.camaras FROM empleados e INNER JOIN tecnicos t ON e.cedula = t.cedula WHERE e.cedula = ?;");
+                    "SELECT e.*, c.tipoTransporte FROM empleados e INNER JOIN cobradores c ON e.cedula = c.cedula WHERE e.cedula = ?;");
 
             consulta.setLong(1, pCedula);
 

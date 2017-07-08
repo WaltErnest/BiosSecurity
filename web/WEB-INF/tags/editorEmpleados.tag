@@ -18,7 +18,7 @@
 <form method="post" accept-charset="ISO-8859-1">
     <table>
         <tr>
-            <td>Cédula:</td>
+            <td><strong>Cédula:</strong></td>
             <td>
                 <c:choose>
                     <c:when test="${deshabilitarClave}">
@@ -31,7 +31,7 @@
             </td>
         </tr>
         <tr>
-            <td>Nombre:</td>
+            <td><strong>Nombre:</strong></td>
             <td>
                 <input type="text" name="nombre" value="${!empty empleado ? empleado.nombre : param.nombre}" id="nombre" />
             </td>
@@ -44,18 +44,51 @@
         </c:catch>
 
         <tr>
-            <td>Sueldo:</td>
+            <td><strong>Sueldo:</strong></td>
             <td>
                 <input type="text" name="sueldo" value="${sueldo}" />
             </td>
         </tr>
+
+        <c:if test="${param.tipo eq 'Tecnico'}">
+            <tr>
+                <td><strong>Experto en alarmas:</strong> </td><td>
+                    <input type="checkbox" name="alarmas" value="alarmas"
+                           <c:choose>
+                               <c:when test="${!empty empleado}">
+                                   <c:if test="${empleado.alarmas}">checked</c:if>
+                               </c:when>
+                           </c:choose> 
+                           >
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Experto en cámaras:</strong> </td><td>
+                    <input type="checkbox" name="camaras" value="camaras"
+                           <c:choose>
+                               <c:when test="${!empty empleado}">
+                                   <c:if test="${empleado.camaras}">checked</c:if>
+                               </c:when>
+                           </c:choose> 
+                           >
+                </td>
+            </tr>
+        </c:if>
+
+        <c:if test="${param.tipo eq 'Cobrador'}">
+            <tr>
+                <td><strong>Tipo de transporte:</strong> </td><td>
+                    <input type="text" name="tipoTransporte" value="${!empty empleado ? empleado.tipoTransporte : param.tipoTransporte}" id="tipoTransporte" />
+                </td>
+            </tr>
+        </c:if>
 
         <jsp:doBody/>
 
         <tr>
             <td></td>
             <td>
-                <input type="submit" name="accion" value="${textoBoton}" />
+                <input class="btn" type="submit" name="accion" value="${textoBoton}" />
             </td>
         </tr>
     </table>

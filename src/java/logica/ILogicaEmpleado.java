@@ -17,7 +17,8 @@ import java.util.ArrayList;
 public interface ILogicaEmpleado {
     public void AltaEmpleado(Empleado pEmpleado) throws ClassNotFoundException, SQLException, MiExcepcion;
     public Empleado BuscarEmpleado(long pCedula, String pTipo) throws ClassNotFoundException, SQLException;
+    public void EliminarEmpleado(long pCedula, String pTipo) throws MiExcepcion, ClassNotFoundException, SQLException;
     public void ModificarEmpleado(Empleado pEmpleado) throws ClassNotFoundException, SQLException, MiExcepcion;
     public Empleado Login(long pCedula, String pPass) throws ClassNotFoundException, SQLException, MiExcepcion;
-    public ArrayList<Empleado> ListarEmpleados() throws SQLException;
+    public ArrayList<Empleado> ListarEmpleados(String pCriterio) throws SQLException;
 }
