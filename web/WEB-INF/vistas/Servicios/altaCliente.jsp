@@ -12,7 +12,7 @@
 
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
-<t:paginaMaestra titulo="Registrar Servicio">
+<t:paginaMaestra titulo="Alta Cliente">
     <jsp:body>
         <fmt:setLocale value="en-US" />
         <t:editorCliente textoBoton="Agregar">

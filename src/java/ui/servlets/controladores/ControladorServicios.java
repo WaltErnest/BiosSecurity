@@ -81,6 +81,89 @@ public class ControladorServicios extends Controlador {
             mostrarVista("altaCliente", request, response);
         }
     }
+    
+    public void modificarcliente_get(HttpServletRequest request, HttpServletResponse response) {
+        long cedula = 0;
+        
+        try {
+            cedula = Long.parseLong(request.getParameter("cedula"));
+        } catch (NumberFormatException ex) {
+            cargarMensaje("¡ERROR! La cedula no es válida", request);
+            
+            mostrarVista("modificarCliente", request, response);
+            
+            return;            
+        }
+        
+        try {
+            Cliente cliente = FabricaLogica.GetLogicaCliente().buscarCliente(cedula);
+            
+            if (cliente != null) {
+                request.setAttribute("cliente", cliente);
+                cargarMensaje("¡Cliente encontrado!", request);
+            } else {
+                request.setAttribute("ocultarFormulario", true);
+            }
+        } catch (MiExcepcion ex) {
+            cargarMensaje("¡ERROR! " + ex.getMessage(), request);
+            
+            mostrarVista("modificarCliente", request, response);
+        } catch (Exception ex) {
+            cargarMensaje("¡ERROR! Se produjo un error al modificar al cliente.", request);
+        }
+        
+        mostrarVista("modificarCliente", request, response);
+    }
+    
+    public void modificarcliente_post(HttpServletRequest request, HttpServletResponse response) {
+        long cedula = 0;
+        
+        try {
+            cedula = Long.parseLong(request.getParameter("cedula"));            
+        } catch (NumberFormatException ex) {
+            cargarMensaje("¡ERROR! La cedula no es válida", request);
+            
+            mostrarVista("modificarCliente", request, response);
+            
+            return;
+        }
+        
+        String nombre = request.getParameter("nombre");
+        
+        String direccionCobro = request.getParameter("direccionCobro");
+        
+        String barrioDirCobro = request.getParameter("barrioDirCobro");
+        
+        long telefono = 0;
+        
+        try {
+            telefono = Long.parseLong(request.getParameter("telefono"));
+        } catch (NumberFormatException ex) {
+            cargarMensaje("¡ERROR! El teléfono no es válido", request);
+            
+            mostrarVista("modificarCliente", request, response);
+            
+            return;
+        }
+        
+        Cliente cliente = new Cliente(cedula, nombre, direccionCobro, barrioDirCobro, telefono);
+        
+        try {
+            FabricaLogica.GetLogicaCliente().modificarCliente(cliente);
+            
+            cargarMensaje("¡El cliente fue modificado!", request.getSession());
+            
+            response.sendRedirect("servicios");
+        } catch (MiExcepcion ex) {
+            cargarMensaje("¡ERROR! " + ex.getMessage(), request);
+            
+            mostrarVista("modificarCliente", request, response);
+        } catch (Exception ex) {
+            cargarMensaje("¡ERROR! Se produjo un error al modificar al cliente.", request);
+            
+            mostrarVista("modificarCliente", request, response);
+        }
+    }
 /*
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

@@ -27,7 +27,7 @@
             <td>Cédula:</td>
             <td>
                 <c:choose>
-                    <c:when test="$deshabilitarCedula">
+                    <c:when test="${deshabilitarCedula}">
                         <input type="text" name="cedula" value="${!empty cliente ? cliente.cedula : param.cedula}" readonly="readonly" id="cedula" />
                     </c:when>
                     <c:otherwise>
