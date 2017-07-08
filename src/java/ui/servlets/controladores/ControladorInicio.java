@@ -55,6 +55,7 @@ public class ControladorInicio extends Controlador {
                 if (login != null) {
                     String ok = "OK";
                     session.setAttribute("LogIn", ok);
+                    session.setAttribute("usuario", login);
                     mostrarVista("index", request, response);
                 } else {
                     cargarMensaje("¡ERROR! La cédula y/o la clave no son válidas.", request);
