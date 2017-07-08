@@ -11,6 +11,7 @@ import compartidos.beans.entidades.Administrativo;
 import compartidos.beans.entidades.Empleado;
 import java.sql.SQLException;
 import compartidos.beans.excepciones.MiExcepcion;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import persistencia.*;
 
@@ -138,6 +139,10 @@ public class LogicaEmpleado implements ILogicaEmpleado {
 
         if (empleado.getSueldo() < 0) {
             throw new MiExcepcion("El sueldo debe ser mayor o igual a 0.");
+        }
+        
+        if (empleado.getFechaIngreso().isAfter(LocalDate.now())) {
+            throw new MiExcepcion("La fecha de ingreso debe ser menor o igual a la actual.");
         }
 
         if (empleado instanceof Cobrador) {
