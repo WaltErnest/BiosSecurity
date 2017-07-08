@@ -17,7 +17,7 @@ import logica.FabricaLogica;
  */
 public class ControladorServicios extends Controlador {
         
-        public void buscarCliente_get(HttpServletRequest request, HttpServletResponse response) {
+        public void index_get(HttpServletRequest request, HttpServletResponse response) {
             try {
                 Cliente cliente = FabricaLogica.GetLogicaCliente().buscarCliente((Long.parseLong(request.getParameter("buscarCliente"))));
                 

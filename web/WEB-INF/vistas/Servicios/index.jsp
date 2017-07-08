@@ -15,11 +15,11 @@
         <fmt:setLocale value="en-US" />
         <h2 class="tableHeader">Registrar Servicio</h2>
             <table class="table">
-                <h3 class="tableHeader">Cliente:</h3>
+                <h3>Datos del cliente:</h3>
                     <tr>
                         <td>
                             <form>
-                                <p><input class="input" type="text" name="buscarCliente" value="${param.buscarCliente}" id="buscarCliente" placeholder="Escriba la cédula..." /><input class="btn" type="submit" value="Buscar" /></p>
+                                <p><input class="input" type="text" name="buscarCliente" value="${param.buscarCliente}" id="cedulaCliente" placeholder="Escriba la cédula..." /><input class="btn" type="submit" value="Buscar" /></p>
                             </form>
                         </td>
                     </tr>
