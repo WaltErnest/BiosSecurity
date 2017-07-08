@@ -38,7 +38,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ControladorServicios</servlet-name>
-        <url-pattern>/ControladorServicios</url-pattern>
+        <url-pattern>/servicios</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
