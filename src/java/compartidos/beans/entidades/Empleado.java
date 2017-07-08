@@ -6,6 +6,7 @@
 package compartidos.beans.entidades;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -17,13 +18,13 @@ public abstract class Empleado implements Serializable{
     private long _cedula;
     private String _clave;
     private String _nombre;
-    private Date _fechaIngreso;
+    private LocalDate _fechaIngreso;
     private double _sueldo;
     
     public Empleado() {
     }
 
-    public Empleado(long pCedula, String pClave, String pNombre, Date pFechaIngreso,
+    public Empleado(long pCedula, String pClave, String pNombre, LocalDate pFechaIngreso,
             double pSueldo) {
         setCedula(pCedula);
         setClave(pClave);
@@ -56,11 +57,11 @@ public abstract class Empleado implements Serializable{
         this._nombre = _nombre;
     }
 
-    public Date getFechaIngreso() {
+    public LocalDate getFechaIngreso() {
         return _fechaIngreso;
     }
 
-    public void setFechaIngreso(Date _fechaIngreso) {
+    public void setFechaIngreso(LocalDate _fechaIngreso) {
         this._fechaIngreso = _fechaIngreso;
     }
 

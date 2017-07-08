@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import compartidos.beans.excepciones.MiExcepcion;
+import java.time.LocalDate;
 
 /**
  *
@@ -69,14 +70,14 @@ public class PersistenciaCobrador implements IPersistenciaCobrador {
 
             String clave;
             String nombre;
-            Date fechaIngreso;
+            LocalDate fechaIngreso;
             double sueldo;
             String tipoTransporte;
 
             if (resultado.next()) {
                 clave = resultado.getString("clave");
                 nombre = resultado.getString("nombre");
-                fechaIngreso = resultado.getDate("fechaIngreso");
+                fechaIngreso = resultado.getDate("fechaIngreso").toLocalDate();
                 sueldo = resultado.getDouble("sueldo");
                 tipoTransporte = resultado.getString("tipoTransporte");
                 cobBuscado = new Cobrador(pCedula, clave, nombre, fechaIngreso, sueldo, tipoTransporte);
@@ -136,14 +137,14 @@ public class PersistenciaCobrador implements IPersistenciaCobrador {
             
             String clave;
             String nombre;
-            Date fechaIngreso;
+            LocalDate fechaIngreso;
             double sueldo;
             String tipoTransporte;
         
             if (resultado.next()) {
                 clave = resultado.getString("clave");
                 nombre = resultado.getString("nombre");
-                fechaIngreso = resultado.getDate("fechaIngreso");
+                fechaIngreso = resultado.getDate("fechaIngreso").toLocalDate();
                 sueldo = resultado.getDouble("sueldo");
                 tipoTransporte = resultado.getString("tipoTransporte");
                 pCob = new Cobrador(pCedula, clave, nombre, fechaIngreso, sueldo, tipoTransporte);

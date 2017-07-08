@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import compartidos.beans.excepciones.MiExcepcion;
+import java.time.LocalDate;
 
 /**
  *
@@ -71,7 +72,7 @@ public class PersistenciaTecnico implements IPersistenciaTecnico {
 
             String clave;
             String nombre;
-            Date fechaIngreso;
+            LocalDate fechaIngreso;
             double sueldo;
             boolean alarmas;
             boolean camaras;
@@ -79,7 +80,7 @@ public class PersistenciaTecnico implements IPersistenciaTecnico {
             if (resultado.next()) {
                 clave = resultado.getString("clave");
                 nombre = resultado.getString("nombre");
-                fechaIngreso = resultado.getDate("fechaIngreso");
+                fechaIngreso = resultado.getDate("fechaIngreso").toLocalDate();
                 sueldo = resultado.getDouble("sueldo");
                 alarmas = resultado.getBoolean("alarmas");
                 camaras = resultado.getBoolean("camaras");
@@ -140,7 +141,7 @@ public class PersistenciaTecnico implements IPersistenciaTecnico {
             
             String clave;
             String nombre;
-            Date fechaIngreso;
+            LocalDate fechaIngreso;
             double sueldo;
             boolean alarmas;
             boolean camaras;
@@ -148,7 +149,7 @@ public class PersistenciaTecnico implements IPersistenciaTecnico {
             if (resultado.next()) {
                 clave = resultado.getString("clave");
                 nombre = resultado.getString("nombre");
-                fechaIngreso = resultado.getDate("fechaIngreso");
+                fechaIngreso = resultado.getDate("fechaIngreso").toLocalDate();
                 sueldo = resultado.getDouble("sueldo");
                 alarmas = resultado.getBoolean("alarmas");
                 camaras = resultado.getBoolean("camaras");

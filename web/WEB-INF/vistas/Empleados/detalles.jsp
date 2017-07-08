@@ -18,9 +18,13 @@
             <h2 class="tableHeader"><jsp:getProperty name="empleado" property="nombre" /></h2>
 
             <table style="width: 440px;">
+                <tr><td><strong>Tipo de empleado:</strong></td><td> ${empleado.class.simpleName}</td></tr>
+
                 <tr><td><strong>Cédula:</strong></td><td> <jsp:getProperty name="empleado" property="cedula" /></td></tr>
 
                 <tr><td><strong>Nombre:</strong> </td><td><jsp:getProperty name="empleado" property="nombre" /></td></tr>
+
+                <tr><td><strong>Fecha de ingreso:</strong> </td><td><jsp:getProperty name="empleado" property="fechaIngreso" /></td></tr>
 
                 <tr><td><strong>Sueldo:</strong> </td><td><jsp:getProperty name="empleado" property="sueldo" /></td></tr>
 

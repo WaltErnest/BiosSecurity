@@ -25,15 +25,30 @@
                         <input type="text" name="cedula" value="${!empty empleado ? empleado.cedula : param.cedula}" readonly="readonly" id="cedula" />
                     </c:when>
                     <c:otherwise>
-                        <input type="text" name="cedula" value="${!empty empleado ? empleado.cedula : param.cedula}" id="cedula" />
+                        <input type="text" name="cedula" required pattern="[0-9]{7}" maxlength="7" value="${!empty empleado ? empleado.cedula : param.cedula}" id="cedula" />
                     </c:otherwise>
                 </c:choose>
             </td>
         </tr>
+        
+        <tr>
+            <td><strong>Clave:</strong></td>
+            <td>
+                <input type="password" name="clave" required pattern=".{8,10}" maxlength="10" value="${!empty empleado ? empleado.clave : param.clave}" />
+            </td>
+        </tr>
+        
         <tr>
             <td><strong>Nombre:</strong></td>
             <td>
-                <input type="text" name="nombre" value="${!empty empleado ? empleado.nombre : param.nombre}" id="nombre" />
+                <input type="text" name="nombre" required maxlength="50" value="${!empty empleado ? empleado.nombre : param.nombre}" id="nombre" />
+            </td>
+        </tr>
+        
+        <tr>
+            <td><strong>Fecha de ingreso:</strong></td>
+            <td>
+                <input type="date" name="fechaIngreso" value="${!empty empleado ? empleado.fechaIngreso : param.fechaIngreso}" min="2000-01-02" />
             </td>
         </tr>
 
@@ -46,7 +61,7 @@
         <tr>
             <td><strong>Sueldo:</strong></td>
             <td>
-                <input type="text" name="sueldo" value="${sueldo}" />
+                <input type="text" required name="sueldo" value="${sueldo}" />
             </td>
         </tr>
 
@@ -78,7 +93,7 @@
         <c:if test="${param.tipo eq 'Cobrador'}">
             <tr>
                 <td><strong>Tipo de transporte:</strong> </td><td>
-                    <input type="text" name="tipoTransporte" value="${!empty empleado ? empleado.tipoTransporte : param.tipoTransporte}" id="tipoTransporte" />
+                    <input type="text" name="tipoTransporte" required maxlength="30" value="${!empty empleado ? empleado.tipoTransporte : param.tipoTransporte}" id="tipoTransporte" />
                 </td>
             </tr>
         </c:if>

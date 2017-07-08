@@ -6,6 +6,7 @@
 package compartidos.beans.entidades;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -17,7 +18,7 @@ public class Administrativo extends Empleado implements Serializable{
     public Administrativo() {
     }
 
-    public Administrativo(long pCedula, String pClave, String pNombre, Date pFechaIngreso,
+    public Administrativo(long pCedula, String pClave, String pNombre, LocalDate pFechaIngreso,
             double pSueldo) {
         super(pCedula, pClave, pNombre, pFechaIngreso, pSueldo);
     }

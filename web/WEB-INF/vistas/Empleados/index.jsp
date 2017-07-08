@@ -41,35 +41,40 @@
         </form>
 
         <p></p>
-        <form action="empleados">
-            <label>Agregar: </label>
+        <c:if test="${sessionScope.usuario.class.simpleName eq 'Administrativo'}">
+            <form action="empleados">
+                <label>Agregar: </label>
 
-            <select name="tipo">
-                <option value="A" selected="selected">Administrador</option>
-                <option value="T">Tecnico</option>
-                <option value="C">Cobrador</option>
-            </select>
+                <select name="tipo">
+                    <option value="A" selected="selected">Administrador</option>
+                    <option value="T">Tecnico</option>
+                    <option value="C">Cobrador</option>
+                </select>
 
-            <input type="submit" class="otra" name="accion" value="agregar" />
-        </form>
-        <p></p>
+                <input type="submit" class="otra" name="accion" value="agregar" />
+            </form>
+            <p></p>
+        </c:if>
 
         <table>
             <tr>
-                <th>Cédula</th><th>Nombre</th><th>Sueldo</th><th></th>
+                <th>Cédula</th><th>Nombre</th><th>Fecha de ingreso</th><th>Sueldo</th><th></th>
             </tr>
 
             <c:forEach items="${empleados}" var="empleado">
                 <tr>
                     <td>${empleado.cedula}</td>
                     <td>${empleado.nombre}</td>
+                    <td>${empleado.fechaIngreso}</td>
                     <td>
                         <fmt:formatNumber type="number" pattern="0.00" value="${empleado.sueldo}" />
                     </td>
                     <td>
                         <a href="empleados?accion=detalles&cedula=${empleado.cedula}&tipo=${empleado.class.simpleName}"><img src="images/view.png" alt="Ver" title="Ver..." ></a>&nbsp;&nbsp;
-                        <a href="empleados?accion=modificar&cedula=${empleado.cedula}&tipo=${empleado.class.simpleName}"><img src="images/edit.png" alt="Modificar" title="Modificar..." ></a>&nbsp;&nbsp;
-                        <a href="empleados?accion=eliminar&cedula=${empleado.cedula}&tipo=${empleado.class.simpleName}"><img src="images/delete.png" alt="Eliminar" title="Eliminar..." ></a>
+                            <c:if test="${sessionScope.usuario.class.simpleName eq 'Administrativo'}">
+                            <a href="empleados?accion=modificar&cedula=${empleado.cedula}&tipo=${empleado.class.simpleName}"><img src="images/edit.png" alt="Modificar" title="Modificar..." ></a>&nbsp;&nbsp;
+                            <a href="empleados?accion=eliminar&cedula=${empleado.cedula}&tipo=${empleado.class.simpleName}"><img src="images/delete.png" alt="Eliminar" title="Eliminar..." ></a>
+                            </c:if>
                     </td>
                 </tr>
             </c:forEach>

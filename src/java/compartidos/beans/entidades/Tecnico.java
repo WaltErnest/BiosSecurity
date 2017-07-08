@@ -6,6 +6,7 @@
 package compartidos.beans.entidades;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -20,7 +21,7 @@ public class Tecnico extends Empleado implements Serializable{
     public Tecnico() {
     }
 
-    public Tecnico(long pCedula, String pClave, String pNombre, Date pFechaIngreso,
+    public Tecnico(long pCedula, String pClave, String pNombre, LocalDate pFechaIngreso,
             double pSueldo, Boolean pAlarmas, Boolean pCamaras) {
         super(pCedula, pClave, pNombre, pFechaIngreso, pSueldo);
         setAlarmas(pAlarmas);

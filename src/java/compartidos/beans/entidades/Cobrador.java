@@ -6,6 +6,7 @@
 package compartidos.beans.entidades;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -19,7 +20,7 @@ public class Cobrador extends Empleado implements Serializable{
     public Cobrador() {
     }
 
-    public Cobrador(long pCedula, String pClave, String pNombre, Date pFechaIngreso,
+    public Cobrador(long pCedula, String pClave, String pNombre, LocalDate pFechaIngreso,
             double pSueldo, String pTipoTransporte) {
         super(pCedula, pClave, pNombre, pFechaIngreso, pSueldo);
         setTipoTransporte(pTipoTransporte);

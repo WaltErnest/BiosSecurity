@@ -15,6 +15,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -73,13 +74,13 @@ class PersistenciaAdministrativo implements IPersistenciaAdministrativo {
 
             String clave;
             String nombre;
-            Date fechaIngreso;
+            LocalDate fechaIngreso;
             double sueldo;
 
             if (resultado.next()) {
                 clave = resultado.getString("clave");
                 nombre = resultado.getString("nombre");
-                fechaIngreso = resultado.getDate("fechaIngreso");
+                fechaIngreso = resultado.getDate("fechaIngreso").toLocalDate();
                 sueldo = resultado.getDouble("sueldo");
                 admBuscado = new Administrativo(pCedula, clave, nombre, fechaIngreso, sueldo);
             }
@@ -139,13 +140,13 @@ class PersistenciaAdministrativo implements IPersistenciaAdministrativo {
 
             String clave;
             String nombre;
-            Date fechaIngreso;
+            LocalDate fechaIngreso;
             double sueldo;
 
             if (resultado.next()) {
                 clave = resultado.getString("clave");
                 nombre = resultado.getString("nombre");
-                fechaIngreso = resultado.getDate("fechaIngreso");
+                fechaIngreso = resultado.getDate("fechaIngreso").toLocalDate();
                 sueldo = resultado.getDouble("sueldo");
                 pAdm = new Administrativo(pCedula, clave, nombre, fechaIngreso, sueldo);
             }
@@ -201,7 +202,7 @@ class PersistenciaAdministrativo implements IPersistenciaAdministrativo {
                 Empleado emp = null;
                 long cedula = resultado.getLong("cedula");
                 String nombre = resultado.getString("nombre");
-                Date fechaIngreso = resultado.getDate("fechaIngreso");
+                LocalDate fechaIngreso = resultado.getDate("fechaIngreso").toLocalDate();
                 double sueldo = resultado.getDouble("sueldo");
                 String tipo = resultado.getString("tipo");
 
