@@ -5,12 +5,11 @@
  */
 package ui.servlets.controladores;
 
+import compartidos.beans.entidades.Empleado;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +24,24 @@ abstract class Controlador extends HttpServlet {
 
     public void index_get(HttpServletRequest request, HttpServletResponse response) {
         mostrarVista("index", request, response);
+    }
+    
+    public void error_get(HttpServletRequest request, HttpServletResponse response) {
+        mostrarVista(request, response);
+    }
+    
+    protected void mostrarVista(HttpServletRequest request, HttpServletResponse response) {
+        agregarMensajeSesionAMensaje(request);
+
+        try {
+            RequestDispatcher despachador = request.getRequestDispatcher("WEB-INF/vistas/Inicio/login.jsp");
+
+            if (despachador != null) {
+                despachador.forward(request, response);
+            }
+        } catch (Exception ex) {
+            System.out.println("¡ERROR! No se pudo mostrar la vista login.");
+        }
     }
 
     protected void mostrarVista(String vista, HttpServletRequest request, HttpServletResponse response) {
@@ -62,16 +79,25 @@ abstract class Controlador extends HttpServlet {
     protected void despacharMetodoAccion(HttpServletRequest request, HttpServletResponse response)
             throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         String accion = request.getParameter("accion") != null ? request.getParameter("accion").toLowerCase() : "index";
-        String metodoRequest = request.getMethod().toLowerCase();
-        String nombreMetodoAccion = accion + "_" + metodoRequest;
-        
-        Method metodoAccion = this.getClass().getMethod(nombreMetodoAccion, HttpServletRequest.class, HttpServletResponse.class);
-        metodoAccion.invoke(this, request, response);
+        if (!(this instanceof ControladorInicio)) {
+            HttpSession sesion = request.getSession();
+            Empleado login = (Empleado) sesion.getAttribute("usuario");
+            if (login == null) {
+                cargarMensaje("Error: debe iniciar sesión para la página solicitada.", request);
+                accion = "error";
+            }
+        } 
+            String metodoRequest = request.getMethod().toLowerCase();
+            String nombreMetodoAccion = accion + "_" + metodoRequest;
+
+            Method metodoAccion = this.getClass().getMethod(nombreMetodoAccion, HttpServletRequest.class, HttpServletResponse.class);
+            metodoAccion.invoke(this, request, response);
     }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            despacharMetodoAccion(request,response);
+            despacharMetodoAccion(request, response);
         } catch (Exception ex) {
             System.out.println("Error al despachar el método de la acción solicitada.");
         }
