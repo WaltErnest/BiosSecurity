@@ -7,7 +7,7 @@
     <servlet>
         <servlet-name>ControladorPrecios</servlet-name>
         <servlet-class>ui.servlets.controladores.ControladorPrecios</servlet-class>
-    </servlet>    
+    </servlet>
     <servlet>
         <servlet-name>ControladorDispositivos</servlet-name>
         <servlet-class>ui.servlets.controladores.ControladorDispositivos</servlet-class>
@@ -15,7 +15,11 @@
     <servlet>
         <servlet-name>ControladorEmpleados</servlet-name>
         <servlet-class>ui.servlets.controladores.ControladorEmpleados</servlet-class>
-    </servlet>  
+    </servlet>
+    <servlet>
+        <servlet-name>ControladorServicios</servlet-name>
+        <servlet-class>ui.servlets.controladores.ControladorServicios</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ControladorInicio</servlet-name>
         <url-pattern>/inicio</url-pattern>
@@ -31,6 +35,10 @@
     <servlet-mapping>
         <servlet-name>ControladorEmpleados</servlet-name>
         <url-pattern>/empleados</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ControladorServicios</servlet-name>
+        <url-pattern>/ControladorServicios</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

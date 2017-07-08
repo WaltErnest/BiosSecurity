@@ -13,8 +13,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import compartidos.beans.excepciones.MiExcepcion;
 import compartidos.beans.excepciones.MiExcepcionPersistencia;
-import java.util.ArrayList;
-
 /**
  *
  * @author Mathias
@@ -22,7 +20,7 @@ import java.util.ArrayList;
 public class PersistenciaCliente implements IPersistenciaCliente {
     
     @Override
-    public ArrayList<Cliente> buscarClientes(long pCedula, String pNombre )
+    public Cliente buscarCliente(long pCedula)
             throws ClassNotFoundException, SQLException, MiExcepcion {
         Connection cnn = null;
         PreparedStatement consulta = null;
@@ -31,16 +29,13 @@ public class PersistenciaCliente implements IPersistenciaCliente {
         try{
             cnn = Conexion.getConexion();      
             
-            consulta = cnn.prepareStatement("SELECT * FROM clientes WHERE cedula = ? OR nombre LIKE ?");   
+            consulta = cnn.prepareStatement("SELECT * FROM clientes WHERE cedula = ?");   
             
             consulta.setLong(1, pCedula);
-            consulta.setString(2, "%" + pNombre + "%");
             
             resultado = consulta.executeQuery();
             
-            ArrayList<Cliente> clientes = null;
-            
-            Cliente clienteEncontrado = null;
+            Cliente cliente = null;
             
             long cedula;
             String nombre;
@@ -48,19 +43,17 @@ public class PersistenciaCliente implements IPersistenciaCliente {
             String barrioDirCobro;
             long telefono;
             
-            while (resultado.next()) {
+            if(resultado.next()) {
                 cedula = resultado.getLong("cedula");
                 nombre = resultado.getString("nombre");
                 direccionCobro = resultado.getString("direccionCobro");
                 barrioDirCobro = resultado.getString("barrioCobro");
                 telefono = resultado.getLong("telefono");
                 
-                clienteEncontrado = new Cliente(cedula, nombre, direccionCobro, barrioDirCobro, telefono);
-                
-                clientes.add(clienteEncontrado);
+                cliente = new Cliente(cedula, nombre, direccionCobro, barrioDirCobro, telefono);
             }
             
-            return clientes;
+            return cliente;
             
         } catch (Exception ex) {
             throw new MiExcepcionPersistencia("No se pudo buscar los cliente.", ex);

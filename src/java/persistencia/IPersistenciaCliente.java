@@ -8,15 +8,13 @@ package persistencia;
 import compartidos.beans.entidades.Cliente;
 import java.sql.SQLException;
 import compartidos.beans.excepciones.MiExcepcion;
-import java.util.ArrayList;
-
 /**
  *
  * @author Mathias
  */
 public interface IPersistenciaCliente {
     
-    ArrayList<Cliente> buscarClientes(long pCedula, String pNombre ) throws ClassNotFoundException, SQLException, MiExcepcion;
+    Cliente buscarCliente(long pCedula ) throws ClassNotFoundException, SQLException, MiExcepcion;
     void altaCliente(Cliente pCliente) throws ClassNotFoundException, SQLException, MiExcepcion;
     void modificarCliente(Cliente pCliente) throws ClassNotFoundException, SQLException, MiExcepcion;
 }
