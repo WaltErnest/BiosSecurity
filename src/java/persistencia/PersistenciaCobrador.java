@@ -42,7 +42,7 @@ public class PersistenciaCobrador implements IPersistenciaCobrador {
 
             String error = consulta.getString(7);
 
-            if (error != null || !error.equals("")) {
+            if (error != null) {
                 throw new MiExcepcion("Error en dar de alta el cobrador "
                         + pCobrador.getCedula() + ": " + error);
             }
@@ -120,7 +120,7 @@ public class PersistenciaCobrador implements IPersistenciaCobrador {
 
             String error = consulta.getString(7);
 
-            if (error != null || !error.equals("")) {
+            if (error != null) {
                 throw new MiExcepcion("Error en modificar el cobrador "
                         + pCobrador.getCedula() + ": " + error);
             }
@@ -192,7 +192,7 @@ public class PersistenciaCobrador implements IPersistenciaCobrador {
 
             String error = consulta.getString(2);
 
-            if (error != null || !error.equals("")) {
+            if (error != null) {
                 throw new MiExcepcion("Error en eliminar el cobrador "
                         + pCedula + ": " + error);
             }

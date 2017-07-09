@@ -44,7 +44,7 @@ public class PersistenciaTecnico implements IPersistenciaTecnico {
 
             String error = consulta.getString(8);
 
-            if (error != null || !error.equals("")) {
+            if (error != null) {
                 throw new MiExcepcion("Error en dar de alta el técnico "
                         + pTecnico.getCedula() + ": " + error);
             }
@@ -125,7 +125,7 @@ public class PersistenciaTecnico implements IPersistenciaTecnico {
 
             String error = consulta.getString(8);
 
-            if (error != null || !error.equals("")) {
+            if (error != null) {
                 throw new MiExcepcion("Error en modificar el técnico "
                         + pTecnico.getCedula() + ": " + error);
             }
@@ -198,7 +198,7 @@ public class PersistenciaTecnico implements IPersistenciaTecnico {
 
             String error = consulta.getString(2);
 
-            if (error != null || !error.equals("")) {
+            if (error != null) {
                 throw new MiExcepcion("Error en eliminar el técnico "
                         + pCedula + ": " + error);
             }

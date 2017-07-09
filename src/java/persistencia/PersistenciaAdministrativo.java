@@ -46,7 +46,7 @@ class PersistenciaAdministrativo implements IPersistenciaAdministrativo {
 
             String error = consulta.getString(6);
 
-            if (error != null || !error.equals("")) {
+            if (error != null) {
                 throw new MiExcepcion("Error en dar de alta el administrativo "
                         + pAdmin.getCedula() + ": " + error);
             }
@@ -129,7 +129,7 @@ class PersistenciaAdministrativo implements IPersistenciaAdministrativo {
 
             String error = consulta.getString(6);
 
-            if (error != null || !error.equals("")) {
+            if (error != null) {
                 throw new MiExcepcion("Error en modificar el administrativo "
                         + pAdmin.getCedula() + ": " + error);
             }
@@ -200,7 +200,7 @@ class PersistenciaAdministrativo implements IPersistenciaAdministrativo {
 
             String error = consulta.getString(2);
 
-            if (error != null || !error.equals("")) {
+            if (error != null) {
                 throw new MiExcepcion("Error en eliminar el administrativo "
                         + pCedula + ": " + error);
             }
