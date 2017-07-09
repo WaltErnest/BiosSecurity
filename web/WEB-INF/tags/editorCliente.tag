@@ -31,7 +31,7 @@
                         <input type="text" name="cedula" value="${!empty cliente ? cliente.cedula : param.cedula}" readonly="readonly" id="cedula" />
                     </c:when>
                     <c:otherwise>
-                        <input type="text" name="cedula" value="${!empty cliente ? cliente.cedula : param.cedula}" id="cedula" />
+                            <input type="text" name="cedula" value="${!empty cliente ? cliente.cedula : param.cedula}">
                     </c:otherwise>
                 </c:choose>
             </td>
@@ -52,9 +52,14 @@
             <td><input type="text" name="telefono" value="${!empty cliente ? cliente.telefono : param.telefono}" id="telefono"</td>
         </tr>
         <tr>
-            <td><input class="btn" type="submit" name="accion" value="${textoBoton}"</td>
+            <td>
+                <input class="btn" type="submit" name="accion" value="${textoBoton}"/>
+                <c:if test="${!empty cliente}">
+                    <a href="servicios?accion=modificarCliente&cedula=${cliente.cedula}"><img src="images/edit.png" alt="Modificar Cliente" title="Modificar cliente..." ></a>&nbsp;&nbsp;
+                    <a href="servicios?accion=agregarClienteServicio"><img src="images/agregar.png" alt="Agregar Cliente a Servicio" title="Agregar cliente a servicio..."> </a>&nbsp;&nbsp;
+                </c:if>
+            </td>
         </tr>
     </table>
 </form>
-
 <h2>${message}</h2>

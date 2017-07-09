@@ -26,77 +26,59 @@ public class ControladorServicios extends Controlador {
             if (login == null || !(login instanceof Administrativo)) {
                 cargarMensaje("Solamente administradores pueden ingresar a la página.", request);                
                 response.sendRedirect("inicio");
-            } else {
-
-                String cedulaCliente = request.getParameter("buscarCliente");
-
-                if (cedulaCliente == null) {
-                    mostrarVista("index", request, response);
-                } else {
-                    Cliente cliente = FabricaLogica.GetLogicaCliente().buscarCliente((Long.parseLong(request.getParameter("buscarCliente"))));
-
-                    request.setAttribute("cliente", cliente);                
-                }
             }
         } catch (Exception ex) {
             cargarMensaje("¡ERROR! Se ha producido un error al cargar al cliente", request);
         }
             mostrarVista("index", request, response);
     }
+    
+    public void buscarcliente_get(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession sesion = request.getSession();
+        Empleado login = (Empleado) sesion.getAttribute("usuario");
 
-    public void altacliente_get(HttpServletRequest request, HttpServletResponse response) {
-        mostrarVista("altaCliente", request, response);
+        try {
+            if (login == null || !(login instanceof Administrativo)) {
+                cargarMensaje("Solamente administradores pueden ingresar a la página.", request);                
+                response.sendRedirect("inicio");
+            }
+        } catch (Exception ex) {
+            cargarMensaje("¡ERROR! Se ha producido un error buscar al cliente", request);
+        }
+            mostrarVista("buscarCliente", request, response);
+
     }
     
-    public void altacliente_post(HttpServletRequest request, HttpServletResponse response) {
-        long cedula = 0;
-
+    public void buscarcliente_post(HttpServletRequest request, HttpServletResponse response) {
         try {
-            cedula = Long.parseLong(request.getParameter("cedula"));            
-        } catch (NumberFormatException ex) {
-            cargarMensaje("¡ERROR! La cedula no es válida", request);
+            String cedulaCliente = request.getParameter("cedula");
 
-            mostrarVista("altaCliente", request, response);
+            if (cedulaCliente == null) {
+                mostrarVista("buscarCliente", request, response);
+            } else {
+                Cliente cliente = FabricaLogica.GetLogicaCliente().buscarCliente((Long.parseLong(cedulaCliente)));
 
-            return;
-        }
-
-        String nombre = request.getParameter("nombre");
-
-        String direccionCobro = request.getParameter("direccionCobro");
-
-        String barrioDirCobro = request.getParameter("barrioDirCobro");
-
-        long telefono = 0;
-
-        try {
-            telefono = Long.parseLong(request.getParameter("telefono"));
-        } catch (NumberFormatException ex) {
-            cargarMensaje("¡ERROR! El teléfono no es válido", request);
-
-            mostrarVista("altaCliente", request, response);
-
-            return;
-        }
-
-        Cliente cliente = new Cliente(cedula, nombre, direccionCobro, barrioDirCobro, telefono);
-
-        try {
-            FabricaLogica.GetLogicaCliente().altaCliente(cliente);
-
-            cargarMensaje("¡El cliente fue agregado!", request.getSession());
-
-            response.sendRedirect("servicios");
-        } catch (MiExcepcion ex) {
-            cargarMensaje("¡ERROR! " + ex.getMessage(), request);
-
-            mostrarVista("altaCliente", request, response);
+                if (cliente != null) {
+                    HttpSession sesionAltaServicio = request.getSession();
+                    sesionAltaServicio.setAttribute("cliente", cliente);
+                } else {
+                    cargarMensaje("No se encontró el cliente", request);
+                }
+            }
         } catch (Exception ex) {
-            cargarMensaje("¡ERROR! No se pudo agregar al cliente.", request);
-
-            mostrarVista("altaCliente", request, response);
-        }            
-        
+            cargarMensaje("¡ERROR! Se ha producido un error buscar al cliente", request);
+        }
+            mostrarVista("buscarCliente", request, response);
+    }
+    
+    public void agregarclienteservicio_get(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            HttpSession sesionAltaServicio = request.getSession();
+            sesionAltaServicio.getAttribute("cliente");
+        } catch (Exception ex) {
+            cargarMensaje("¡ERROR! No se pudo pasar el cliente al servicio", request);
+        }
+        mostrarVista("index", request, response);
     }
     
     public void modificarcliente_get(HttpServletRequest request, HttpServletResponse response) {
@@ -182,61 +164,6 @@ public class ControladorServicios extends Controlador {
         }
     }
     
-    public void altapropiedad_get(HttpServletRequest request, HttpServletResponse response) {
-        mostrarVista("altaPropiedad", request, response);
-    }
-    
-    public void altapropiedad_post(HttpServletRequest request, HttpServletResponse response) {
-        int numeroPropiedad = 0;
-        
-        try {
-            numeroPropiedad = Integer.parseInt(request.getParameter("numeroPropiedad"));
-        } catch (NumberFormatException ex) {
-            cargarMensaje("¡ERROR! El número de propiedad no es válido", request);
-            
-            mostrarVista("altaPropiedad", request, response);
-            
-            return;
-        }
-        
-        String valorTipoPropiedad = request.getParameter("tipoPropiedad");
-        Propiedad.TipoPropiedad tipoPropiedad = null;
-        
-        try {
-            tipoPropiedad = Propiedad.TipoPropiedad.valueOf(valorTipoPropiedad);
-        } catch(IllegalArgumentException ex) {
-            cargarMensaje("¡ERROR! El tipo de propiedad no es válida", request);
-        }
-        
-        
-        String direccionPropiedad = request.getParameter("direccionPropiedad");
-        
-        long cedulaDueno = 0;
-        
-        try {
-            cedulaDueno = Long.parseLong(request.getParameter("dueno"));
-        } catch(NumberFormatException ex) {
-            cargarMensaje("¡ERROR! La cedula del dueño no es válida", request);
-        }
-        
-        Cliente dueno = null;
-        
-        try {
-            dueno = FabricaLogica.GetLogicaCliente().buscarCliente(cedulaDueno);
-            
-            if (dueno == null) {
-                cargarMensaje("¡ERROR! No se encontró al dueño de la propiedad", request);
-            } else {
-                Propiedad propiedad = new Propiedad(numeroPropiedad, tipoPropiedad, direccionPropiedad, dueno);
-                
-                FabricaLogica.GetLogicaPropiedad().altaPropiedad(propiedad);
-                
-                cargarMensaje("La propiedad fue agregada con éxito", request);
-            }
-        } catch(Exception ex) {
-            cargarMensaje("¡ERROR! No se puedo agregar la propiedad", request);
-        }
-    }
 /*
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

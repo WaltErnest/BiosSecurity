@@ -15,7 +15,7 @@
     <jsp:body>
         <fmt:setLocale value="en-US" />
         <c:if test="${!ocultarFormulario}">
-            <t:editorCliente deshabilitarCedula="true" textoBoton="Modificar" />
+            <t:editorCliente deshabilitarClave="true" textoBoton="Modificar" />
         </c:if>
         <t:mensaje/>
     </jsp:body>
