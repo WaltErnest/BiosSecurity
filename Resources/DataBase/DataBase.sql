@@ -388,8 +388,8 @@ cuerpo:BEGIN
     SET pError = "Error al agregar el cliente.";
     
     INSERT INTO clientes VALUES(pCedula, pNombre, pDireccionCobro, pBarrioCobro, pTelefono);
-
-    SET pError = "";
+    
+    SET pError = null;
    
 END//
 
@@ -413,7 +413,7 @@ cuerpo:BEGIN
     
     INSERT INTO propiedades VALUES(numeroPropiedad, pTipoPropiedad, pDireccion, pCedula);
 
-    SET pError = "";
+    SET pError = null;
 
 END//
 
@@ -454,6 +454,7 @@ cuerpo:BEGIN
     COMMIT;
     
     SET transaccionActiva = 0;
+    SET pError = null;
 END//
 
 -- Agregar alarma al servicio correspondiente
@@ -541,6 +542,7 @@ cuerpo:BEGIN
     COMMIT;
     
     SET transaccionActiva = 0;
+	SET pError = null;
 END//
 
 -- Agregar cámara al servicio correspondiente
@@ -939,6 +941,7 @@ cuerpo:BEGIN
     COMMIT;
     
     SET transaccionActiva = 0;
+    SET pError = null;
 END//
 
 CREATE PROCEDURE bajaServicioVideo(pNumero INT, OUT pError VARCHAR(50))
@@ -982,6 +985,7 @@ cuerpo:BEGIN
     COMMIT;
     
     SET transaccionActiva = 0;
+    SET pError = null;
 END//
 
 # ---- MODIFICACIONES ---- #
