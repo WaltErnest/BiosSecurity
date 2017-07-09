@@ -88,7 +88,7 @@ public class PersistenciaCliente implements IPersistenciaCliente {
             }           
         } finally {
             Conexion.cerrarRecursos(cnn, consulta);
-        }        
+        }
     }
     
     @Override

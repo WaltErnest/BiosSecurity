@@ -20,9 +20,16 @@ public class ControladorServicios extends Controlador {
         
     public void index_get(HttpServletRequest request, HttpServletResponse response) {
         try {
-            Cliente cliente = FabricaLogica.GetLogicaCliente().buscarCliente((Long.parseLong(request.getParameter("buscarCliente"))));
+            String cedulaCliente = request.getParameter("buscarCliente");
+            
+            if (cedulaCliente == null) {
+                mostrarVista("index", request, response);
+            } else {
+                Cliente cliente = FabricaLogica.GetLogicaCliente().buscarCliente((Long.parseLong(request.getParameter("buscarCliente"))));
 
-            request.setAttribute("cliente", cliente);
+                request.setAttribute("cliente", cliente);                
+            }
+
         } catch (Exception ex) {
             cargarMensaje("¡ERROR! Se ha producido un error al cargar al cliente", request);
         }
