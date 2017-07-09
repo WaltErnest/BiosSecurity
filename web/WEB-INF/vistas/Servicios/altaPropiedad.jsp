@@ -1,6 +1,6 @@
 <%-- 
-    Document   : altaCliente
-    Created on : Jul 8, 2017, 1:36:31 PM
+    Document   : altaPropiedad
+    Created on : Jul 8, 2017, 9:17:54 PM
     Author     : Mathias
 --%>
 
@@ -15,8 +15,8 @@
 <t:paginaMaestra titulo="Alta Cliente">
     <jsp:body>
         <fmt:setLocale value="en-US" />
-        <t:editorCliente textoBoton="Agregar">
-        </t:editorCliente>
+        <t:editorPropiedad textoBoton="Modificar">
+        </t:editorPropiedad>
         <t:mensaje/>
     </jsp:body>
 </t:paginaMaestra>

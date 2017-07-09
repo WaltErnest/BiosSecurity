@@ -11,7 +11,7 @@
 
 <%-- The list of normal or fragment attributes can be specified here: --%>
 <%@attribute name="message"%>
-<%@attribute name="deshabilitarCedula"%>
+<%@attribute name="deshabilitarClave"%>
 <%@attribute name="textoBoton" required="true"%>
 
 <%-- any content can be specified here e.g.: --%>
@@ -21,13 +21,13 @@
 <form method="post" accept-charset="ISO-8859-1">
     <table>
         <tr>
-            <th colspan="2"><h3 class="tableHeader">Datos Cliente:</h3></th>
+            <th colspan="2"><h3 class="tableHeader">Datos del Cliente:</h3></th>
         </tr>
         <tr>
             <td>Cédula:</td>
             <td>
                 <c:choose>
-                    <c:when test="${deshabilitarCedula}">
+                    <c:when test="${deshabilitarClave}">
                         <input type="text" name="cedula" value="${!empty cliente ? cliente.cedula : param.cedula}" readonly="readonly" id="cedula" />
                     </c:when>
                     <c:otherwise>
