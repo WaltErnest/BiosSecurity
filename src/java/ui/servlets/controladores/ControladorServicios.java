@@ -7,6 +7,7 @@ package ui.servlets.controladores;
 
 import compartidos.beans.entidades.*;
 import compartidos.beans.excepciones.MiExcepcion;
+import static java.lang.Integer.parseInt;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import logica.FabricaLogica;
@@ -76,7 +77,7 @@ public class ControladorServicios extends Controlador {
             
             mostrarVista("altaCliente", request, response);
         } catch (Exception ex) {
-            cargarMensaje("¡ERROR! Se produjo un error al agregar al cliente.", request);
+            cargarMensaje("¡ERROR! No se pudo agregar al cliente.", request);
             
             mostrarVista("altaCliente", request, response);
         }
@@ -162,6 +163,62 @@ public class ControladorServicios extends Controlador {
             cargarMensaje("¡ERROR! Se produjo un error al modificar al cliente.", request);
             
             mostrarVista("modificarCliente", request, response);
+        }
+    }
+    
+    public void altapropiedad_get(HttpServletRequest request, HttpServletResponse response) {
+        mostrarVista("altaPropiedad", request, response);
+    }
+    
+    public void altapropiedad_post(HttpServletRequest request, HttpServletResponse response) {
+        int numeroPropiedad = 0;
+        
+        try {
+            numeroPropiedad = Integer.parseInt(request.getParameter("numeroPropiedad"));
+        } catch (NumberFormatException ex) {
+            cargarMensaje("¡ERROR! El número de propiedad no es válido", request);
+            
+            mostrarVista("altaPropiedad", request, response);
+            
+            return;
+        }
+        
+        String valorTipoPropiedad = request.getParameter("tipoPropiedad");
+        Propiedad.TipoPropiedad tipoPropiedad = null;
+        
+        try {
+            tipoPropiedad = Propiedad.TipoPropiedad.valueOf(valorTipoPropiedad);
+        } catch(IllegalArgumentException ex) {
+            cargarMensaje("¡ERROR! El tipo de propiedad no es válida", request);
+        }
+        
+        
+        String direccionPropiedad = request.getParameter("direccionPropiedad");
+        
+        long cedulaDueno = 0;
+        
+        try {
+            cedulaDueno = Long.parseLong(request.getParameter("dueno"));
+        } catch(NumberFormatException ex) {
+            cargarMensaje("¡ERROR! La cedula del dueño no es válida", request);
+        }
+        
+        Cliente dueno = null;
+        
+        try {
+            dueno = FabricaLogica.GetLogicaCliente().buscarCliente(cedulaDueno);
+            
+            if (dueno == null) {
+                cargarMensaje("¡ERROR! No se encontró al dueño de la propiedad", request);
+            } else {
+                Propiedad propiedad = new Propiedad(numeroPropiedad, tipoPropiedad, direccionPropiedad, dueno);
+                
+                FabricaLogica.GetLogicaPropiedad().altaPropiedad(propiedad);
+                
+                cargarMensaje("La propiedad fue agregada con éxito", request);
+            }
+        } catch(Exception ex) {
+            cargarMensaje("¡ERROR! No se puedo agregar la propiedad", request);
         }
     }
 /*

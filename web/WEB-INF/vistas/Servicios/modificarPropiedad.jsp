@@ -5,13 +5,21 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-    </body>
-</html>
+
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+
+<t:paginaMaestra titulo="Alta Cliente">
+    <jsp:body>
+        <fmt:setLocale value="en-US" />
+        <t:editorPropiedad textoBoton="Modificar">
+        <c:if test="${!ocultarFormulario}">
+            <t:editorPropiedad deshabilitarClave="true" textoBoton="Modificar" />
+        </c:if>
+        </t:editorPropiedad>
+        <t:mensaje/>
+    </jsp:body>
+</t:paginaMaestra>

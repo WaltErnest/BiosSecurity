@@ -15,7 +15,7 @@
 <t:paginaMaestra titulo="Alta Cliente">
     <jsp:body>
         <fmt:setLocale value="en-US" />
-        <t:editorPropiedad textoBoton="Modificar">
+        <t:editorPropiedad textoBoton="Agregar">
         </t:editorPropiedad>
         <t:mensaje/>
     </jsp:body>
