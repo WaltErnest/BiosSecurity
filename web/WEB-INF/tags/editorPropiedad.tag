@@ -58,7 +58,7 @@
             <td>
                 <input class="btn" type="submit" name="accion" value="${textoBoton}" />
                 <c:if test="${!empty propiedad}">
-                    <a href="servicios?accion=modificarPropiedad&cedula=${cliente.cedula}&numeroPropiedad=${propiedad.numero}"><img src="images/edit.png" alt="Modificar Propiedad" title="Modificar propiedad..." ></a>&nbsp;&nbsp;
+                    <a href="servicios?accion=modificarPropiedad&cedula=${cliente.cedula}&numeroPropiedad=${propiedad.numeroPropiedad}"><img src="images/edit.png" alt="Modificar Propiedad" title="Modificar propiedad..." ></a>&nbsp;&nbsp;
                     <a href="servicios?accion=agregarPropiedadServicio"><img src="images/agregar.png" alt="Agregar Propiedad a Servicio" title="Agregar Propiedad a servicio..."> </a>&nbsp;&nbsp;
                 </c:if>
             </td>

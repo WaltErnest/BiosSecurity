@@ -71,21 +71,9 @@ public class ControladorServicios extends Controlador {
             }
         } catch (Exception ex) {
             cargarMensaje("¡ERROR! Se ha producido un error buscar al cliente", request);
-            sesionAltaServicio.invalidate();
+            sesionAltaServicio.removeAttribute("cliente");
         }
             mostrarVista("buscarCliente", request, response);
-    }
-    
-    public void agregarclienteservicio_get(HttpServletRequest request, HttpServletResponse response) {
-        HttpSession sesionAltaServicio = request.getSession();
-        
-        try {
-            sesionAltaServicio.getAttribute("cliente");
-        } catch (Exception ex) {
-            cargarMensaje("¡ERROR! No se pudo pasar el cliente al servicio", request);
-            sesionAltaServicio.invalidate();
-        }
-        mostrarVista("index", request, response);
     }
     
     public void modificarcliente_get(HttpServletRequest request, HttpServletResponse response) {
@@ -171,6 +159,17 @@ public class ControladorServicios extends Controlador {
         }
     }
     
+    public void agregarclienteservicio_get(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession sesionAltaServicio = request.getSession();
+        
+        try {
+            sesionAltaServicio.getAttribute("cliente");
+        } catch (Exception ex) {
+            cargarMensaje("¡ERROR! No se pudo pasar el cliente al servicio", request);
+            sesionAltaServicio.removeAttribute("cliente");
+        }
+        mostrarVista("index", request, response);
+    }    
     public void buscarpropiedad_get(HttpServletRequest request, HttpServletResponse response) {
         HttpSession sesion = request.getSession();
         Empleado login = (Empleado) sesion.getAttribute("usuario");
@@ -208,10 +207,22 @@ public class ControladorServicios extends Controlador {
             }
         } catch (Exception ex) {
             cargarMensaje("¡ERROR! Se ha producido un error buscar la propiedad", request);
-            sesionAltaServicio.invalidate();
+            sesionAltaServicio.removeAttribute("propiedad");
         }
         
         mostrarVista("buscarPropiedad", request, response);
+    }
+    
+    public void agregarpropiedadservicio_get(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession sesionAltaServicio = request.getSession();
+        
+        try {
+            sesionAltaServicio.getAttribute("propiedad");
+        } catch (Exception ex) {
+            cargarMensaje("¡ERROR! No se pudo pasar la propiedad al servicio", request);
+            sesionAltaServicio.removeAttribute("propiedad");
+        }
+        mostrarVista("index", request, response);
     }
     
     public void index_post(HttpServletRequest request, HttpServletResponse response) {
