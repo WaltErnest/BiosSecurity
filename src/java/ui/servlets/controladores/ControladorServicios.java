@@ -5,12 +5,16 @@
  */
 package ui.servlets.controladores;
 
+import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Int;
 import compartidos.beans.entidades.*;
 import compartidos.beans.excepciones.MiExcepcion;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import logica.FabricaLogica;
+import logica.ILogicaServicio;
 
 /**
  *
@@ -205,6 +209,126 @@ public class ControladorServicios extends Controlador {
         }
         
         mostrarVista("buscarPropiedad", request, response);
+    }
+    
+    public void altaservicio_post(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession sesionAltaServicio = request.getSession();
+        Cliente cliente = null;
+        Propiedad propiedad = null;
+        Servicio servicioAlarma = null;
+        Servicio servicioVideo = null;
+        
+        try {            
+            Cliente clienteSesion = (Cliente)sesionAltaServicio.getAttribute("cliente");
+            
+            if (clienteSesion != null) {                
+                long cedula = clienteSesion.getCedula();
+                String nombre = clienteSesion.getNombre();
+                String direccionCobro = clienteSesion.getDireccionCobro();
+                String barrioDirCobro = clienteSesion.getBarrioDirCobro();
+                long telefono = clienteSesion.getTelefono();
+                
+                cliente = new Cliente(cedula, nombre, direccionCobro, barrioDirCobro, telefono);
+            } else {
+                long cedula = 0;
+                
+                try {
+                    cedula = Long.parseLong(request.getParameter("cedulaCliente"));
+                } catch (NumberFormatException ex) {
+                    cargarMensaje("¡ERROR! La cedula del dueño no es válida", request);
+                }
+                
+                String nombre = request.getParameter("nombreCliente");
+                String direccionCobro = request.getParameter("direccionCobroCliente");
+                String barrioDirCobro = request.getParameter("barrioDirCobro");
+                
+                long telefono = 0;
+                
+                try {
+                    telefono = Long.parseLong(request.getParameter("telefonoCliente"));
+                } catch(NumberFormatException ex) {
+                    cargarMensaje("¡ERROR! El teléfono no es válido", request);
+                }
+                
+                cliente = new Cliente(cedula, nombre, direccionCobro, barrioDirCobro, telefono);
+            }
+            
+        } catch (Exception ex) {
+            cargarMensaje("¡ERROR! Ocurrió un error con los datos del cliente", request);
+        }
+        
+        try {
+            Propiedad propiedadSesion = (Propiedad)sesionAltaServicio.getAttribute("propiedad");
+            
+            if (propiedadSesion != null) {
+                int numeroPropiedad = 0;
+                Propiedad.TipoPropiedad tipoPropiedad = propiedadSesion.getTipoPropriedad();
+                String direccionPropiedad = propiedadSesion.getDireccion();
+                Cliente dueno = propiedadSesion.getDueno();
+                
+                propiedad = new Propiedad(numeroPropiedad, tipoPropiedad, direccionPropiedad, dueno);
+            } else {
+                int numeroPropiedad = 0;
+                
+                String valorTipoPropiedad = request.getParameter("tipoPropiedad");
+                Propiedad.TipoPropiedad tipoPropiedad = null;
+                try {
+                    tipoPropiedad = Propiedad.TipoPropiedad.valueOf(valorTipoPropiedad);
+                } catch (IllegalArgumentException ex) {
+                    cargarMensaje("¡ERROR! El tipo de propiedad no es válida", request);
+                } catch (Exception ex) {
+                    cargarMensaje("¡ERROR! Algo sucedió con el tipo de propiedad", request);
+                }
+
+                String direccionPropiedad = request.getParameter("direccionPropiedad");
+                
+                Cliente dueno = cliente;
+                
+                propiedad = new Propiedad(numeroPropiedad, tipoPropiedad, direccionPropiedad, dueno);
+            }
+            
+        } catch (Exception ex) {
+            cargarMensaje("¡ERROR! Ocurrió un error con los datos de la propiedad", request);
+        }
+        
+        try {
+            boolean monitoreo = Boolean.parseBoolean(request.getParameter("monitoreo"));
+            boolean alarma = Boolean.parseBoolean(request.getParameter("alarma"));
+            
+            int codigoAnulacion = 0;
+            
+            try {
+                codigoAnulacion = Integer.parseInt(request.getParameter("codigoAnulacion"));
+            } catch(NumberFormatException ex) {
+                cargarMensaje("¡ERROR! El código de anulación no es válido", request);
+            }            
+            
+            boolean video = Boolean.parseBoolean(request.getParameter("video"));
+            boolean terminalGrabacion = Boolean.parseBoolean(request.getParameter("terminalGrabacion"));
+
+            ILogicaServicio logicaServicio = FabricaLogica.GetLogicaServicio();
+            
+            if (alarma) {
+                List<Alarma> listaAlarmas = new ArrayList<Alarma>();
+                servicioAlarma = new ServicioAlarma(0, propiedad, null, monitoreo, codigoAnulacion, listaAlarmas);
+                
+                logicaServicio.altaServicio(servicioAlarma);
+            }
+            
+            if (video) {
+                List<Camara> listaCamaras = new ArrayList<Camara>();
+                servicioVideo = new ServicioVideo(0, propiedad, null, monitoreo, terminalGrabacion, listaCamaras);
+                
+                logicaServicio.altaServicio(servicioVideo);
+            }
+            
+            cargarMensaje("Servicio agregado con éxito", request);
+            
+        } catch(Exception ex) {
+            cargarMensaje("¡ERROR! Ocurrió un error con los datos del servicio", request);
+        }
+        
+        mostrarVista("index", request, response);
     }
    
 /*
