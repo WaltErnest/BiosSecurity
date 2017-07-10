@@ -28,10 +28,10 @@
             <td>
                 <c:choose>
                     <c:when test="${deshabilitarClave}">
-                        <input type="text" name="cedula" value="${!empty cliente ? cliente.cedula : param.cedula}" readonly="readonly" id="cedula" />
+                        <input type="text" name="cedula" value="${!empty cliente ? cliente.cedula : param.cedula}" readonly="readonly" id="cedula" >
                     </c:when>
                     <c:otherwise>
-                            <input type="text" name="cedula" value="${!empty cliente ? cliente.cedula : param.cedula}">
+                        <input type="text" name="cedula" value="${!empty cliente ? cliente.cedula : param.cedula}"id="cedula">
                     </c:otherwise>
                 </c:choose>
             </td>

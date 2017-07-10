@@ -164,6 +164,44 @@ public class ControladorServicios extends Controlador {
         }
     }
     
+    public void buscarpropiedad_get(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession sesion = request.getSession();
+        Empleado login = (Empleado) sesion.getAttribute("usuario");
+
+        try {
+            if (login == null || !(login instanceof Administrativo)) {
+                cargarMensaje("Solamente administradores pueden ingresar a la página.", request);              
+                response.sendRedirect("inicio");
+            }
+        } catch (Exception ex) {
+            cargarMensaje("¡ERROR! Se ha producido un error buscar al cliente", request);
+        }
+        mostrarVista("buscarPropiedad", request, response);
+    }
+    
+    public void buscarpropiedad_post(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            String numeroPropiedad = request.getParameter("numeroPropiedad");
+            
+            if (numeroPropiedad == null) {
+                cargarMensaje("No hay un número de propiedad", request);    
+            } else {
+                HttpSession sesionAltaServicio = request.getSession();
+                Cliente cliente = (Cliente)sesionAltaServicio.getAttribute("cliente");
+                
+                if (cliente != null) {
+                    int numPropiedad = Integer.parseInt(numeroPropiedad);
+                
+                    Propiedad propiedad = FabricaLogica.GetLogicaPropiedad().buscarPropiedad(numPropiedad, cliente.getCedula());
+                } else {
+                    cargarMensaje("No hay un cliente encontrado", request);
+                }
+            }
+        } catch (Exception ex) {
+            cargarMensaje("¡ERROR! Se ha producido un error buscar la propiedad", request);
+        }
+        mostrarVista("buscarPropiedad", request, response);
+    }
 /*
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

@@ -157,7 +157,7 @@ INSERT INTO clientes VALUES(4523684,"Juan Perez","Isabela 3452","Brazo Oriental"
 INSERT INTO clientes VALUES(4963125,"Maria del Carmen","Av Rio Negro MJ4","Pinar Sur",098564852);
 INSERT INTO clientes VALUES(2563487,"Jose Cardenal","Paysandu 1414","Centro",094568754);
 
-INSERT INTO propiedades VALUES(1,"local","Ejido 2314",4523684);
+INSERT INTO propiedades VALUES(1,"Local","Ejido 2314",4523684);
 INSERT INTO propiedades VALUES(2,"Apartamento","Rondeau 1813",4523684);
 INSERT INTO propiedades VALUES(1,"Casa","Lima 2345",4963125);
 

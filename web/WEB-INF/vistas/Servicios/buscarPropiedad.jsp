@@ -1,6 +1,6 @@
 <%-- 
-    Document   : buscarCliente
-    Created on : Jul 9, 2017, 1:20:25 PM
+    Document   : buscarPropiedad
+    Created on : Jul 9, 2017, 6:53:00 PM
     Author     : Mathias
 --%>
 
@@ -11,11 +11,11 @@
 
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
-<t:paginaMaestra titulo="Buscar Cliente">
+<t:paginaMaestra titulo="Buscar Propiedad">
     <jsp:body>
         <fmt:setLocale value="en-US" />
         <c:if test="${!ocultarFormulario}">
-            <t:editorCliente deshabilitarClave="false" textoBoton="Buscar" />
+            <t:editorPropiedad deshabilitarClave="false" textoBoton="Buscar" />
         </c:if>
         <t:mensaje/>
     </jsp:body>
