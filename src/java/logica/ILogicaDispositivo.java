@@ -17,4 +17,8 @@ import java.util.ArrayList;
 public interface ILogicaDispositivo {
     public void AltaDispositivo(Dispositivo pDispositivo) throws ClassNotFoundException, SQLException, MiExcepcion;
     ArrayList<Dispositivo> ListarDispositivos()throws ClassNotFoundException, SQLException;
+    ArrayList<Dispositivo> BuscarDispositivos(String busqueda)throws ClassNotFoundException, SQLException;
+    Dispositivo BuscarDispositivo(String busqueda)throws ClassNotFoundException, SQLException;
+    void ModificarDispositivo(Dispositivo pDispositivo) throws ClassNotFoundException, SQLException, MiExcepcion;
+    void EliminarDispositivo(Dispositivo pDispositivo) throws ClassNotFoundException, SQLException, MiExcepcion;
 }

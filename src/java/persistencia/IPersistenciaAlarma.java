@@ -17,4 +17,8 @@ import java.util.ArrayList;
 public interface IPersistenciaAlarma {
     void AltaAlarma(Alarma pAlarma)throws ClassNotFoundException, SQLException, MiExcepcion;
     ArrayList<Alarma> ListarAlarmas() throws ClassNotFoundException, SQLException;
+    ArrayList<Alarma> BuscarAlarmas(String busqueda) throws ClassNotFoundException, SQLException;
+    Alarma BuscarAlarma(String busqueda) throws ClassNotFoundException, SQLException;
+    void modificarAlarma(Alarma pAlarma)throws ClassNotFoundException, SQLException ;
+    void EliminarAlarma(Alarma pAlarma)throws ClassNotFoundException, SQLException;
 }

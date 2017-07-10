@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +23,12 @@ import javax.servlet.http.HttpSession;
  * @author Ernesto
  */
 abstract class Controlador extends HttpServlet {
-
+    protected ServletConfig config;
+    protected ServletContext application;
+    protected HttpServletRequest request;
+    protected HttpServletResponse response;
+    protected HttpSession session;
+    
     public void index_get(HttpServletRequest request, HttpServletResponse response) {
         mostrarVista("index", request, response);
     }
@@ -29,7 +36,21 @@ abstract class Controlador extends HttpServlet {
     public void error_get(HttpServletRequest request, HttpServletResponse response) {
         mostrarVista(request, response);
     }
-    
+        protected void mostrarVista(String vista) {
+        agregarMensajeSesionAMensajeRequest();
+
+        try {
+            String nombreCarpetaVista = this.getClass().getSimpleName().replaceFirst("Controlador", "");
+
+            RequestDispatcher despachador = request.getRequestDispatcher("WEB-INF/vistas/" + nombreCarpetaVista + "/" + vista + ".jsp");
+
+            if (despachador != null) {
+                despachador.forward(request, response);
+            }
+        } catch (Exception ex) {
+            System.out.println("Error al mostrar la vista " + vista + ".");
+        }
+    }
     protected void mostrarVista(HttpServletRequest request, HttpServletResponse response) {
         agregarMensajeSesionAMensaje(request);
 
@@ -102,7 +123,21 @@ abstract class Controlador extends HttpServlet {
             System.out.println("Error al despachar el método de la acción solicitada.");
         }
     }
+    protected void agregarMensajeSesionAMensajeRequest() {
+        String mensajeSesion = (String) session.getAttribute("mensaje");
 
+        if (mensajeSesion != null) {
+            String mensaje = (String) request.getAttribute("mensaje");
+
+            if (mensaje == null) {
+                request.setAttribute("mensaje", mensajeSesion);
+            } else {
+                request.setAttribute("mensaje", mensajeSesion + "<br /><br />" + mensaje);
+            }
+
+            session.removeAttribute("mensaje");
+        }
+    }
     protected void cargarMensaje(String mensaje, HttpServletRequest request) {
         request.setAttribute("mensaje", mensaje);
     }

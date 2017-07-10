@@ -31,7 +31,7 @@
             }
         </style>
         <form>
-            <input class="buscar" name="search" placeholder="Buscar..">
+            <input name="buscar" value="${param.buscar}" id="buscar" placeholder="buscar..." class="buscar"/>
         </form>
         <p><a class="otra" href="dispositivos?accion=agregar"><img src="images/agregar.png" alt="Agregar" title="Agregar..." ></a></p>
         <table>
@@ -42,20 +42,17 @@
             <c:forEach var="dispositivo" items="${dispositivos}">
                 
                 <tr>                    
-                    <td>${dispositivo.numeroInventario}</td>
+                    <td style="text-align: center">${dispositivo.numeroInventario}</td>
                           
-                    <td></td>
-                    <td class="texto-derecha">
-                        <fmt:formatNumber type="number" pattern="0.00"  />
-                    </td>
+                    <td>${dispositivo.descripcionUbicacion}</td>
                     <td>
-                        <a href="empleados?accion=ver&cedula=${empleado.cedula}"><img src="images/view.png" alt="Ver" title="Ver..." ></a>&nbsp;&nbsp;
-                        <a href="empleados?accion=modificar&cedula=${empleado.cedula}"><img src="images/edit.png" alt="Modificar" title="Modificar..." ></a>&nbsp;&nbsp;
-                        <a href="empleados?accion=eliminar&cedula=${empleado.cedula}"><img src="images/delete.png" alt="Eliminar" title="Eliminar..." ></a>
+                        <a href="dispositivos?accion=ver&inventario=${dispositivo.numeroInventario}"><img src="images/view.png" alt="Ver" title="Ver..." ></a>&nbsp;&nbsp;
+                        <a href="dispositivos?accion=modificar&inventario=${dispositivo.numeroInventario}"><img src="images/edit.png" alt="Modificar" title="Modificar..." ></a>&nbsp;&nbsp;
+                        <a href="dispositivos?accion=eliminar&inventario=${dispositivo.numeroInventario}"><img src="images/delete.png" alt="Eliminar" title="Eliminar..." ></a>
                     </td>
                 </tr>                
             </c:forEach>
         </table>
-        <t:mensaje />
+        
     </jsp:body>
 </t:paginaMaestra>

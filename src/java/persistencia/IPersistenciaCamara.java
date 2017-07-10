@@ -17,4 +17,8 @@ import java.util.ArrayList;
 public interface IPersistenciaCamara {
     void AltaCamara(Camara pCamara)throws ClassNotFoundException, SQLException, MiExcepcion;
     ArrayList<Camara> ListarCamaras() throws ClassNotFoundException, SQLException;
+    ArrayList<Camara> BuscarCamaras(String busqueda) throws ClassNotFoundException, SQLException;
+    Camara BuscarCamara(String busqueda) throws ClassNotFoundException, SQLException ;
+    void modificarCamara(Camara pCamara) throws ClassNotFoundException, SQLException ;
+    void EliminarCamara(Camara pCamara)throws ClassNotFoundException, SQLException ;
 }

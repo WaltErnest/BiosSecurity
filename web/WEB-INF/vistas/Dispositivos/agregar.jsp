@@ -9,9 +9,9 @@
 
 <t:paginaMaestra titulo="Agregar Dispositivo">
     <jsp:body>
-        <t:editorDispositivos />
+        <t:editorDispositivos idFoco="inventario" textoBoton="Agregar"/>
         
-        <p><a href="inicio">Volver...</a></p>
+        <p><a href="dispositivos">Volver...</a></p>
         
         <t:mensaje />
     </jsp:body>
