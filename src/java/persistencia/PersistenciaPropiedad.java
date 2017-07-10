@@ -99,7 +99,6 @@ public class PersistenciaPropiedad implements IPersistenciaPropiedad {
                         + " del cliente " + pPropiedad.getDueno().getCedula() + ": " + error);
                 }
             }
-            
         } finally {
             Conexion.cerrarRecursos(cnn, consulta);
         }
