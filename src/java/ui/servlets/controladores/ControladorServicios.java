@@ -176,6 +176,7 @@ public class ControladorServicios extends Controlador {
         } catch (Exception ex) {
             cargarMensaje("¡ERROR! Se ha producido un error buscar al cliente", request);
         }
+        
         mostrarVista("buscarPropiedad", request, response);
     }
     
@@ -193,6 +194,8 @@ public class ControladorServicios extends Controlador {
                     int numPropiedad = Integer.parseInt(numeroPropiedad);
                 
                     Propiedad propiedad = FabricaLogica.GetLogicaPropiedad().buscarPropiedad(numPropiedad, cliente.getCedula());
+                    
+                    sesionAltaServicio.setAttribute("propiedad", propiedad);
                 } else {
                     cargarMensaje("No hay un cliente encontrado", request);
                 }
@@ -200,8 +203,10 @@ public class ControladorServicios extends Controlador {
         } catch (Exception ex) {
             cargarMensaje("¡ERROR! Se ha producido un error buscar la propiedad", request);
         }
+        
         mostrarVista("buscarPropiedad", request, response);
     }
+   
 /*
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

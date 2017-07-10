@@ -74,13 +74,12 @@ public class PersistenciaPropiedad implements IPersistenciaPropiedad {
             Conexion.cerrarRecursos(cnn, consulta, resultado);
         }
     }
-
-    @Override
+    
     public void altaPropiedad(Propiedad pPropiedad)
             throws ClassNotFoundException, SQLException, MiExcepcion {
         Connection cnn = null;
         CallableStatement consulta = null;
-
+        
         try {
             cnn = Conexion.getConexion();
             consulta = cnn.prepareCall("{ CALL altaPropiedad(?, ?, ?, ?) }");
@@ -91,13 +90,16 @@ public class PersistenciaPropiedad implements IPersistenciaPropiedad {
             consulta.registerOutParameter(4, java.sql.Types.VARCHAR);
 
             consulta.executeUpdate();
-
+            
             String error = consulta.getNString(4);
-
+            
             if (error != null) {
-                throw new MiExcepcionPersistencia("Error en dar de alta la propiedad " + pPropiedad.getNumeroPropiedad()
+                if (error.equals("")) {
+                    throw new MiExcepcionPersistencia("Error al dar de alta la propiedad " + pPropiedad.getNumeroPropiedad()
                         + " del cliente " + pPropiedad.getDueno().getCedula() + ": " + error);
+                }
             }
+            
         } finally {
             Conexion.cerrarRecursos(cnn, consulta);
         }

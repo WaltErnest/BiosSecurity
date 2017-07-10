@@ -14,7 +14,7 @@
     <jsp:body>
         <fmt:setLocale value="en-US" />
         <h2 class="tableHeader">Registrar Servicio</h2>
-        <form>
+        <form method="post">
             <table class="table">
                 <tr>
                     <td>
@@ -66,8 +66,27 @@
                         <tr><td><strong>Dirección:</strong><input type="text" name="direccionPropiedad"</td></tr>
                     </c:otherwise>
                 </c:choose>
+                <tr>
+                    <td>
+                        <p>Datos del Servicio:</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" name="monitoreo">Monitoreo<br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" name="alarma" value="alarma" id="servAlarma"/> Alarma<br>
+                        Código de anulación:
+                        <input type="text" name="alarmaCodigoAnulacion" id="servAlarmaCodAnulacion"/>
+                        <input type="checkbox" name="video" value="video" id="servVideo"/> Video<br>
+                        <input type="checkbox" name="videoTerminalGrabacion" id="servVideoTermGrabacion"/> Terminal de grabación<br>
+                    </td>
+                </tr>
             </table>
-            <input class="btn"type="submit" name="altaServicio" value="Dar de alta el servicio">
+            <input class="btn"type="submit" name="altaServicio" value="Dar de alta el servicio"/>
         </form>
         <t:mensaje/>
         <ul>
@@ -75,3 +94,4 @@
         </ul>
     </jsp:body>
 </t:paginaMaestra>
+            

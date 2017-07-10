@@ -64,34 +64,6 @@ public class PersistenciaCliente implements IPersistenciaCliente {
     }
     
     @Override
-    public void altaCliente(Cliente pCliente) throws ClassNotFoundException, SQLException, MiExcepcionPersistencia, MiExcepcion{
-        Connection cnn = null;
-        CallableStatement consulta = null;
-        
-        try {
-            cnn = Conexion.getConexion();
-            consulta = cnn.prepareCall("{ CALL altaCliente(?, ?, ?, ?, ?, ?) }");
-            
-            consulta.setLong(1, pCliente.getCedula());
-            consulta.setString(2, pCliente.getNombre());
-            consulta.setString(3, pCliente.getDireccionCobro());
-            consulta.setString(4, pCliente.getBarrioDirCobro());
-            consulta.setLong(5, pCliente.getTelefono());
-            consulta.registerOutParameter(6, java.sql.Types.VARCHAR);
-            
-            consulta.executeUpdate();
-            
-            String error = consulta.getString(6);
-            
-            if (error != null) {
-                throw new MiExcepcionPersistencia("Error intentar dar de alta al cliente " + pCliente.getCedula() + ": " + error);
-            }           
-        } finally {
-            Conexion.cerrarRecursos(cnn, consulta);
-        }
-    }
-    
-    @Override
     public void modificarCliente(Cliente pCliente) throws ClassNotFoundException, SQLException, MiExcepcionPersistencia, MiExcepcion {
         Connection cnn = null;
         CallableStatement consulta = null;

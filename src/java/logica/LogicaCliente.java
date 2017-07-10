@@ -25,11 +25,6 @@ public class LogicaCliente implements ILogicaCliente {
         }
     }
     
-    public void altaCliente(Cliente pCliente) throws ClassNotFoundException, SQLException, MiExcepcion {
-        validarCliente(pCliente);        
-        perCliente.altaCliente(pCliente);
-    }
-    
     public void modificarCliente(Cliente pCliente) throws ClassNotFoundException, SQLException, MiExcepcion {
         validarCliente(pCliente);
         perCliente.modificarCliente(pCliente);

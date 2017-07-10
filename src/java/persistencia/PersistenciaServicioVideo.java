@@ -83,6 +83,27 @@ public class PersistenciaServicioVideo implements IPersistenciaServicioVideo {
         
         try {
             cnn = Conexion.getConexion();
+            cnn.setAutoCommit(false);
+            
+            consulta = cnn.prepareCall("{ CALL altaCliente(?, ?, ?, ?, ?, ?) }");
+            
+            consulta.setLong(1, pServicioVideo.getPropriedadCliente().getDueno().getCedula());
+            consulta.setString(2, pServicioVideo.getPropriedadCliente().getDueno().getNombre());
+            consulta.setString(3, pServicioVideo.getPropriedadCliente().getDueno().getDireccionCobro());
+            consulta.setString(4, pServicioVideo.getPropriedadCliente().getDueno().getBarrioDirCobro());
+            consulta.setLong(5, pServicioVideo.getPropriedadCliente().getDueno().getTelefono());
+            consulta.registerOutParameter(6, java.sql.Types.VARCHAR);
+            
+            consulta.executeUpdate();
+            
+            consulta = cnn.prepareCall("{ CALL altaPropiedad(?, ?, ?, ?) }");
+
+            consulta.setString(1, pServicioVideo.getPropriedadCliente().getTipoPropriedad().toString());
+            consulta.setString(2, pServicioVideo.getPropriedadCliente().getDireccion());
+            consulta.setLong(3, pServicioVideo.getPropriedadCliente().getDueno().getCedula());
+            consulta.registerOutParameter(4, java.sql.Types.VARCHAR);
+
+            consulta.executeUpdate();
             consulta = cnn.prepareCall("{ CALL altaServicioVideo(?, ?, ?, ?, ?, ?) }");
             
             consulta.setInt(1, pServicioVideo.getPropriedadCliente().getNumeroPropiedad());
@@ -94,11 +115,9 @@ public class PersistenciaServicioVideo implements IPersistenciaServicioVideo {
             
             String error = consulta.getNString(6);
 
-            if (error != null) {
-                throw new MiExcepcionPersistencia("Error en dar de alta el servicio de video del cliente " 
-                        + pServicioVideo.getPropriedadCliente().getDueno().getCedula() 
-                        + " , propiedad " + pServicioVideo.getPropriedadCliente().getNumeroPropiedad() + ": " + error);
-            }
+            consulta.executeUpdate();
+            
+            cnn.commit();
             
         } finally {
             Conexion.cerrarRecursos(cnn, consulta);

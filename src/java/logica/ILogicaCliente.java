@@ -15,6 +15,5 @@ import java.sql.SQLException;
  */
 public interface ILogicaCliente {    
     Cliente buscarCliente(long pCedula) throws ClassNotFoundException, SQLException, MiExcepcionLogica, MiExcepcion;
-    void altaCliente(Cliente pCliente) throws ClassNotFoundException, SQLException, MiExcepcionLogica, MiExcepcion;
     void modificarCliente(Cliente pCliente) throws ClassNotFoundException, SQLException, MiExcepcionLogica, MiExcepcion;
 }

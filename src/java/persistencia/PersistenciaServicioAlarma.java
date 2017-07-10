@@ -83,6 +83,28 @@ public class PersistenciaServicioAlarma implements IPersistenciaServicioAlarma {
         
         try {
             cnn = Conexion.getConexion();
+            cnn.setAutoCommit(false);
+            
+            consulta = cnn.prepareCall("{ CALL altaCliente(?, ?, ?, ?, ?, ?) }");
+            
+            consulta.setLong(1, pServicioAlarma.getPropriedadCliente().getDueno().getCedula());
+            consulta.setString(2, pServicioAlarma.getPropriedadCliente().getDueno().getNombre());
+            consulta.setString(3, pServicioAlarma.getPropriedadCliente().getDueno().getDireccionCobro());
+            consulta.setString(4, pServicioAlarma.getPropriedadCliente().getDueno().getBarrioDirCobro());
+            consulta.setLong(5, pServicioAlarma.getPropriedadCliente().getDueno().getTelefono());
+            consulta.registerOutParameter(6, java.sql.Types.VARCHAR);
+            
+            consulta.executeUpdate();
+            
+            consulta = cnn.prepareCall("{ CALL altaPropiedad(?, ?, ?, ?) }");
+
+            consulta.setString(1, pServicioAlarma.getPropriedadCliente().getTipoPropriedad().toString());
+            consulta.setString(2, pServicioAlarma.getPropriedadCliente().getDireccion());
+            consulta.setLong(3, pServicioAlarma.getPropriedadCliente().getDueno().getCedula());
+            consulta.registerOutParameter(4, java.sql.Types.VARCHAR);
+
+            consulta.executeUpdate();
+            
             consulta = cnn.prepareCall("{ CALL altaServicioAlarma(?, ?, ?, ?, ?, ?) }");
             
             consulta.setInt(1, pServicioAlarma.getPropriedadCliente().getNumeroPropiedad());
@@ -94,15 +116,19 @@ public class PersistenciaServicioAlarma implements IPersistenciaServicioAlarma {
             
             consulta.executeUpdate();
             
-            String error = consulta.getNString(6);
-
-            if (error != null) {
-                throw new MiExcepcionPersistencia("Error en dar de alta el servicio de alarma del cliente " 
-                        + pServicioAlarma.getPropriedadCliente().getDueno().getCedula() 
-                        + " , propiedad " + pServicioAlarma.getPropriedadCliente().getNumeroPropiedad() + ": " + error);
+            cnn.commit();
+         
+        } catch (Exception ex) {
+            try {
+                if (cnn != null) {
+                    cnn.rollback();
+                }                        
+            } catch (Exception rEx) {
+                throw new MiExcepcionPersistencia("Ocurrió un error al deshacer los cambios");
             }
-            
-        } finally {
+            throw new MiExcepcionPersistencia("Ocurrió un error al agregar el servicio de alarma");
+        }
+        finally {
             Conexion.cerrarRecursos(cnn, consulta);
         }
     }

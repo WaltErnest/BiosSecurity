@@ -28,10 +28,10 @@
             <td>
                 <c:choose>
                     <c:when test="${deshabilitarClave}">
-                        <input readonly="true" name="numeroPropiedad" value="${!empty propiedad ? propiedad.numero : param.numeroPropiedad}" id="numeroPropiedad" >
+                        <input readonly="true" name="numeroPropiedad" value="${!empty propiedad ? propiedad.numero : param.numeroPropiedad}" id="numeroPropiedad" />
                     </c:when>
                     <c:otherwise>
-                        <input type="text" name="numeroPropiedad" value="${!empty propiedad ? propiedad.numero : param.numeroPropiedad}" id="numeroPropiedad" >
+                        <input type="text" name="numeroPropiedad" value="${!empty propiedad ? propiedad.numeroPropiedad : param.numeroPropiedad}" id="numeroPropiedad"  />
                     </c:otherwise>
                 </c:choose>
             </td>
@@ -39,20 +39,24 @@
         <tr>
             <td>Tipo:</td>
             <td>
-                <input type="text" name="tipoPropiedad" value="${!empty propiedad ? propiedad.tipoPropiedad : param.propiedad.tipoPropiedad}"
+                <input type="text" name="tipoPropiedad" value="${!empty propiedad ? propiedad.TipoPropiedad.tipoPropiedad : param.propiedad.TipoPropiedad.tipoPropiedad}" id="tipoPropiedad" />
             </td>
         </tr>
         <tr>
             <td>Dirección:</td>
-            <td><input type="text" name="direccionPropiedad" value="${!empty propiedad ? propiedad.direccion : param.direccionPropiedad}"</td>
+            <td>
+                <input type="text" name="direccionPropiedad" value="${!empty propiedad ? propiedad.direccion : param.direccionPropiedad}" id="direccionPropiedad" />
+            </td>
         </tr>
         <tr>
             <td>Dueño:</td>
-                <td><input type="text" name="dueno" value="${!empty cliente ? cliente.cedula : param.cliente.cedula}"</td>
+            <td>
+                <input type="text" name="dueno" value="${!empty cliente ? cliente.cedula : param.cliente.cedula}" id="dueno" />
+            </td>
         </tr>
         <tr>
             <td>
-                <input class="btn" type="submit" name="accion" value="${textoBoton}" >
+                <input class="btn" type="submit" name="accion" value="${textoBoton}" />
                 <c:if test="${!empty propiedad}">
                     <a href="servicios?accion=modificarPropiedad&cedula=${cliente.cedula}&numeroPropiedad=${propiedad.numero}"><img src="images/edit.png" alt="Modificar Propiedad" title="Modificar propiedad..." ></a>&nbsp;&nbsp;
                     <a href="servicios?accion=agregarPropiedadServicio"><img src="images/agregar.png" alt="Agregar Propiedad a Servicio" title="Agregar Propiedad a servicio..."> </a>&nbsp;&nbsp;
