@@ -273,7 +273,7 @@ public class ControladorServicios extends Controlador {
             
             if (propiedadSesion != null) {
                 int numeroPropiedad = 0;
-                Propiedad.TipoPropiedad tipoPropiedad = propiedadSesion.getTipoPropriedad();
+                Propiedad.TipoPropiedad tipoPropiedad = propiedadSesion.getTipoPropiedad();
                 String direccionPropiedad = propiedadSesion.getDireccion();
                 Cliente dueno = propiedadSesion.getDueno();
                 
