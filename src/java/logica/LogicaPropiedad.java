@@ -45,7 +45,7 @@ public class LogicaPropiedad implements ILogicaPropiedad {
     }
     
     public void validarPropiedad(Propiedad pPropiedad) throws MiExcepcion {
-        if (pPropiedad.getTipoPropriedad().equals("")) {
+        if (pPropiedad.getTipoPropiedad().equals("")) {
             throw new MiExcepcionLogica("El tipo de propiedad no puede estar vacío");
         }
         

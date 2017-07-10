@@ -98,7 +98,7 @@ public class PersistenciaServicioVideo implements IPersistenciaServicioVideo {
             
             consulta = cnn.prepareCall("{ CALL altaPropiedad(?, ?, ?, ?) }");
 
-            consulta.setString(1, pServicioVideo.getPropriedadCliente().getTipoPropriedad().toString());
+            consulta.setString(1, pServicioVideo.getPropriedadCliente().getTipoPropiedad().toString());
             consulta.setString(2, pServicioVideo.getPropriedadCliente().getDireccion());
             consulta.setLong(3, pServicioVideo.getPropriedadCliente().getDueno().getCedula());
             consulta.registerOutParameter(4, java.sql.Types.VARCHAR);

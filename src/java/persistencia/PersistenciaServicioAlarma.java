@@ -98,7 +98,7 @@ public class PersistenciaServicioAlarma implements IPersistenciaServicioAlarma {
             
             consulta = cnn.prepareCall("{ CALL altaPropiedad(?, ?, ?, ?) }");
 
-            consulta.setString(1, pServicioAlarma.getPropriedadCliente().getTipoPropriedad().toString());
+            consulta.setString(1, pServicioAlarma.getPropriedadCliente().getTipoPropiedad().toString());
             consulta.setString(2, pServicioAlarma.getPropriedadCliente().getDireccion());
             consulta.setLong(3, pServicioAlarma.getPropriedadCliente().getDueno().getCedula());
             consulta.registerOutParameter(4, java.sql.Types.VARCHAR);

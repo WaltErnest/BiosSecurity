@@ -201,7 +201,6 @@ public class ControladorServicios extends Controlador {
                     int numPropiedad = Integer.parseInt(numeroPropiedad);
                 
                     Propiedad propiedad = FabricaLogica.GetLogicaPropiedad().buscarPropiedad(numPropiedad, cliente.getCedula());
-                    
                     sesionAltaServicio.setAttribute("propiedad", propiedad);
                 } else {
                     cargarMensaje("No hay un cliente encontrado", request);
