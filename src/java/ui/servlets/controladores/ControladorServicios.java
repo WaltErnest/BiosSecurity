@@ -215,8 +215,10 @@ public class ControladorServicios extends Controlador {
         mostrarVista("buscarPropiedad", request, response);
     }
     
-    public void altaservicio_post(HttpServletRequest request, HttpServletResponse response) {
+    public void index_post(HttpServletRequest request, HttpServletResponse response) {
         HttpSession sesionAltaServicio = request.getSession();
+        sesionAltaServicio.removeAttribute("propiedad");
+        sesionAltaServicio.removeAttribute("cliente");
         Cliente cliente = null;
         Propiedad propiedad = null;
         Servicio servicioAlarma = null;
@@ -240,7 +242,8 @@ public class ControladorServicios extends Controlador {
                     cedula = Long.parseLong(request.getParameter("cedulaCliente"));
                 } catch (NumberFormatException ex) {
                     cargarMensaje("¡ERROR! La cedula del dueño no es válida", request);
-                    sesionAltaServicio.invalidate();
+                    sesionAltaServicio.removeAttribute("cliente");
+                    sesionAltaServicio.removeAttribute("propiedad");
                 }
                 
                 String nombre = request.getParameter("nombreCliente");
@@ -253,7 +256,8 @@ public class ControladorServicios extends Controlador {
                     telefono = Long.parseLong(request.getParameter("telefonoCliente"));
                 } catch(NumberFormatException ex) {
                     cargarMensaje("¡ERROR! El teléfono no es válido", request);
-                    sesionAltaServicio.invalidate();
+                    sesionAltaServicio.removeAttribute("cliente");
+                    sesionAltaServicio.removeAttribute("propiedad");
                 }
                 
                 cliente = new Cliente(cedula, nombre, direccionCobro, barrioDirCobro, telefono);
@@ -261,7 +265,8 @@ public class ControladorServicios extends Controlador {
             
         } catch (Exception ex) {
             cargarMensaje("¡ERROR! Ocurrió un error con los datos del cliente", request);
-            sesionAltaServicio.invalidate();
+            sesionAltaServicio.removeAttribute("cliente");
+            sesionAltaServicio.removeAttribute("propiedad");
         }
         
         try {
@@ -283,10 +288,12 @@ public class ControladorServicios extends Controlador {
                     tipoPropiedad = Propiedad.TipoPropiedad.valueOf(valorTipoPropiedad);
                 } catch (IllegalArgumentException ex) {
                     cargarMensaje("¡ERROR! El tipo de propiedad no es válida", request);
-                    sesionAltaServicio.invalidate();
+                    sesionAltaServicio.removeAttribute("cliente");
+                    sesionAltaServicio.removeAttribute("propiedad");
                 } catch (Exception ex) {
                     cargarMensaje("¡ERROR! Algo sucedió con el tipo de propiedad", request);
-                    sesionAltaServicio.invalidate();
+                    sesionAltaServicio.removeAttribute("cliente");
+                    sesionAltaServicio.removeAttribute("propiedad");
                 }
 
                 String direccionPropiedad = request.getParameter("direccionPropiedad");
@@ -298,7 +305,8 @@ public class ControladorServicios extends Controlador {
             
         } catch (Exception ex) {
             cargarMensaje("¡ERROR! Ocurrió un error con los datos de la propiedad", request);
-            sesionAltaServicio.invalidate();
+            sesionAltaServicio.removeAttribute("cliente");
+            sesionAltaServicio.removeAttribute("propiedad");
         }
         
         try {
@@ -310,12 +318,18 @@ public class ControladorServicios extends Controlador {
             try {
                 codigoAnulacion = Integer.parseInt(request.getParameter("codigoAnulacion"));
             } catch(NumberFormatException ex) {
-                cargarMensaje("¡ERROR! El código de anulación no es válido", request);
-                sesionAltaServicio.invalidate();
+                sesionAltaServicio.invalidate();                
+                throw new Exception("¡ERROR! El código de anulación no es válido");
             }            
             
             boolean video = Boolean.parseBoolean(request.getParameter("video"));
             boolean terminalGrabacion = Boolean.parseBoolean(request.getParameter("terminalGrabacion"));
+            
+            if (!alarma && !video ) {
+                sesionAltaServicio.invalidate();
+                throw new Exception("Debe seleccionar al menos un tipo de servicio");
+                
+            }
 
             ILogicaServicio logicaServicio = FabricaLogica.GetLogicaServicio();
             
@@ -334,11 +348,13 @@ public class ControladorServicios extends Controlador {
             }
             
             cargarMensaje("Servicio agregado con éxito", request);
-            sesionAltaServicio.invalidate();
+            sesionAltaServicio.removeAttribute("cliente");
+            sesionAltaServicio.removeAttribute("propiedad");
             
         } catch(Exception ex) {
-            cargarMensaje("¡ERROR! Ocurrió un error con los datos del servicio", request);
-            sesionAltaServicio.invalidate();
+            cargarMensaje("¡ERROR! Ocurrió un error con los datos del servicio" + ex, request);
+            sesionAltaServicio.removeAttribute("cliente");
+            sesionAltaServicio.removeAttribute("propiedad");
         }
         
         mostrarVista("index", request, response);
