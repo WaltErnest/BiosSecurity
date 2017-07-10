@@ -14,35 +14,61 @@
     <jsp:body>
         <fmt:setLocale value="en-US" />
         <h2 class="tableHeader">Registrar Servicio</h2>
+        <form>
             <table class="table">
-                <h3>Datos del cliente:</h3>
-                    <tr>
-                        <td>
-                            <form>
-                                <p><input class="input" type="text" name="buscarCliente" value="${param.buscarCliente}" id="cedulaCliente" placeholder="Escriba la cédula..." /><input class="btn" type="submit" value="Buscar" /></p>
-                            </form>
-                        </td>
-                    </tr>
                 <tr>
-                    <th>Cédula</th><th>Nombre</th><th>Dirección</th><th>Barrio</th><th>Teléfono</th><th></th>
+                    <td>
+                        <p>Datos del cliente:</p>
+                    </td>
                 </tr>
-                    <tr>
-                        <c:if test="${!empty cliente}">
-                            <jsp:useBean id="cliente" type="compartidos.beans.entidades.Cliente" scope="request" />
-                            <td><jsp:getProperty name="cliente" property="cedula"/>  </td>
-                            <td><jsp:getProperty name="cliente" property="nombre"/>  </td>
-                            <td><jsp:getProperty name="cliente" property="direccionCobro"/>  </td>
-                            <td><jsp:getProperty name="cliente" property="barrioDirCobro"/>  </td>
-                            <td><jsp:getProperty name="cliente" property="telefono"/>  </td>
-                        </c:if>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a class="btn" href="servicios?accion=altaCliente">Agregar</a>
-                            <a class="btn" href="servicios?accion=modificarCliente&cedula=${cliente.cedula}">Modificar</a>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>
+                        <a href="servicios?accion=buscarCliente"><img src="images/searchicon.png" alt="Buscar Cliente" title="Buscar cliente..." >Buscar</a>&nbsp;&nbsp;
+                    </td>
+                </tr>
+                <c:choose>
+                    <c:when test="${!empty cliente}">
+                        <jsp:useBean id="cliente" type="compartidos.beans.entidades.Cliente" scope="session" />
+                        <tr><td><strong>Cédula:</strong><jsp:getProperty name="cliente" property="cedula"/>  </td></tr>
+                        <tr><td><strong>Nombre:</strong><jsp:getProperty name="cliente" property="nombre"/>  </td></tr>
+                        <tr><td><strong>Dirección de Cobro:</strong><jsp:getProperty name="cliente" property="direccionCobro"/>  </td></tr>
+                        <tr><td><strong>Barrio:</strong><jsp:getProperty name="cliente" property="barrioDirCobro"/>  </td></tr>
+                        <tr><td><strong>Teléfono:</strong><jsp:getProperty name="cliente" property="telefono"/>  </td></tr>
+                    </c:when>
+                    <c:otherwise>
+                        <tr><td><strong>Cédula:</strong><input type="text" name="cedulaCliente"></td></tr>
+                        <tr><td><strong>Nombre:</strong><input type="text" name="nombreCliente"</td></tr>
+                        <tr><td><strong>Dirección de Cobro:</strong><input type="text" name="direccionCobroCliente"</td></tr>
+                        <tr><td><strong>Barrio:</strong><input type="text" name="barrioCobroCliente"</td></tr>
+                        <tr><td><strong>Teléfono:</strong><input type="text" name="telefonoCliente"</td></tr>
+                    </c:otherwise>
+                </c:choose>
+                <tr>
+                    <td>
+                        <p>Datos de la Propiedad:</p>                       
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="servicios?accion=buscarPropiedad"><img src="images/searchicon.png" alt="Buscar Propiedad" title="Buscar propiedad..." >Buscar</a>&nbsp;&nbsp;
+                    </td>
+                </tr>
+                <c:choose>
+                    <c:when test="${!empty propiedad}">
+                        <jsp:useBean id="propiedad" type="compartidos.beans.entidades.Propiedad" scope="session"/>
+                        <tr><td><strong>Número:</strong><jsp:getProperty name="numeroPropiedad" property="numeroPropiedad"/>  </td></tr>
+                        <tr><td><strong>Tipo:</strong><jsp:getProperty name="tipoPropiedad" property="tipoPropiedad"/>  </td></tr>
+                        <tr><td><strong>Dirección:</strong><jsp:getProperty name="direccionPropiedad" property="direccion"/>  </td></tr>
+                    </c:when>
+                    <c:otherwise>
+                        <tr><td><strong>Número:</strong><input type="text" name="numeroPropiedad"></td></tr>
+                        <tr><td><strong>Tipo:</strong><input type="text" name="tipoPropiedad"</td></tr>
+                        <tr><td><strong>Dirección:</strong><input type="text" name="direccionPropiedad"</td></tr>
+                    </c:otherwise>
+                </c:choose>
             </table>
+            <input class="btn"type="submit" name="altaServicio" value="Dar de alta el servicio">
+        </form>
         <t:mensaje/>
         <ul>
             <li><a href="index.jsp">Volver...</a></li>
