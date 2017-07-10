@@ -5,7 +5,6 @@
  */
 package ui.servlets.controladores;
 
-import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Int;
 import compartidos.beans.entidades.*;
 import compartidos.beans.excepciones.MiExcepcion;
 import java.util.ArrayList;
@@ -54,6 +53,8 @@ public class ControladorServicios extends Controlador {
     }
     
     public void buscarcliente_post(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession sesionAltaServicio = request.getSession();
+        
         try {
             String cedulaCliente = request.getParameter("cedula");
 
@@ -62,8 +63,7 @@ public class ControladorServicios extends Controlador {
             } else {
                 Cliente cliente = FabricaLogica.GetLogicaCliente().buscarCliente((Long.parseLong(cedulaCliente)));
 
-                if (cliente != null) {
-                    HttpSession sesionAltaServicio = request.getSession();
+                if (cliente != null) {                    
                     sesionAltaServicio.setAttribute("cliente", cliente);
                 } else {
                     cargarMensaje("No se encontró el cliente", request);
@@ -71,16 +71,19 @@ public class ControladorServicios extends Controlador {
             }
         } catch (Exception ex) {
             cargarMensaje("¡ERROR! Se ha producido un error buscar al cliente", request);
+            sesionAltaServicio.invalidate();
         }
             mostrarVista("buscarCliente", request, response);
     }
     
     public void agregarclienteservicio_get(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession sesionAltaServicio = request.getSession();
+        
         try {
-            HttpSession sesionAltaServicio = request.getSession();
             sesionAltaServicio.getAttribute("cliente");
         } catch (Exception ex) {
             cargarMensaje("¡ERROR! No se pudo pasar el cliente al servicio", request);
+            sesionAltaServicio.invalidate();
         }
         mostrarVista("index", request, response);
     }
@@ -95,7 +98,7 @@ public class ControladorServicios extends Controlador {
             
             mostrarVista("modificarCliente", request, response);
             
-            return;            
+            return;      
         }
         
         try {
@@ -185,13 +188,13 @@ public class ControladorServicios extends Controlador {
     }
     
     public void buscarpropiedad_post(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession sesionAltaServicio = request.getSession();
         try {
             String numeroPropiedad = request.getParameter("numeroPropiedad");
             
             if (numeroPropiedad == null) {
                 cargarMensaje("No hay un número de propiedad", request);    
-            } else {
-                HttpSession sesionAltaServicio = request.getSession();
+            } else {                
                 Cliente cliente = (Cliente)sesionAltaServicio.getAttribute("cliente");
                 
                 if (cliente != null) {
@@ -206,6 +209,7 @@ public class ControladorServicios extends Controlador {
             }
         } catch (Exception ex) {
             cargarMensaje("¡ERROR! Se ha producido un error buscar la propiedad", request);
+            sesionAltaServicio.invalidate();
         }
         
         mostrarVista("buscarPropiedad", request, response);
@@ -236,6 +240,7 @@ public class ControladorServicios extends Controlador {
                     cedula = Long.parseLong(request.getParameter("cedulaCliente"));
                 } catch (NumberFormatException ex) {
                     cargarMensaje("¡ERROR! La cedula del dueño no es válida", request);
+                    sesionAltaServicio.invalidate();
                 }
                 
                 String nombre = request.getParameter("nombreCliente");
@@ -248,6 +253,7 @@ public class ControladorServicios extends Controlador {
                     telefono = Long.parseLong(request.getParameter("telefonoCliente"));
                 } catch(NumberFormatException ex) {
                     cargarMensaje("¡ERROR! El teléfono no es válido", request);
+                    sesionAltaServicio.invalidate();
                 }
                 
                 cliente = new Cliente(cedula, nombre, direccionCobro, barrioDirCobro, telefono);
@@ -255,6 +261,7 @@ public class ControladorServicios extends Controlador {
             
         } catch (Exception ex) {
             cargarMensaje("¡ERROR! Ocurrió un error con los datos del cliente", request);
+            sesionAltaServicio.invalidate();
         }
         
         try {
@@ -276,8 +283,10 @@ public class ControladorServicios extends Controlador {
                     tipoPropiedad = Propiedad.TipoPropiedad.valueOf(valorTipoPropiedad);
                 } catch (IllegalArgumentException ex) {
                     cargarMensaje("¡ERROR! El tipo de propiedad no es válida", request);
+                    sesionAltaServicio.invalidate();
                 } catch (Exception ex) {
                     cargarMensaje("¡ERROR! Algo sucedió con el tipo de propiedad", request);
+                    sesionAltaServicio.invalidate();
                 }
 
                 String direccionPropiedad = request.getParameter("direccionPropiedad");
@@ -289,6 +298,7 @@ public class ControladorServicios extends Controlador {
             
         } catch (Exception ex) {
             cargarMensaje("¡ERROR! Ocurrió un error con los datos de la propiedad", request);
+            sesionAltaServicio.invalidate();
         }
         
         try {
@@ -301,6 +311,7 @@ public class ControladorServicios extends Controlador {
                 codigoAnulacion = Integer.parseInt(request.getParameter("codigoAnulacion"));
             } catch(NumberFormatException ex) {
                 cargarMensaje("¡ERROR! El código de anulación no es válido", request);
+                sesionAltaServicio.invalidate();
             }            
             
             boolean video = Boolean.parseBoolean(request.getParameter("video"));
@@ -323,9 +334,11 @@ public class ControladorServicios extends Controlador {
             }
             
             cargarMensaje("Servicio agregado con éxito", request);
+            sesionAltaServicio.invalidate();
             
         } catch(Exception ex) {
             cargarMensaje("¡ERROR! Ocurrió un error con los datos del servicio", request);
+            sesionAltaServicio.invalidate();
         }
         
         mostrarVista("index", request, response);
