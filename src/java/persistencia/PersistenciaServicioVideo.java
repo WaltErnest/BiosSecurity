@@ -141,8 +141,10 @@ public class PersistenciaServicioVideo implements IPersistenciaServicioVideo {
             String error = consulta.getNString(2);
             
             if (error != null) {
-                throw new MiExcepcionPersistencia("Error en dar de baja servicio al servicio " +
-                        pServicio.getNumero());
+                if (error.equals("")) {
+                    throw new MiExcepcionPersistencia("Error en dar de baja servicio al servicio " +
+                            pServicio.getNumero());                 
+                }
             }
         } finally {
             Conexion.cerrarRecursos(cnn, consulta);

@@ -318,17 +318,18 @@ public class ControladorServicios extends Controlador {
             try {
                 codigoAnulacion = Integer.parseInt(request.getParameter("codigoAnulacion"));
             } catch(NumberFormatException ex) {
-                sesionAltaServicio.invalidate();                
-                throw new Exception("¡ERROR! El código de anulación no es válido");
+                cargarMensaje("El código de anulación no es válido", request);
+                sesionAltaServicio.removeAttribute("cliente");
+                sesionAltaServicio.removeAttribute("propiedad");
             }            
             
             boolean video = Boolean.parseBoolean(request.getParameter("video"));
             boolean terminalGrabacion = Boolean.parseBoolean(request.getParameter("terminalGrabacion"));
             
             if (!alarma && !video ) {
-                sesionAltaServicio.invalidate();
-                throw new Exception("Debe seleccionar al menos un tipo de servicio");
-                
+                cargarMensaje("Debe seleccionar al menos un tipo de servicio", request);
+                sesionAltaServicio.removeAttribute("cliente");
+                sesionAltaServicio.removeAttribute("propiedad");               
             }
 
             ILogicaServicio logicaServicio = FabricaLogica.GetLogicaServicio();

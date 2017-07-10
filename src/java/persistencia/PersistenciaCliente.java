@@ -84,8 +84,10 @@ public class PersistenciaCliente implements IPersistenciaCliente {
             String error = consulta.getString(6);
             
             if (error != null) {
-                throw new MiExcepcionPersistencia("Error al modificar el cliente" + pCliente.getCedula() + ": " + error);
-            }     
+                if (error.equals("")) {
+                    throw new MiExcepcionPersistencia("Error al modificar el cliente" + pCliente.getCedula() + ": " + error);
+                }
+            }
         } finally {
             Conexion.cerrarRecursos(cnn, consulta);
         }

@@ -150,8 +150,9 @@ public class PersistenciaServicioAlarma implements IPersistenciaServicioAlarma {
             String error = consulta.getNString(2);
             
             if (error != null) {
-                throw new MiExcepcionPersistencia("Error al dar de baja al servicio " +
-                        pServicio.getNumero());
+                if (error.equals("")) {
+                    throw new MiExcepcionPersistencia("Error al dar de baja al servicio " + pServicio.getNumero());
+                }
             }
         } finally {
             Conexion.cerrarRecursos(cnn, consulta);

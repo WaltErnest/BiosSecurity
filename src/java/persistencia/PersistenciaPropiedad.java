@@ -124,8 +124,10 @@ public class PersistenciaPropiedad implements IPersistenciaPropiedad {
             String error = consulta.getNString(4);
 
             if (error != null) {
-                throw new MiExcepcionPersistencia("Error al modificar la propiedad " + pPropiedad.getNumeroPropiedad()
-                        + " del cliente " + pPropiedad.getDueno().getCedula() + ": " + error);
+                if (error.equals("")) {
+                    throw new MiExcepcionPersistencia("Error al modificar la propiedad " + pPropiedad.getNumeroPropiedad()
+                            + " del cliente " + pPropiedad.getDueno().getCedula() + ": " + error);
+                }
             }
         } finally {
             Conexion.cerrarRecursos(cnn, consulta);
