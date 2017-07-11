@@ -24,11 +24,11 @@
             <c:choose>
                 <c:when test="${!empty camara}">
                     <td> <input type="radio" name="disp" value="alarma" onclick="mostrarocultar(this)">Alarma 
-                        <input type="radio" name="disp" value="camara" checked="checked">Camara 
+                        <input type="radio" name="disp" value="camara" checked="checked" onclick="mostrarocultar(this)">Camara 
                     </td>
                 </c:when>
                 <c:otherwise>
-                    <td> <input type="radio" name="disp" value="alarma" checked="checked" onclick="mostrarocultar(this)">Alarma 
+                    <td> <input type="radio" name="disp" value="alarma" onclick="mostrarocultar(this)">Alarma 
                         <input type="radio" name="disp" value="camara" onclick="mostrarocultar(this)">Camara 
                     </td>
                 </c:otherwise>

@@ -72,7 +72,7 @@ public class PersistenciaCamara implements IPersistenciaCamara {
             Conexion.cerrarRecursos(cnn, consulta, resultado);
         }
     }
-    
+
     public ArrayList<Camara> BuscarCamaras(String busqueda) throws ClassNotFoundException, SQLException {
         Connection cnn = null;
         PreparedStatement consulta = null;
@@ -82,12 +82,12 @@ public class PersistenciaCamara implements IPersistenciaCamara {
             cnn = Conexion.getConexion();
             consulta = cnn.prepareStatement(
                     "SELECT d.*, c.interior FROM dispositivos d INNER JOIN camaras c ON d.numeroInventario = c.numeroInventario WHERE d.numeroInventario = ? OR descripcion = ?;");
-                    //"SELECT * FROM dispositivos where numeroInventario in(select camaras.numeroInventario from camaras) and numeroInventario = ? OR descripcion = ?;");
+            //"SELECT * FROM dispositivos where numeroInventario in(select camaras.numeroInventario from camaras) and numeroInventario = ? OR descripcion = ?;");
 
             ArrayList<Camara> camaras = new ArrayList();
             Camara pCamara;
             consulta.setString(1, busqueda);
-            consulta.setString(2, "%"+busqueda+"%");
+            consulta.setString(2, "%" + busqueda + "%");
             resultado = consulta.executeQuery();
 
             long numero = 0;
@@ -106,7 +106,7 @@ public class PersistenciaCamara implements IPersistenciaCamara {
             Conexion.cerrarRecursos(cnn, consulta, resultado);
         }
     }
-    
+
     public Camara BuscarCamara(String busqueda) throws ClassNotFoundException, SQLException {
         Connection cnn = null;
         PreparedStatement consulta = null;
@@ -116,11 +116,11 @@ public class PersistenciaCamara implements IPersistenciaCamara {
             cnn = Conexion.getConexion();
             consulta = cnn.prepareStatement(
                     "SELECT d.*, c.interior FROM dispositivos d INNER JOIN camaras c ON d.numeroInventario = c.numeroInventario WHERE d.numeroInventario = ? OR descripcion = ?;");
-                    //"SELECT * FROM dispositivos where numeroInventario in(select camaras.numeroInventario from camaras) and numeroInventario = ? OR descripcion = ?;");
+            //"SELECT * FROM dispositivos where numeroInventario in(select camaras.numeroInventario from camaras) and numeroInventario = ? OR descripcion = ?;");
 
             Camara pCamara = null;
             consulta.setString(1, busqueda);
-            consulta.setString(2, "%"+busqueda+"%");
+            consulta.setString(2, "%" + busqueda + "%");
             resultado = consulta.executeQuery();
 
             long numero = 0;
@@ -129,17 +129,17 @@ public class PersistenciaCamara implements IPersistenciaCamara {
 
             while (resultado.next()) {
                 numero = resultado.getLong(1);
-                descrip = resultado.getString(2); 
+                descrip = resultado.getString(2);
                 interior = resultado.getBoolean(3);
                 pCamara = new Camara(numero, descrip, interior);
             }
-            
+
             return pCamara;
         } finally {
             Conexion.cerrarRecursos(cnn, consulta, resultado);
         }
     }
-    
+
     public void modificarCamara(Camara pCamara) throws ClassNotFoundException, SQLException {
         Connection cnn = null;
         PreparedStatement consulta = null;
@@ -147,13 +147,15 @@ public class PersistenciaCamara implements IPersistenciaCamara {
         try {
             cnn = Conexion.getConexion();
             consulta = cnn.prepareStatement("UPDATE dispositivos SET descripcion =? WHERE numeroInventario = ?;");
+
+            consulta.setString(1, pCamara.getDescripcionUbicacion());
+            consulta.setLong(2, pCamara.getNumeroInventario());
             int filasAfectadas = consulta.executeUpdate();
 
-            consulta.setLong(1, pCamara.getNumeroInventario());
-            consulta.setString(2, pCamara.getDescripcionUbicacion());
-            consulta.setBoolean(3, pCamara.getInterior());
-
             consulta = cnn.prepareStatement("UPDATE camaras  SET interior = ? WHERE numeroInventario = ?;");
+            consulta.setBoolean(1, pCamara.getInterior());
+            consulta.setLong(2, pCamara.getNumeroInventario());
+            
             filasAfectadas = consulta.executeUpdate();
 
             if (filasAfectadas < 1) {
@@ -165,7 +167,8 @@ public class PersistenciaCamara implements IPersistenciaCamara {
             Conexion.cerrarRecursos(cnn, consulta);
         }
     }
-        public void EliminarCamara(Camara pCamara)throws ClassNotFoundException, SQLException {
+
+    public void EliminarCamara(Camara pCamara) throws ClassNotFoundException, SQLException {
         Connection cnn = null;
         PreparedStatement consulta = null;
 
@@ -174,13 +177,12 @@ public class PersistenciaCamara implements IPersistenciaCamara {
             consulta = cnn.prepareStatement("DELETE FROM camaras WHERE numeroInventario =?;");
 
             consulta.setLong(1, pCamara.getNumeroInventario());
-         
 
             int filasAfectadas = consulta.executeUpdate();
 
             if (filasAfectadas < 1) {
                 throw new Exception();
-            }else{
+            } else {
                 consulta = cnn.prepareStatement("DELETE FROM dispositivos WHERE numeroInventario =?;");
                 consulta.setLong(1, pCamara.getNumeroInventario());
                 filasAfectadas = consulta.executeUpdate();

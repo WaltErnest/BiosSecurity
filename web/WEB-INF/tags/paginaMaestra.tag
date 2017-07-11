@@ -28,7 +28,7 @@
             <li><a class="tablinks" onclick="sel(event, 'servicio')" id="servicio" href="servicios">Servicios</a></li>
             <li><a class="tablinks" onclick="sel(event, 'empleado')" id="empleado" href="empleados">Empleados</a></li>
             <li><a class="tablinks" onclick="sel(event, 'dispositivo')" id="dispositivo" href="dispositivos">Dispositivos</a></li>
-            <li><a class="tablinks" onclick="sel(event, 'cobros')" id="cobros" href="#Cobros">Cobros</a></li>          
+            <li><a class="tablinks" onclick="sel(event, 'cobros')" id="cobros" href="cobros">Cobros</a></li>          
             <li><a class="tablinks" onclick="sel(event, ${active})" id="${active}" href="precios">Precios</a></li>                
             <li style="float:right"><a class="tablinks" href="inicio?accion=logout">Cerrar session</a></li>
         </ul>

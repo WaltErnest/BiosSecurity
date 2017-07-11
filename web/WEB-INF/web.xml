@@ -20,6 +20,10 @@
         <servlet-name>ControladorServicios</servlet-name>
         <servlet-class>ui.servlets.controladores.ControladorServicios</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ControladorCobros</servlet-name>
+        <servlet-class>ui.servlets.controladores.ControladorCobros</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ControladorInicio</servlet-name>
         <url-pattern>/inicio</url-pattern>
@@ -39,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>ControladorServicios</servlet-name>
         <url-pattern>/servicios</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ControladorCobros</servlet-name>
+        <url-pattern>/cobros</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

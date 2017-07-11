@@ -53,6 +53,5 @@
                 </tr>                
             </c:forEach>
         </table>
-        
     </jsp:body>
 </t:paginaMaestra>
