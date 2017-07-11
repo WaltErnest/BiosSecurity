@@ -145,9 +145,11 @@ INSERT INTO empleados VALUES(3547458, "adm3n", "Eduardo Hernandez", "2002-10-01"
 INSERT INTO empleados VALUES(2456754, "adm4n", "Maria Gimenez", "2015-01-02", 20000);
 INSERT INTO empleados VALUES(3457913, "adm5n", "Laura Pacheco", "2010-05-04", 27500);
 INSERT INTO empleados VALUES(2645453, "adm6n", "Mauro Fernandez", "2005-02-05", 35000);
+INSERT INTO empleados VALUES(1111, "1111", "Mauro Fernandez", "2005-02-05", 35000);
 
 INSERT INTO administrativos VALUES(4198767);
 INSERT INTO administrativos VALUES(4567845);
+INSERT INTO administrativos VALUES(1111);
 INSERT INTO cobradores VALUES(3547458, 'Moto');
 INSERT INTO cobradores VALUES(2456754, 'Auto');
 INSERT INTO tecnicos VALUES(3457913, 1, 1);
