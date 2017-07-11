@@ -98,7 +98,7 @@ public class PersistenciaServicioAlarma implements IPersistenciaServicioAlarma {
             
             consulta = cnn.prepareCall("{ CALL altaPropiedad(?, ?, ?, ?) }");
 
-            consulta.setString(1, pServicioAlarma.getPropriedadCliente().getTipoPropriedad().toString());
+            consulta.setString(1, pServicioAlarma.getPropriedadCliente().getTipoPropiedad().toString());
             consulta.setString(2, pServicioAlarma.getPropriedadCliente().getDireccion());
             consulta.setLong(3, pServicioAlarma.getPropriedadCliente().getDueno().getCedula());
             consulta.registerOutParameter(4, java.sql.Types.VARCHAR);
@@ -150,8 +150,9 @@ public class PersistenciaServicioAlarma implements IPersistenciaServicioAlarma {
             String error = consulta.getNString(2);
             
             if (error != null) {
-                throw new MiExcepcionPersistencia("Error al dar de baja al servicio " +
-                        pServicio.getNumero());
+                if (error.equals("")) {
+                    throw new MiExcepcionPersistencia("Error al dar de baja al servicio " + pServicio.getNumero());
+                }
             }
         } finally {
             Conexion.cerrarRecursos(cnn, consulta);

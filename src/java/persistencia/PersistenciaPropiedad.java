@@ -84,7 +84,7 @@ public class PersistenciaPropiedad implements IPersistenciaPropiedad {
             cnn = Conexion.getConexion();
             consulta = cnn.prepareCall("{ CALL altaPropiedad(?, ?, ?, ?) }");
 
-            consulta.setString(1, pPropiedad.getTipoPropriedad().toString());
+            consulta.setString(1, pPropiedad.getTipoPropiedad().toString());
             consulta.setString(2, pPropiedad.getDireccion());
             consulta.setLong(3, pPropiedad.getDueno().getCedula());
             consulta.registerOutParameter(4, java.sql.Types.VARCHAR);
@@ -99,7 +99,6 @@ public class PersistenciaPropiedad implements IPersistenciaPropiedad {
                         + " del cliente " + pPropiedad.getDueno().getCedula() + ": " + error);
                 }
             }
-            
         } finally {
             Conexion.cerrarRecursos(cnn, consulta);
         }
@@ -116,7 +115,7 @@ public class PersistenciaPropiedad implements IPersistenciaPropiedad {
             consulta = cnn.prepareCall("{ CALL modificarPropiedad(?, ?, ?, ?, ?)}");
 
             consulta.setInt(1, pPropiedad.getNumeroPropiedad());
-            consulta.setString(2, pPropiedad.getTipoPropriedad().toString());
+            consulta.setString(2, pPropiedad.getTipoPropiedad().toString());
             consulta.setString(3, pPropiedad.getDireccion());
             consulta.setLong(4, pPropiedad.getDueno().getCedula());
             consulta.registerOutParameter(5, java.sql.Types.VARCHAR);
@@ -124,8 +123,10 @@ public class PersistenciaPropiedad implements IPersistenciaPropiedad {
             String error = consulta.getNString(4);
 
             if (error != null) {
-                throw new MiExcepcionPersistencia("Error al modificar la propiedad " + pPropiedad.getNumeroPropiedad()
-                        + " del cliente " + pPropiedad.getDueno().getCedula() + ": " + error);
+                if (error.equals("")) {
+                    throw new MiExcepcionPersistencia("Error al modificar la propiedad " + pPropiedad.getNumeroPropiedad()
+                            + " del cliente " + pPropiedad.getDueno().getCedula() + ": " + error);
+                }
             }
         } finally {
             Conexion.cerrarRecursos(cnn, consulta);

@@ -415,7 +415,7 @@ cuerpo:BEGIN
     
     INSERT INTO propiedades VALUES(numeroPropiedad, pTipoPropiedad, pDireccion, pCedula);
 
-    SET pError = null;
+    SET pError = "";
 
 END//
 
@@ -456,7 +456,7 @@ cuerpo:BEGIN
     COMMIT;
     
     SET transaccionActiva = 0;
-    SET pError = null;
+    SET pError = "";
 END//
 
 -- Agregar alarma al servicio correspondiente
@@ -544,7 +544,7 @@ cuerpo:BEGIN
     COMMIT;
     
     SET transaccionActiva = 0;
-	SET pError = null;
+	SET pError = "";
 END//
 
 -- Agregar cámara al servicio correspondiente

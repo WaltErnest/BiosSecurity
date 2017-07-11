@@ -28,7 +28,7 @@
             <td>
                 <c:choose>
                     <c:when test="${deshabilitarClave}">
-                        <input readonly="true" name="numeroPropiedad" value="${!empty propiedad ? propiedad.numero : param.numeroPropiedad}" id="numeroPropiedad" />
+                        <input readonly="true" name="numeroPropiedad" value="${!empty propiedad ? propiedad.numeroPropiedad : param.numeroPropiedad}" id="numeroPropiedad" />
                     </c:when>
                     <c:otherwise>
                         <input type="text" name="numeroPropiedad" value="${!empty propiedad ? propiedad.numeroPropiedad : param.numeroPropiedad}" id="numeroPropiedad"  />
@@ -39,7 +39,7 @@
         <tr>
             <td>Tipo:</td>
             <td>
-                <input type="text" name="tipoPropiedad" value="${!empty propiedad ? propiedad.TipoPropiedad.tipoPropiedad : param.propiedad.TipoPropiedad.tipoPropiedad}" id="tipoPropiedad" />
+                <input type="text" name="tipoPropiedad" value="${!empty propiedad ? propiedad.tipoPropiedad : param.propiedad.tipoPropiedad}" id="tipoPropiedad" />
             </td>
         </tr>
         <tr>
@@ -58,7 +58,7 @@
             <td>
                 <input class="btn" type="submit" name="accion" value="${textoBoton}" />
                 <c:if test="${!empty propiedad}">
-                    <a href="servicios?accion=modificarPropiedad&cedula=${cliente.cedula}&numeroPropiedad=${propiedad.numero}"><img src="images/edit.png" alt="Modificar Propiedad" title="Modificar propiedad..." ></a>&nbsp;&nbsp;
+                    <a href="servicios?accion=modificarPropiedad&cedula=${cliente.cedula}&numeroPropiedad=${propiedad.numeroPropiedad}"><img src="images/edit.png" alt="Modificar Propiedad" title="Modificar propiedad..." ></a>&nbsp;&nbsp;
                     <a href="servicios?accion=agregarPropiedadServicio"><img src="images/agregar.png" alt="Agregar Propiedad a Servicio" title="Agregar Propiedad a servicio..."> </a>&nbsp;&nbsp;
                 </c:if>
             </td>

@@ -12,8 +12,6 @@ import compartidos.beans.excepciones.MiExcepcionLogica;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.Instant;
-import static java.time.Instant.now;
-import java.time.LocalDate;
 /**
  *
  * @author Mathias

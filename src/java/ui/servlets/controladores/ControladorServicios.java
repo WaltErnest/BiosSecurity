@@ -7,10 +7,13 @@ package ui.servlets.controladores;
 
 import compartidos.beans.entidades.*;
 import compartidos.beans.excepciones.MiExcepcion;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import logica.FabricaLogica;
+import logica.ILogicaServicio;
 
 /**
  *
@@ -50,6 +53,8 @@ public class ControladorServicios extends Controlador {
     }
     
     public void buscarcliente_post(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession sesionAltaServicio = request.getSession();
+        
         try {
             String cedulaCliente = request.getParameter("cedula");
 
@@ -58,8 +63,7 @@ public class ControladorServicios extends Controlador {
             } else {
                 Cliente cliente = FabricaLogica.GetLogicaCliente().buscarCliente((Long.parseLong(cedulaCliente)));
 
-                if (cliente != null) {
-                    HttpSession sesionAltaServicio = request.getSession();
+                if (cliente != null) {                    
                     sesionAltaServicio.setAttribute("cliente", cliente);
                 } else {
                     cargarMensaje("No se encontró el cliente", request);
@@ -67,18 +71,9 @@ public class ControladorServicios extends Controlador {
             }
         } catch (Exception ex) {
             cargarMensaje("¡ERROR! Se ha producido un error buscar al cliente", request);
+            sesionAltaServicio.removeAttribute("cliente");
         }
             mostrarVista("buscarCliente", request, response);
-    }
-    
-    public void agregarclienteservicio_get(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            HttpSession sesionAltaServicio = request.getSession();
-            sesionAltaServicio.getAttribute("cliente");
-        } catch (Exception ex) {
-            cargarMensaje("¡ERROR! No se pudo pasar el cliente al servicio", request);
-        }
-        mostrarVista("index", request, response);
     }
     
     public void modificarcliente_get(HttpServletRequest request, HttpServletResponse response) {
@@ -91,7 +86,7 @@ public class ControladorServicios extends Controlador {
             
             mostrarVista("modificarCliente", request, response);
             
-            return;            
+            return;      
         }
         
         try {
@@ -164,6 +159,18 @@ public class ControladorServicios extends Controlador {
         }
     }
     
+    public void agregarclienteservicio_get(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession sesionAltaServicio = request.getSession();
+        
+        try {
+            sesionAltaServicio.getAttribute("cliente");
+        } catch (Exception ex) {
+            cargarMensaje("¡ERROR! No se pudo pasar el cliente al servicio", request);
+            sesionAltaServicio.removeAttribute("cliente");
+        }
+        mostrarVista("index", request, response);
+    }  
+    
     public void buscarpropiedad_get(HttpServletRequest request, HttpServletResponse response) {
         HttpSession sesion = request.getSession();
         Empleado login = (Empleado) sesion.getAttribute("usuario");
@@ -180,21 +187,90 @@ public class ControladorServicios extends Controlador {
         mostrarVista("buscarPropiedad", request, response);
     }
     
+    public void modificarpropiedad_get(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession sesionAltaServicio = request.getSession();
+        
+        int numeroPropiedad = 0;
+        
+        try {
+            numeroPropiedad = Integer.parseInt(request.getParameter("numeroPropiedad"));
+        } catch (Exception ex) {
+            cargarMensaje("¡ERROR! El número de propiedad no es válido", request);
+        }
+        
+        long cedulaDueno = 0;
+        try {
+            cedulaDueno = Long.parseLong(request.getParameter("cedula"));
+        } catch (Exception ex) {
+            cargarMensaje("¡ERROR! El número de propiedad no es válido", request);
+        }
+        
+        mostrarVista("modificarPropiedad", request, response);
+    }
+    
+    public void modificarpropiedad_post(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession sesionAltaServicio = request.getSession(); 
+        
+        int numeroPropiedad = 0;
+        
+        try {
+            numeroPropiedad = Integer.parseInt(request.getParameter("numeroPropiedad"));
+        } catch (NumberFormatException ex) {
+            cargarMensaje("¡ERROR! El número de propiedad no es válido", request);
+            
+            mostrarVista("modificarPropiedad", request, response);
+        }
+        
+        String valorTipoPropiedad = request.getParameter("tipoPropiedad");
+        Propiedad.TipoPropiedad tipoPropiedad = null;
+        
+        try {
+            tipoPropiedad = Propiedad.TipoPropiedad.valueOf(valorTipoPropiedad);
+        } catch(IllegalArgumentException ex) {
+            cargarMensaje("¡ERROR! El tipo de propiedad no es válida", request);
+        }
+        
+        String direccionPropiedad = request.getParameter("direccionPropiedad");
+        
+        long cedulaDueno = 0;
+        Cliente cliente = null;
+        
+        try {
+            cliente = (Cliente)sesionAltaServicio.getAttribute("cliente");
+            cedulaDueno = cliente.getCedula();
+        } catch(Exception ex) {
+            cargarMensaje("No se pudo cargar al cliente de la sesión", request);
+        }
+        
+        Propiedad propiedad = null;
+        
+        try {
+            propiedad = new Propiedad(numeroPropiedad, tipoPropiedad, direccionPropiedad, cliente);
+
+            FabricaLogica.GetLogicaPropiedad().modificarPropiedad(propiedad);
+        } catch (Exception ex) {
+            cargarMensaje("¡ERROR! No se pudo modificar la propiedad", request);
+        }
+        
+        cargarMensaje("Se ha modificado la propiedad con éxito", request);
+        
+        mostrarVista("modificarPropiedad", request, response);
+    }
+    
     public void buscarpropiedad_post(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession sesionAltaServicio = request.getSession();
         try {
             String numeroPropiedad = request.getParameter("numeroPropiedad");
             
             if (numeroPropiedad == null) {
                 cargarMensaje("No hay un número de propiedad", request);    
-            } else {
-                HttpSession sesionAltaServicio = request.getSession();
+            } else {                
                 Cliente cliente = (Cliente)sesionAltaServicio.getAttribute("cliente");
                 
                 if (cliente != null) {
                     int numPropiedad = Integer.parseInt(numeroPropiedad);
                 
                     Propiedad propiedad = FabricaLogica.GetLogicaPropiedad().buscarPropiedad(numPropiedad, cliente.getCedula());
-                    
                     sesionAltaServicio.setAttribute("propiedad", propiedad);
                 } else {
                     cargarMensaje("No hay un cliente encontrado", request);
@@ -202,9 +278,168 @@ public class ControladorServicios extends Controlador {
             }
         } catch (Exception ex) {
             cargarMensaje("¡ERROR! Se ha producido un error buscar la propiedad", request);
+            sesionAltaServicio.removeAttribute("propiedad");
         }
         
         mostrarVista("buscarPropiedad", request, response);
+    }
+    
+    public void agregarpropiedadservicio_get(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession sesionAltaServicio = request.getSession();
+        
+        try {
+            sesionAltaServicio.getAttribute("cliente");
+        } catch (Exception ex) {
+            cargarMensaje("¡ERROR! No se pudo pasar la propiedad al servicio", request);
+            sesionAltaServicio.removeAttribute("propiedad");
+        }
+        mostrarVista("index", request, response);
+    }
+    
+    public void index_post(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession sesionAltaServicio = request.getSession();
+        sesionAltaServicio.removeAttribute("propiedad");
+        sesionAltaServicio.removeAttribute("cliente");
+        Cliente cliente = null;
+        Propiedad propiedad = null;
+        Servicio servicioAlarma = null;
+        Servicio servicioVideo = null;
+        
+        try {            
+            Cliente clienteSesion = (Cliente)sesionAltaServicio.getAttribute("cliente");
+            
+            if (clienteSesion != null) {                
+                long cedula = clienteSesion.getCedula();
+                String nombre = clienteSesion.getNombre();
+                String direccionCobro = clienteSesion.getDireccionCobro();
+                String barrioDirCobro = clienteSesion.getBarrioDirCobro();
+                long telefono = clienteSesion.getTelefono();
+                
+                cliente = new Cliente(cedula, nombre, direccionCobro, barrioDirCobro, telefono);
+            } else {
+                long cedula = 0;
+                
+                try {
+                    cedula = Long.parseLong(request.getParameter("cedulaCliente"));
+                } catch (NumberFormatException ex) {
+                    cargarMensaje("¡ERROR! La cedula del dueño no es válida", request);
+                    sesionAltaServicio.removeAttribute("cliente");
+                    sesionAltaServicio.removeAttribute("propiedad");
+                }
+                
+                String nombre = request.getParameter("nombreCliente");
+                String direccionCobro = request.getParameter("direccionCobroCliente");
+                String barrioDirCobro = request.getParameter("barrioDirCobro");
+                
+                long telefono = 0;
+                
+                try {
+                    telefono = Long.parseLong(request.getParameter("telefonoCliente"));
+                } catch(NumberFormatException ex) {
+                    cargarMensaje("¡ERROR! El teléfono no es válido", request);
+                    sesionAltaServicio.removeAttribute("cliente");
+                    sesionAltaServicio.removeAttribute("propiedad");
+                }
+                
+                cliente = new Cliente(cedula, nombre, direccionCobro, barrioDirCobro, telefono);
+            }
+            
+        } catch (Exception ex) {
+            cargarMensaje("¡ERROR! Ocurrió un error con los datos del cliente", request);
+            sesionAltaServicio.removeAttribute("cliente");
+            sesionAltaServicio.removeAttribute("propiedad");
+        }
+        
+        try {
+            Propiedad propiedadSesion = (Propiedad)sesionAltaServicio.getAttribute("propiedad");
+            
+            if (propiedadSesion != null) {
+                int numeroPropiedad = 0;
+                Propiedad.TipoPropiedad tipoPropiedad = propiedadSesion.getTipoPropiedad();
+                String direccionPropiedad = propiedadSesion.getDireccion();
+                Cliente dueno = propiedadSesion.getDueno();
+                
+                propiedad = new Propiedad(numeroPropiedad, tipoPropiedad, direccionPropiedad, dueno);
+            } else {
+                int numeroPropiedad = 0;
+                
+                String valorTipoPropiedad = request.getParameter("tipoPropiedad");
+                Propiedad.TipoPropiedad tipoPropiedad = null;
+                try {
+                    tipoPropiedad = Propiedad.TipoPropiedad.valueOf(valorTipoPropiedad);
+                } catch (IllegalArgumentException ex) {
+                    cargarMensaje("¡ERROR! El tipo de propiedad no es válida", request);
+                    sesionAltaServicio.removeAttribute("cliente");
+                    sesionAltaServicio.removeAttribute("propiedad");
+                } catch (Exception ex) {
+                    cargarMensaje("¡ERROR! Algo sucedió con el tipo de propiedad", request);
+                    sesionAltaServicio.removeAttribute("cliente");
+                    sesionAltaServicio.removeAttribute("propiedad");
+                }
+
+                String direccionPropiedad = request.getParameter("direccionPropiedad");
+                
+                Cliente dueno = cliente;
+                
+                propiedad = new Propiedad(numeroPropiedad, tipoPropiedad, direccionPropiedad, dueno);
+            }
+            
+        } catch (Exception ex) {
+            cargarMensaje("¡ERROR! Ocurrió un error con los datos de la propiedad", request);
+            sesionAltaServicio.removeAttribute("cliente");
+            sesionAltaServicio.removeAttribute("propiedad");
+        }
+        
+        try {
+            boolean monitoreo = Boolean.parseBoolean(request.getParameter("monitoreo"));
+            boolean alarma = Boolean.parseBoolean(request.getParameter("alarma"));
+            
+            int codigoAnulacion = 0;
+            
+            try {
+                codigoAnulacion = Integer.parseInt(request.getParameter("codigoAnulacion"));
+            } catch(NumberFormatException ex) {
+                cargarMensaje("El código de anulación no es válido", request);
+                sesionAltaServicio.removeAttribute("cliente");
+                sesionAltaServicio.removeAttribute("propiedad");
+            }            
+            
+            boolean video = Boolean.parseBoolean(request.getParameter("video"));
+            boolean terminalGrabacion = Boolean.parseBoolean(request.getParameter("terminalGrabacion"));
+            
+            if (!alarma && !video ) {
+                cargarMensaje("Debe seleccionar al menos un tipo de servicio", request);
+                sesionAltaServicio.removeAttribute("cliente");
+                sesionAltaServicio.removeAttribute("propiedad");               
+            }
+
+            ILogicaServicio logicaServicio = FabricaLogica.GetLogicaServicio();
+            
+            if (alarma) {
+                List<Alarma> listaAlarmas = new ArrayList<Alarma>();
+                servicioAlarma = new ServicioAlarma(0, propiedad, null, monitoreo, codigoAnulacion, listaAlarmas);
+                
+                logicaServicio.altaServicio(servicioAlarma);
+            }
+            
+            if (video) {
+                List<Camara> listaCamaras = new ArrayList<Camara>();
+                servicioVideo = new ServicioVideo(0, propiedad, null, monitoreo, terminalGrabacion, listaCamaras);
+                
+                logicaServicio.altaServicio(servicioVideo);
+            }
+            
+            cargarMensaje("Servicio agregado con éxito", request);
+            sesionAltaServicio.removeAttribute("cliente");
+            sesionAltaServicio.removeAttribute("propiedad");
+            
+        } catch(Exception ex) {
+            cargarMensaje("¡ERROR! Ocurrió un error con los datos del servicio" + ex, request);
+            sesionAltaServicio.removeAttribute("cliente");
+            sesionAltaServicio.removeAttribute("propiedad");
+        }
+        
+        mostrarVista("index", request, response);
     }
    
 /*

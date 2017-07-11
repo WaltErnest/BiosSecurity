@@ -19,7 +19,7 @@ public class Propiedad implements Serializable{
 
     public Propiedad(int pNumero, TipoPropiedad pTipo, String pDireccion,
             Cliente pDueno) {
-        setNumeroPropriedad(pNumero);
+        setNumeroPropiedad(pNumero);
         setTipoPropiedad(pTipo);
         setDireccion(pDireccion);
         setDueno(pDueno);
@@ -37,11 +37,11 @@ public class Propiedad implements Serializable{
         return _numeroPropiedad;
     }
 
-    public void setNumeroPropriedad(int _numeroPropiedad) {
+    public void setNumeroPropiedad(int _numeroPropiedad) {
         this._numeroPropiedad = _numeroPropiedad;
     }
 
-    public TipoPropiedad getTipoPropriedad() {
+    public TipoPropiedad getTipoPropiedad() {
         return _tipoPropiedad;
     }
 

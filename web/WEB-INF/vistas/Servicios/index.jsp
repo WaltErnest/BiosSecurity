@@ -39,13 +39,13 @@
                         <tr><td><strong>Cédula:</strong><input type="text" name="cedulaCliente"></td></tr>
                         <tr><td><strong>Nombre:</strong><input type="text" name="nombreCliente"</td></tr>
                         <tr><td><strong>Dirección de Cobro:</strong><input type="text" name="direccionCobroCliente"</td></tr>
-                        <tr><td><strong>Barrio:</strong><input type="text" name="barrioCobroCliente"</td></tr>
+                        <tr><td><strong>Barrio:</strong><input type="text" name="barrioDirCobro"</td></tr>
                         <tr><td><strong>Teléfono:</strong><input type="text" name="telefonoCliente"</td></tr>
                     </c:otherwise>
                 </c:choose>
                 <tr>
                     <td>
-                        <p>Datos de la Propiedad:</p>                       
+                        <p>Datos de la Propiedad:</p>
                     </td>
                 </tr>
                 <tr>
@@ -80,9 +80,9 @@
                     <td>
                         <input type="checkbox" name="alarma" value="alarma" id="servAlarma"/> Alarma<br>
                         Código de anulación:
-                        <input type="text" name="alarmaCodigoAnulacion" id="servAlarmaCodAnulacion"/>
+                        <input type="text" name="codigoAnulacion" id="servAlarmaCodAnulacion"/>
                         <input type="checkbox" name="video" value="video" id="servVideo"/> Video<br>
-                        <input type="checkbox" name="videoTerminalGrabacion" id="servVideoTermGrabacion"/> Terminal de grabación<br>
+                        <input type="checkbox" name="terminalGrabacion" id="servVideoTermGrabacion"/> Terminal de grabación<br>
                     </td>
                 </tr>
             </table>

@@ -98,7 +98,7 @@ public class PersistenciaServicioVideo implements IPersistenciaServicioVideo {
             
             consulta = cnn.prepareCall("{ CALL altaPropiedad(?, ?, ?, ?) }");
 
-            consulta.setString(1, pServicioVideo.getPropriedadCliente().getTipoPropriedad().toString());
+            consulta.setString(1, pServicioVideo.getPropriedadCliente().getTipoPropiedad().toString());
             consulta.setString(2, pServicioVideo.getPropriedadCliente().getDireccion());
             consulta.setLong(3, pServicioVideo.getPropriedadCliente().getDueno().getCedula());
             consulta.registerOutParameter(4, java.sql.Types.VARCHAR);
@@ -141,8 +141,10 @@ public class PersistenciaServicioVideo implements IPersistenciaServicioVideo {
             String error = consulta.getNString(2);
             
             if (error != null) {
-                throw new MiExcepcionPersistencia("Error en dar de baja servicio al servicio " +
-                        pServicio.getNumero());
+                if (error.equals("")) {
+                    throw new MiExcepcionPersistencia("Error en dar de baja servicio al servicio " +
+                            pServicio.getNumero());                 
+                }
             }
         } finally {
             Conexion.cerrarRecursos(cnn, consulta);
